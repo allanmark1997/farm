@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('maps', function (Blueprint $table) {
+        Schema::create('farms', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('map_id')->nullable();
             $table->foreignId('farmer_id')->nullable();
             $table->json('details')->nullable();
             $table->timestamps();
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('maps');
+        Schema::dropIfExists('farms');
     }
 };

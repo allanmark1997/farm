@@ -15,7 +15,11 @@ return new class extends Migration
     {
         Schema::create('farmers', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->float('amount', 8, 2);
+            $table->boolean('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

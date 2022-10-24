@@ -15,7 +15,11 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->nullable();
+            $table->integer('amount');
+            $table->json('details')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

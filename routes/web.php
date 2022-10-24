@@ -32,4 +32,24 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::get('/farmers', function () {
+        return Inertia::render('Farmer/Index');
+    })->name('farmers.index');
+
+    Route::get('/maps', function () {
+        return Inertia::render('Map/Index');
+    })->name('maps.index');
+
+    Route::get('/farms', function () {
+        return Inertia::render('Farm/Index');
+    })->name('farms.index');
+
+    Route::get('/inventory', function () {
+        return Inertia::render('Inventory/Index');
+    })->name('inventory.index');
+
+    Route::get('/transactions', function () {
+        return Inertia::render('Transaction/Index');
+    })->name('transactions.index');
 });

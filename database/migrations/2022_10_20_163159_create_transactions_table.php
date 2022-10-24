@@ -15,7 +15,12 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('inventory_id')->nullable();
+            $table->integer('amount');
+            $table->string('type');
+            $table->json('details')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
