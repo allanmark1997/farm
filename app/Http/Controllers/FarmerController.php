@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Farmer;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class FarmerController extends Controller
 {
@@ -14,7 +15,10 @@ class FarmerController extends Controller
      */
     public function index()
     {
-        //
+        $farmers = Farmer::where('active', true)->get();
+        return Inertia::render('Farmer/index', [
+            'farmers'=>$farmers
+        ]);
     }
 
     /**

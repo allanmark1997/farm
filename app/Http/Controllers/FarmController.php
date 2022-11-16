@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Farm;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class FarmController extends Controller
 {
@@ -14,7 +15,10 @@ class FarmController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Farm/index', [
+            // 'posts'=>UserPosts::all()
+
+        ]);
     }
 
     /**

@@ -1,14 +1,13 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-
-const props = defineProps(["farmers"]);
+import Welcome from "@/Components/Welcome.vue";
 </script>
 
 <template>
-    <AppLayout title="Farmer">
+    <AppLayout title="User Management">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Farmer
+                User Management
             </h2>
         </template>
 
