@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FarmerController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,9 +34,12 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/farmers', function () {
-        return Inertia::render('Farmer/Index');
-    })->name('farmers.index');
+    Route::prefix('farmers')->name('farmers.')->group(function () {
+        Route::get('/', [FarmerController::class, 'index'])->name('index');
+        Route::post('/store', [FarmerController::class, 'store'])->name('store');
+        Route::put('/update/{id}', [FarmerController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [FarmerController::class, 'destroy'])->name('delete');
+    });
 
     Route::get('/maps', function () {
         return Inertia::render('Map/Index');
@@ -52,4 +56,8 @@ Route::middleware([
     Route::get('/transactions', function () {
         return Inertia::render('Transaction/Index');
     })->name('transactions.index');
+
+    Route::get('/users', function () {
+        return Inertia::render('User/Index');
+    })->name('users.index');
 });
