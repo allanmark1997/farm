@@ -1,8 +1,9 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import Welcome from '@/Components/Welcome.vue';
 import {onMounted, ref} from "vue";
 import leaflet from "leaflet";
+import formPDF from "../../../../storage/Form.pdf";
+import axios from 'axios';
 
 const markers = ref([]); 
 const colorInput = ref(null);
@@ -19,7 +20,7 @@ onMounted(()=>{
 });
 
 const onMapClick = (e)=>{
-  var newMarker = new L.marker(e.latlng).addTo(mymap).bindPopup(`<button type="button" class="remove">delete marker</button>`);
+  var newMarker = new L.marker(e.latlng).addTo(mymap).bindPopup(`<button type="button" class="remove">Cancel</button>`);
   markers.value.push(e.latlng); 
   newMarker.on("popupopen", removeMarker);  
 }
@@ -39,27 +40,92 @@ const handleConnect = ()=>{
   markers.value = [];
 }
 
+const downloadItem = (url) => {
+  axios({
+        method: 'get',
+        url,
+        responseType: 'arraybuffer',
+      })
+        .then((response) => {
+        forceFileDownload(response, "Form.pdf")
+        })
+        .catch(() => console.log('error occured'))
+}
+
+const forceFileDownload = (response, title) => {
+      console.log(title)
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', title)
+      document.body.appendChild(link)
+      link.click()
+    }
+
 </script>
 
 <template>
     <AppLayout title="Dashboard">
-        <template #header>
+        <!-- <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Farmer
             </h2>
-        </template>
+        </template> -->
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-12 grid grid-cols-8 px-2">
+          <div class="bg-white col-span-2 p-4">
+              <div class="flex flex-row-reverse gap-2">
+                  <button class="px-2 py-1 bg-blue-500 text-white rounded-md">Add area</button>
+                  <button class="px-2 py-1 bg-blue-500 text-white rounded-md" @click="downloadItem(formPDF)">Form</button>
+              </div>
+              <div  class="relative z-0 w-full mt-6 group border-none">
+                  <select class="truncate block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  border-ssr-blue2 border-[1.9px]
+                                appearance-none focus:outline-none focus:ring-0 peer rounded-lg px-[15px] disabled:cursor-not-allowed"  >
+                    <option>Land 1</option>
+                    <option>Land 2</option>
+                    <option>Land 3</option>
+                  </select> 
+                  <label class="peer-focus:font-medium absolute text-sm text-gray-600 duration-300 transform -translate-y-6 scale-75 
+                      top-3 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-6 ml-2 
+                      px-4 peer-placeholder-shown:-z-10 peer-focus:z-20 rounded-lg bg-white">Area of Land</label>
+              </div>
+              
+              <div class="bg-slate-50 border-white shadow-lg rounded-lg my-2 p-2">
+                  <div>
+                      <div>Owner:</div>
+                      <div>Address:</div>
+                      <div>Color:</div>
+                  </div>
+              </div>
+
+              <div class="bg-slate-50 border-white shadow-lg rounded-lg my-2 p-2">
+                  <center>New Area</center>
+                  <div class="my-4">
+                      <div class="flex flex-col mt-2">
+                        <label>Owner</label>
+                        <input type="text" class="text-gray-900 rounded-md border-1 placeholder-gray-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700"/> 
+                      </div>
+                      <div class="flex flex-col mt-2">
+                        <label>Address</label>
+                        <input type="text" class="text-gray-900 rounded-md border-1 placeholder-gray-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700"/> 
+                      </div>
+                      <div class="flex gap-4 items-center mt-2">
+                        <label>Color</label>
+                        <input type="color" v-model="colorInput" class="text-gray-900 rounded-md border-1 placeholder-gray-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700"/> 
+                      </div>
+                      <button class="px-2 py-1 bg-green-500 text-white rounded-md w-24" @click="handleConnect">Connect</button>
+                      <div class="flex flex-row-reverse">
+                        <button class="px-2 py-1 bg-blue-500 text-white rounded-md w-24">Save</button>
+                      </div>
+                  </div>
+              </div>
+
+          </div> 
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 col-span-4">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <div id="mapid"></div>
-                    <div>
-                        <label>Pick Color</label>
-                        <input type="color"  v-model="colorInput"/>
-                    </div>
-                    <button @click="handleConnect">Connect</button>
+                    <div id="mapid"></div> 
                 </div>
-            </div>
+            </div> 
         </div>
     </AppLayout>
 </template>
