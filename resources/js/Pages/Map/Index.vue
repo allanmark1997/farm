@@ -3,7 +3,9 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import {onMounted, ref} from "vue";
 import leaflet from "leaflet";
 import formPDF from "../../../../storage/Form.pdf";
-import axios from 'axios';
+import axios from 'axios'; 
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
 
 const markers = ref([]); 
 const colorInput = ref(null);
@@ -75,8 +77,8 @@ const forceFileDownload = (response, title) => {
         <div class="py-12 grid grid-cols-8 px-2">
           <div class="bg-white col-span-2 p-4">
               <div class="flex flex-row-reverse gap-2">
-                  <button class="px-2 py-1 bg-blue-500 text-white rounded-md">Add area</button>
-                  <button class="px-2 py-1 bg-blue-500 text-white rounded-md" @click="downloadItem(formPDF)">Form</button>
+                  <PrimaryButton>Add area</PrimaryButton>
+                  <PrimaryButton @click="downloadItem(formPDF)">Form</PrimaryButton>
               </div>
               <div  class="relative z-0 w-full mt-6 group border-none">
                   <select class="truncate block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  border-ssr-blue2 border-[1.9px]
@@ -99,23 +101,23 @@ const forceFileDownload = (response, title) => {
               </div>
 
               <div class="bg-slate-50 border-white shadow-lg rounded-lg my-2 p-2">
-                  <center>New Area</center>
+                  <center class="text-2xl">New Area</center>
                   <div class="my-4">
-                      <div class="flex flex-col mt-2">
+                      <div class="flex flex-col mt-1">
                         <label>Owner</label>
-                        <input type="text" class="text-gray-900 rounded-md border-1 placeholder-gray-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700"/> 
+                        <TextInput /> 
                       </div>
                       <div class="flex flex-col mt-2">
                         <label>Address</label>
-                        <input type="text" class="text-gray-900 rounded-md border-1 placeholder-gray-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700"/> 
+                        <TextInput/> 
                       </div>
                       <div class="flex gap-4 items-center mt-2">
                         <label>Color</label>
                         <input type="color" v-model="colorInput" class="text-gray-900 rounded-md border-1 placeholder-gray-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700"/> 
                       </div>
-                      <button class="px-2 py-1 bg-green-500 text-white rounded-md w-24" @click="handleConnect">Connect</button>
+                      <PrimaryButton @click="handleConnect">Connect</PrimaryButton>
                       <div class="flex flex-row-reverse">
-                        <button class="px-2 py-1 bg-blue-500 text-white rounded-md w-24">Save</button>
+                        <PrimaryButton>Save</PrimaryButton>
                       </div>
                   </div>
               </div>
