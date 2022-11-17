@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\FarmController;
 use App\Http\Controllers\FarmerController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -45,19 +49,31 @@ Route::middleware([
         return Inertia::render('Map/Index');
     })->name('maps.index');
 
-    Route::get('/farms', function () {
-        return Inertia::render('Farm/Index');
-    })->name('farms.index');
+    Route::prefix('farms')->name('farms.')->group(function () {
+        Route::get('/', [FarmController::class, 'index'])->name('index');
+        Route::post('/store', [FarmController::class, 'store'])->name('store');
+        Route::put('/update/{id}', [FarmController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [FarmController::class, 'destroy'])->name('delete');
+    });
 
-    Route::get('/inventory', function () {
-        return Inertia::render('Inventory/Index');
-    })->name('inventory.index');
+    Route::prefix('inventory')->name('inventory.')->group(function () {
+        Route::get('/', [InventoryController::class, 'index'])->name('index');
+        Route::post('/store', [InventoryController::class, 'store'])->name('store');
+        Route::put('/update/{id}', [InventoryController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [InventoryController::class, 'destroy'])->name('delete');
+    });
 
-    Route::get('/transactions', function () {
-        return Inertia::render('Transaction/Index');
-    })->name('transactions.index');
+    Route::prefix('transactions')->name('transactions.')->group(function () {
+        Route::get('/', [TransactionController::class, 'index'])->name('index');
+        Route::post('/store', [TransactionController::class, 'store'])->name('store');
+        Route::put('/update/{id}', [TransactionController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [TransactionController::class, 'destroy'])->name('delete');
+    });
 
-    Route::get('/users', function () {
-        return Inertia::render('User/Index');
-    })->name('users.index');
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::post('/store', [UserController::class, 'store'])->name('store');
+        Route::put('/update/{id}', [UserController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('delete');
+    });
 });

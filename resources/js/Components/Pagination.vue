@@ -8,14 +8,14 @@ const props = defineProps(["links"]);
         <template v-for="(link, key) in links" :key="key">
             <div
                 v-if="link.url === null"
-                class="mr-1 mb-1 px-3 py-1 text-md border rounded-md text-gray-500 cursor-pointer"
+                class="mr-1 mb-1 px-3 py-1 text-md border rounded-sm text-gray-500 cursor-pointer"
                 :class="{ 'ml-auto': links.length === key + 1 }"
             >
                 <span v-html="link.label"></span>
             </div>
             <Link
                 v-else
-                class="mr-1 mb-1 px-3 py-1 text-md text-gray-700 rounded-md border hover:text-gray-900 cursor-pointer"
+                class="mr-1 mb-1 px-3 py-1 text-md text-gray-700 rounded-sm border hover:text-gray-900 cursor-pointer"
                 :class="{
                     'text-white text-gray-800': link.active,
                     'ml-auto': links.length === key + 1,

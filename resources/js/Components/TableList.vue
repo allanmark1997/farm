@@ -1,5 +1,5 @@
 <template>
-    <div class="not-prose relative bg-slate-50 rounded-xl border">
+    <div class="not-prose relative bg-slate-50 border">
         <div class="shadow-sm mb-12">
             <table class="border-collapse table-fixed w-full text-sm">
                 <thead>

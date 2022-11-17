@@ -5,6 +5,9 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import DialogModal from "@/Components/DialogModal.vue";
 import Pagination from "@/Components/Pagination.vue";
+import TextInput from "@/Components/TextInput.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import InputError from "@/Components/InputError.vue";
 import { reactive } from "vue";
 
 const props = defineProps(["farmers"]);
@@ -72,7 +75,7 @@ const showModal = () => {
                                 :key="index"
                             >
                                 <template v-for="item in list.items">
-                                    <td class="p-2">Item</td>
+                                    <td class="p-2">{{ item }}</td>
                                 </template>
                             </tr>
                         </template>
@@ -83,7 +86,19 @@ const showModal = () => {
         </div>
         <DialogModal :show="modals.add_edit.show">
             <template #title>{{ modals.add_edit.details.title }}</template>
-            <template #content>content</template>
+            <template #content>
+                <div class="grid grid-cols-6 gap-6">
+                    <div class="col-span-6">
+                        <InputLabel value="Name" />
+                        <TextInput
+                            type="text"
+                            class="mt-1 block w-full"
+                            required
+                        />
+                        <InputError class="mt-2" message="" />
+                    </div>
+                </div>
+            </template>
             <template #footer>
                 <div class="flex gap-1">
                     <SecondaryButton @click="modals.add_edit.show = false"

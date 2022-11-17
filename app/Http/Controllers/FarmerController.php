@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Farmer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class FarmerController extends Controller
@@ -40,7 +42,17 @@ class FarmerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'max:255']
+        ]);
+
+        Farmer::create([
+            'name' => $request->name,
+            'amount' => 0,
+            'active' => true
+        ]);
+
+        return Redirect::back();
     }
 
     /**
@@ -72,9 +84,19 @@ class FarmerController extends Controller
      * @param  \App\Models\Farmer  $farmer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Farmer $farmer)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'max:255']
+        ]);
+        
+        $farmer = Farmer::find($id);
+        $farmer->update([
+            'name' => $request->name,
+            'amount' => $request->amount
+        ]);
+
+        return Redirect::back();
     }
 
     /**
@@ -83,8 +105,11 @@ class FarmerController extends Controller
      * @param  \App\Models\Farmer  $farmer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Farmer $farmer)
+    public function destroy($id)
     {
-        //
+        $farmer = Farmer::find($id);
+        $farmer->delete();
+
+        return Redirect::back();
     }
 }

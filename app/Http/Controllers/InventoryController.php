@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class InventoryController extends Controller
 {
@@ -14,7 +16,10 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        //
+        $inventories = Inventory::all();
+        return Inertia::render('Inventory/Index',[
+            'inventories' => $inventories
+        ]);
     }
 
     /**
@@ -35,7 +40,12 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Inventory::create([
+            'amount' => $request->amount,
+            'details' => $request->details
+        ]);
+
+        return Redirect::back();
     }
 
     /**
@@ -67,9 +77,14 @@ class InventoryController extends Controller
      * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Inventory $inventory)
+    public function update(Request $request, $id)
     {
-        //
+        $inventory = Inventory::find($id);
+        $inventory->update([
+            'details' => $request->details
+        ]);
+
+        return Redirect::back();
     }
 
     /**
@@ -78,8 +93,11 @@ class InventoryController extends Controller
      * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inventory $inventory)
+    public function destroy(Inventory $id)
     {
-        //
+        $inventory = Inventory::find($id);
+        $inventory->delete();
+
+        return Redirect::back();
     }
 }
