@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Map;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class MapController extends Controller
 {
@@ -14,7 +16,10 @@ class MapController extends Controller
      */
     public function index()
     {
-        //
+        $maps = Map::all();
+        return Inertia::render('Map/Index',[
+            'maps' => $maps
+        ]);
     }
 
     /**
@@ -35,7 +40,16 @@ class MapController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'max:255']
+        ]);
+
+        Map::create([
+            'farmer_id' => $request->farmer_id,
+            'details' => $request->details
+        ]);
+
+        return Redirect::back();
     }
 
     /**
@@ -67,9 +81,15 @@ class MapController extends Controller
      * @param  \App\Models\Map  $map
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Map $map)
+    public function update(Request $request, $id)
     {
-        //
+        $map = Map::find($id);
+        $map->update([
+            'farmer_id' => $request->farmer_id,
+            'details' => $request->details
+        ]);
+
+        return Redirect::back();
     }
 
     /**

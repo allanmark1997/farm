@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Farm;
+use App\Models\Farmer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class FarmController extends Controller
@@ -15,9 +18,9 @@ class FarmController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Farm/index', [
-            // 'posts'=>UserPosts::all()
-
+        $farms = Farm::all();
+        return Inertia::render('Farm/Index',[
+            'farms' => $farms
         ]);
     }
 
@@ -39,7 +42,13 @@ class FarmController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Farm::create([
+            'map_id' => $request->map_id,
+            'farmer_id' => $request->farmer_id,
+            'details' => $request->details
+        ]);
+
+        return Redirect::back();
     }
 
     /**
@@ -71,9 +80,16 @@ class FarmController extends Controller
      * @param  \App\Models\Farm  $farm
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Farm $farm)
+    public function update(Request $request,$id)
     {
-        //
+        $farm = Farm::find($id);
+        $farm->update([
+            'map_id' => $request->map_id,
+            'farmer_id' => $request->farmer_id,
+            'details' => $request->details
+        ]);
+
+        return Redirect::back();
     }
 
     /**
@@ -82,8 +98,11 @@ class FarmController extends Controller
      * @param  \App\Models\Farm  $farm
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Farm $farm)
+    public function destroy(Farm $id)
     {
-        //
+        $farm = Farm::find($id);
+        $farm->delete();
+
+        return Redirect::back();
     }
 }
