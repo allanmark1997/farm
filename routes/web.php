@@ -3,6 +3,7 @@
 use App\Http\Controllers\FarmController;
 use App\Http\Controllers\FarmerController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -45,9 +46,13 @@ Route::middleware([
         Route::delete('/delete/{id}', [FarmerController::class, 'destroy'])->name('delete');
     });
 
-    Route::get('/maps', function () {
-        return Inertia::render('Map/Index');
-    })->name('maps.index');
+    Route::prefix('maps')->name('maps.')->group(function () {
+        Route::get('/', [MapController::class, 'index'])->name('index');
+        Route::post('/store', [MapController::class, 'store'])->name('store');
+        Route::put('/update/{id}', [MapController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [MapController::class, 'destroy'])->name('delete');
+    });
+
 
     Route::prefix('farms')->name('farms.')->group(function () {
         Route::get('/', [FarmController::class, 'index'])->name('index');

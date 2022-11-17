@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Map;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class MapController extends Controller
 {
@@ -15,7 +16,10 @@ class MapController extends Controller
      */
     public function index()
     {
-        //
+        $maps = Map::all();
+        return Inertia::render('Map/Index',[
+            'maps' => $maps
+        ]);
     }
 
     /**
