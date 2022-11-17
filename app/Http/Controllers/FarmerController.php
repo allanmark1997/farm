@@ -15,9 +15,10 @@ class FarmerController extends Controller
      */
     public function index()
     {
-        $farmers = Farmer::where('active', true)->get();
-        return Inertia::render('Farmer/index', [
-            'farmers'=>$farmers
+        $farmers = Farmer::where('active', true)->paginate(10);
+
+        return Inertia::render('Farmer/Index', [
+            'farmers' => $farmers
         ]);
     }
 
