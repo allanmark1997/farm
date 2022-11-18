@@ -16,7 +16,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::all();
+        $transactions = Transaction::paginate(10);
         return Inertia::render('Transaction/Index',[
             'transactions' => $transactions
         ]);
