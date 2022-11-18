@@ -9,8 +9,15 @@ import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import { reactive } from "vue";
+import { useForm  } from '@inertiajs/inertia-vue3';
 
 const props = defineProps(["farmers"]);
+
+const form = useForm({
+    name:'', 
+    }, { 
+    resetOnSuccess: true
+});
 
 const modals = reactive({
     add_edit: {
@@ -25,6 +32,25 @@ const modals = reactive({
 const showModal = () => {
     modals.add_edit.show = true;
 };
+
+const saveFarmer = () =>{
+    form.post(route("farmers.store"), {
+            preserveScroll: true,
+            onSuccess: () => {
+                alert("Added famers");
+                form.reset('name'); 
+                modals.add_edit.show = false
+            },
+            onError: () => {
+                //code 
+                loading.value = false;
+            },
+            onFinish: () => {
+                //code
+            }
+    });
+}
+
 </script>
 
 <template>
@@ -37,12 +63,9 @@ const showModal = () => {
 
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <PrimaryButton class="my-2" @click="showModal()"
-                    >Add</PrimaryButton
+                <PrimaryButton class="my-2" @click="showModal()">Add</PrimaryButton
                 >
-                <div
-                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6"
-                >
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                     <TableList>
                         <template #header>
                             <th
@@ -94,6 +117,7 @@ const showModal = () => {
                             type="text"
                             class="mt-1 block w-full"
                             required
+                            v-model="form.name"
                         />
                         <InputError class="mt-2" message="" />
                     </div>
@@ -104,7 +128,7 @@ const showModal = () => {
                     <SecondaryButton @click="modals.add_edit.show = false"
                         >Cancel</SecondaryButton
                     >
-                    <PrimaryButton>Submit</PrimaryButton>
+                    <PrimaryButton @click="saveFarmer">Submit</PrimaryButton>
                 </div>
             </template>
         </DialogModal>

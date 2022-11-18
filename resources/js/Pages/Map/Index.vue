@@ -6,13 +6,17 @@ import formPDF from "../../../../storage/Form.pdf";
 import axios from 'axios'; 
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import { useForm  } from '@inertiajs/inertia-vue3'
+import { useForm  } from '@inertiajs/inertia-vue3';
+import Icon from '../../Components/Icons.vue'
 
-const props = defineProps(['maps']);
+const props = defineProps(['maps','farmers']);
 const markers = ref([]); 
 const latlngs = ref([]);
 const address = ref()
 const colorInput = ref('#ed0707');
+const dataDisplay = ref ({
+
+});
 let mymap;
 
 
@@ -24,7 +28,7 @@ const form = useForm({
 });
 
 onMounted(()=>{ 
-  console.log(props.maps);
+  console.log(props.farmers);
   mymap = leaflet.map("mapid").setView([7.997357, 125.027804], 15);
   leaflet.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
     maxZoom: 19,
@@ -49,11 +53,24 @@ function removeMarker() {
   });
 } 
 const handleConnect = ()=>{ 
-  latlngs.value = markers.value.map(item => [item.lat,item.lng]);  
-  var polygon = leaflet.polygon(latlngs.value, {color: colorInput.value}).addTo(mymap);  
-  mymap.fitBounds(polygon.getBounds()); 
-  markers.value = [];
+  if(markers.value.length){
+    latlngs.value = markers.value.map(item => [item.lat,item.lng]);  
+    var polygon = leaflet.polygon(latlngs.value, {color: colorInput.value}).addTo(mymap);  
+    mymap.fitBounds(polygon.getBounds()); 
+    markers.value = [];
+  }else{
+    alert("No coordinates detect")
+  }
 }
+
+const areaOfLand = (event) =>{
+  let details = JSON.parse(event.target.value); 
+  var polygon = leaflet.polygon(details.points, {color: details.color}).addTo(mymap);  
+  polygon.bindTooltip(details.address,
+   {permanent: true, direction:"center"}
+  ).openTooltip();
+  mymap.fitBounds(polygon.getBounds()); 
+} 
 
 const downloadItem = (url) => {
   axios({
@@ -100,12 +117,6 @@ const addArea = () =>{
 
 <template>
     <AppLayout title="Dashboard">
-        <!-- <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Farmer
-            </h2>
-        </template> -->
-
         <div class="py-12 grid grid-cols-8 px-2">
           <div class="bg-white col-span-2 p-4">
               <div class="flex flex-row-reverse gap-2">
@@ -114,10 +125,9 @@ const addArea = () =>{
               </div>
               <div  class="relative z-0 w-full mt-6 group border-none">
                   <select class="truncate block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  border-ssr-blue2 border-[1.9px]
-                                appearance-none focus:outline-none focus:ring-0 peer rounded-lg px-[15px] disabled:cursor-not-allowed" >
-                    <option v-for="(map, index ) in props.maps" :key="index">{{map.details.address}}</option>
-                    <!-- <option>Land 2</option>
-                    <option>Land 3</option> -->
+                                appearance-none focus:outline-none focus:ring-0 peer rounded-lg px-[15px] disabled:cursor-not-allowed" @change="areaOfLand($event)">
+                    <option selected="true" disabled="disabled">Areas</option>
+                    <option v-for="(map, index ) in props.maps" :key="index" :value="JSON.stringify(map.details)">{{map.details.address}}</option> 
                   </select> 
                   <label class="peer-focus:font-medium absolute text-sm text-gray-600 duration-300 transform -translate-y-6 scale-75 
                       top-3 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-6 ml-2 
@@ -125,7 +135,11 @@ const addArea = () =>{
               </div>
               
               <div class="bg-slate-50 border-white shadow-lg rounded-lg my-2 p-2">
-                  <div>
+                  <div> 
+                    <div class="flex flex-row-reverse gap-3">
+                      <div class="cursor-pointer"><Icon icon="delete"/></div>
+                      <div class="cursor-pointer"><Icon icon="edit"/></div>  
+                    </div>
                       <div>Owner:</div>
                       <div>Address:</div>
                       <div>Color:</div>
@@ -136,12 +150,15 @@ const addArea = () =>{
                   <center class="text-2xl">New Area</center>
                   <div class="my-4">
                       <div class="flex flex-col mt-1">
-                        <label>Owner</label>
-                        <TextInput /> 
+                        <select class="truncate block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  border-ssr-blue2 border-[1.9px]
+                                appearance-none focus:outline-none focus:ring-0 peer rounded-lg px-[15px] disabled:cursor-not-allowed">
+                        <option selected="true" disabled="disabled">Farmers</option>
+                        <option v-for="(farmer, index ) in props.farmers" :key="index" :value="farmer.id">{{farmer.name}}</option> 
+                      </select>
                       </div>
                       <div class="flex flex-col mt-2">
                         <label>Address</label>
-                        <TextInput v-model="address"/> 
+                        <TextInput type="text" class="mt-1 block w-full" v-model="address"/> 
                       </div>
                       <div class="flex gap-4 items-center mt-2">
                         <label>Color</label>

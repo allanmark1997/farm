@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Map;
+use App\Models\Farmer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -17,8 +18,10 @@ class MapController extends Controller
     public function index()
     {
         $maps = Map::all();
+        $farmers = Farmer::all();
         return Inertia::render('Map/Index',[
-            'maps' => $maps
+            'maps' => $maps,
+            'farmers' => $farmers
         ]);
     }
 
