@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class TransactionController extends Controller
@@ -39,7 +40,18 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'amount' => ['required', 'max:255']
+        ]);
+
+        Transaction::create([
+            'inventory_id' => $request->inventory_id,
+            'amount' => $request->amount,
+            'type' => $request->type,
+            'details' => $request->details
+        ]);
+
+        return Redirect::back();
     }
 
     /**

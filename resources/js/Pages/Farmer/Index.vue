@@ -9,15 +9,18 @@ import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import { reactive } from "vue";
-import { useForm  } from '@inertiajs/inertia-vue3';
+import { useForm } from "@inertiajs/inertia-vue3";
 
 const props = defineProps(["farmers"]);
 
-const form = useForm({
-    name:'', 
-    }, { 
-    resetOnSuccess: true
-});
+const form = useForm(
+    {
+        name: "",
+    },
+    {
+        resetOnSuccess: true,
+    }
+);
 
 const modals = reactive({
     add_edit: {
@@ -33,24 +36,23 @@ const showModal = () => {
     modals.add_edit.show = true;
 };
 
-const saveFarmer = () =>{
+const saveFarmer = () => {
     form.post(route("farmers.store"), {
-            preserveScroll: true,
-            onSuccess: () => {
-                alert("Added famers");
-                form.reset('name'); 
-                modals.add_edit.show = false
-            },
-            onError: () => {
-                //code 
-                loading.value = false;
-            },
-            onFinish: () => {
-                //code
-            }
+        preserveScroll: true,
+        onSuccess: () => {
+            alert("Added famers");
+            form.reset("name");
+            modals.add_edit.show = false;
+        },
+        onError: () => {
+            //code
+            loading.value = false;
+        },
+        onFinish: () => {
+            //code
+        },
     });
-}
-
+};
 </script>
 
 <template>
@@ -63,9 +65,12 @@ const saveFarmer = () =>{
 
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <PrimaryButton class="my-2" @click="showModal()">Add</PrimaryButton
+                <PrimaryButton class="my-2" @click="showModal()"
+                    >Add</PrimaryButton
                 >
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <div
+                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6"
+                >
                     <TableList>
                         <template #header>
                             <th
@@ -83,23 +88,13 @@ const saveFarmer = () =>{
                         <template #body>
                             <tr
                                 class="text-md border-b border-l border-r border-gray-100 text-slate-500 hover:bg-slate-50"
-                                v-for="(list, index) in [
-                                    { items: [1, 2, 3, 4] },
-                                    { items: [1, 2, 3, 4] },
-                                    { items: [1, 2, 3, 4] },
-                                    { items: [1, 2, 3, 4] },
-                                    { items: [1, 2, 3, 4] },
-                                    { items: [1, 2, 3, 4] },
-                                    { items: [1, 2, 3, 4] },
-                                    { items: [1, 2, 3, 4] },
-                                    { items: [1, 2, 3, 4] },
-                                    { items: [1, 2, 3, 4] },
-                                ]"
+                                v-for="(farmer, index) in farmers.data"
                                 :key="index"
                             >
-                                <template v-for="item in list.items">
-                                    <td class="p-2">{{ item }}</td>
-                                </template>
+                                <td class="p-2">{{ farmer.name }}</td>
+                                <td class="p-2">{{ farmer.amount }}</td>
+                                <td class="p-2">{{ farmer.active }}</td>
+                                <td class="p-2">{{ farmer.created_at }}</td>
                             </tr>
                         </template>
                     </TableList>
