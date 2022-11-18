@@ -40,9 +40,9 @@ class MapController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'max:255']
-        ]);
+        // $request->validate([
+        //     'name' => ['required', 'max:255']
+        // ]);
 
         Map::create([
             'farmer_id' => $request->farmer_id,

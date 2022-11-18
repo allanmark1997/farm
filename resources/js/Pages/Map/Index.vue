@@ -6,12 +6,25 @@ import formPDF from "../../../../storage/Form.pdf";
 import axios from 'axios'; 
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import { useForm  } from '@inertiajs/inertia-vue3'
 
+const props = defineProps(['maps']);
 const markers = ref([]); 
-const colorInput = ref(null);
+const latlngs = ref([]);
+const address = ref()
+const colorInput = ref('#ed0707');
 let mymap;
 
+
+const form = useForm({
+    farmer_id: 1,
+    details: {}, 
+    }, { 
+    resetOnSuccess: true
+});
+
 onMounted(()=>{ 
+  console.log(props.maps);
   mymap = leaflet.map("mapid").setView([7.997357, 125.027804], 15);
   leaflet.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
     maxZoom: 19,
@@ -36,8 +49,8 @@ function removeMarker() {
   });
 } 
 const handleConnect = ()=>{ 
-  let latlngs = markers.value.map(item => [item.lat,item.lng]);  
-   var polygon = leaflet.polygon(latlngs, {color: colorInput.value}).addTo(mymap);  
+  latlngs.value = markers.value.map(item => [item.lat,item.lng]);  
+  var polygon = leaflet.polygon(latlngs.value, {color: colorInput.value}).addTo(mymap);  
   mymap.fitBounds(polygon.getBounds()); 
   markers.value = [];
 }
@@ -64,6 +77,25 @@ const forceFileDownload = (response, title) => {
       link.click()
     }
 
+const addArea = () =>{
+  form.details = Object.assign({points:latlngs, color:colorInput.value, address:address.value})
+  form.post(route("maps.store"), {
+            preserveScroll: true,
+            onSuccess: () => {
+                alert("Added");
+                form.reset('farmer_id');
+                form.reset('details');
+            },
+            onError: () => {
+                //code 
+                loading.value = false;
+            },
+            onFinish: () => {
+                //code
+            }
+    });
+}
+
 </script>
 
 <template>
@@ -82,10 +114,10 @@ const forceFileDownload = (response, title) => {
               </div>
               <div  class="relative z-0 w-full mt-6 group border-none">
                   <select class="truncate block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  border-ssr-blue2 border-[1.9px]
-                                appearance-none focus:outline-none focus:ring-0 peer rounded-lg px-[15px] disabled:cursor-not-allowed"  >
-                    <option>Land 1</option>
-                    <option>Land 2</option>
-                    <option>Land 3</option>
+                                appearance-none focus:outline-none focus:ring-0 peer rounded-lg px-[15px] disabled:cursor-not-allowed" >
+                    <option v-for="(map, index ) in props.maps" :key="index">{{map.details.address}}</option>
+                    <!-- <option>Land 2</option>
+                    <option>Land 3</option> -->
                   </select> 
                   <label class="peer-focus:font-medium absolute text-sm text-gray-600 duration-300 transform -translate-y-6 scale-75 
                       top-3 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-6 ml-2 
@@ -109,7 +141,7 @@ const forceFileDownload = (response, title) => {
                       </div>
                       <div class="flex flex-col mt-2">
                         <label>Address</label>
-                        <TextInput/> 
+                        <TextInput v-model="address"/> 
                       </div>
                       <div class="flex gap-4 items-center mt-2">
                         <label>Color</label>
@@ -117,7 +149,7 @@ const forceFileDownload = (response, title) => {
                       </div>
                       <PrimaryButton @click="handleConnect">Connect</PrimaryButton>
                       <div class="flex flex-row-reverse">
-                        <PrimaryButton>Save</PrimaryButton>
+                        <PrimaryButton @click="addArea">Save</PrimaryButton>
                       </div>
                   </div>
               </div>
