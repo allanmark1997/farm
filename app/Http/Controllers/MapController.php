@@ -104,5 +104,8 @@ class MapController extends Controller
     public function destroy(Map $map)
     {
         //
+        $data = Map::whereCode($map)->first();
+        $data->delete();
+        return Redirect::back();
     }
 }

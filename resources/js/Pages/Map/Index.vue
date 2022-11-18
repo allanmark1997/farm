@@ -7,21 +7,19 @@ import axios from 'axios';
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm  } from '@inertiajs/inertia-vue3';
-import Icon from '../../Components/Icons.vue'
+import Icon from '../../Components/Icons.vue'; 
 
 const props = defineProps(['maps','farmers']);
 const markers = ref([]); 
 const latlngs = ref([]);
 const address = ref()
 const colorInput = ref('#ed0707');
-const dataDisplay = ref ({
-
-});
+const dataDisplay = ref({});
 let mymap;
 
 
 const form = useForm({
-    farmer_id: 1,
+    farmer_id: null,
     details: {}, 
     }, { 
     resetOnSuccess: true
@@ -64,7 +62,11 @@ const handleConnect = ()=>{
 }
 
 const areaOfLand = (event) =>{
-  let details = JSON.parse(event.target.value); 
+  let {farmer_id, details} = JSON.parse(event.target.value); 
+  let farmer = props.farmers.filter(item => item.id === farmer_id);
+  dataDisplay.value = details; 
+  dataDisplay.value = {...dataDisplay.value, ...farmer[0]};
+  console.log(dataDisplay.value.color );
   var polygon = leaflet.polygon(details.points, {color: details.color}).addTo(mymap);  
   polygon.bindTooltip(details.address,
    {permanent: true, direction:"center"}
@@ -96,7 +98,8 @@ const forceFileDownload = (response, title) => {
 
 const addArea = () =>{
   form.details = Object.assign({points:latlngs, color:colorInput.value, address:address.value})
-  form.post(route("maps.store"), {
+  if(form.farmer_id && Object.keys(form.details).length){
+    form.post(route("maps.store"), {
             preserveScroll: true,
             onSuccess: () => {
                 alert("Added");
@@ -111,6 +114,10 @@ const addArea = () =>{
                 //code
             }
     });
+  }else{
+    alert("Empty Data");
+  }
+  
 }
 
 </script>
@@ -127,7 +134,7 @@ const addArea = () =>{
                   <select class="truncate block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  border-ssr-blue2 border-[1.9px]
                                 appearance-none focus:outline-none focus:ring-0 peer rounded-lg px-[15px] disabled:cursor-not-allowed" @change="areaOfLand($event)">
                     <option selected="true" disabled="disabled">Areas</option>
-                    <option v-for="(map, index ) in props.maps" :key="index" :value="JSON.stringify(map.details)">{{map.details.address}}</option> 
+                    <option v-for="(map, index ) in props.maps" :key="index" :value="JSON.stringify(map)">{{map.details.address}}</option> 
                   </select> 
                   <label class="peer-focus:font-medium absolute text-sm text-gray-600 duration-300 transform -translate-y-6 scale-75 
                       top-3 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-6 ml-2 
@@ -140,9 +147,9 @@ const addArea = () =>{
                       <div class="cursor-pointer"><Icon icon="delete"/></div>
                       <div class="cursor-pointer"><Icon icon="edit"/></div>  
                     </div>
-                      <div>Owner:</div>
-                      <div>Address:</div>
-                      <div>Color:</div>
+                      <div>Owner: {{dataDisplay.name}}</div>
+                      <!-- <div>Address: {{dataDisplay?.value?.details?.address}}</div> -->
+                      <div>Color: {{dataDisplay.color}}</div>
                   </div>
               </div>
 
@@ -151,7 +158,7 @@ const addArea = () =>{
                   <div class="my-4">
                       <div class="flex flex-col mt-1">
                         <select class="truncate block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  border-ssr-blue2 border-[1.9px]
-                                appearance-none focus:outline-none focus:ring-0 peer rounded-lg px-[15px] disabled:cursor-not-allowed">
+                                appearance-none focus:outline-none focus:ring-0 peer rounded-lg px-[15px] disabled:cursor-not-allowed" @change="form.farmer_id = $event.target.value">
                         <option selected="true" disabled="disabled">Farmers</option>
                         <option v-for="(farmer, index ) in props.farmers" :key="index" :value="farmer.id">{{farmer.name}}</option> 
                       </select>
