@@ -8,13 +8,16 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm  } from '@inertiajs/inertia-vue3';
 import Icon from '../../Components/Icons.vue'; 
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const props = defineProps(['maps','farmers']);
-const markers = ref([]); 
+const markersLatLngs = ref([]); 
+const markerData = ref([]);
 const latlngs = ref([]);
 const address = ref()
 const colorInput = ref('#ed0707');
 const dataDisplay = ref({});
+const showAddCard = ref(false)
 let mymap;
 
 
@@ -38,7 +41,9 @@ onMounted(()=>{
 
 const onMapClick = (e)=>{
   var newMarker = new L.marker(e.latlng).addTo(mymap).bindPopup(`<button type="button" class="remove">Cancel</button>`);
-  markers.value.push(e.latlng); 
+  markersLatLngs.value.push(e.latlng);  
+  markerData.value.push(newMarker);
+  console.log(markerData);
   newMarker.on("popupopen", removeMarker);  
 }
 
@@ -46,16 +51,20 @@ const onMapClick = (e)=>{
 function removeMarker() {
   const marker = this;
   const btn = document.querySelector(".remove");
-  btn.addEventListener("click", function () {
+  btn.addEventListener("click", function () { 
     mymap.removeLayer(marker);
   });
 } 
 const handleConnect = ()=>{ 
-  if(markers.value.length){
-    latlngs.value = markers.value.map(item => [item.lat,item.lng]);  
+  if(markersLatLngs.value.length){
+    latlngs.value = markersLatLngs.value.map(item => [item.lat,item.lng]);  
     var polygon = leaflet.polygon(latlngs.value, {color: colorInput.value}).addTo(mymap);  
     mymap.fitBounds(polygon.getBounds()); 
-    markers.value = [];
+    markersLatLngs.value = [];
+    let test = markerData.value.map((item)=>{
+    mymap.removeLayer(item);
+  });
+  console.log(test);
   }else{
     alert("No coordinates detect")
   }
@@ -105,6 +114,7 @@ const addArea = () =>{
                 alert("Added");
                 form.reset('farmer_id');
                 form.reset('details');
+                showAddCard.value = false;
             },
             onError: () => {
                 //code 
@@ -120,6 +130,14 @@ const addArea = () =>{
   
 }
 
+const cancelHandler = () =>{
+  let test = markerData.value.map((item)=>{
+    mymap.removeLayer(item);
+  });
+  console.log(test);
+  showAddCard.value = false;
+}
+
 </script>
 
 <template>
@@ -127,7 +145,7 @@ const addArea = () =>{
         <div class="py-12 grid grid-cols-8 px-2">
           <div class="bg-white col-span-2 p-4">
               <div class="flex flex-row-reverse gap-2">
-                  <PrimaryButton>Add area</PrimaryButton>
+                  <PrimaryButton @click="showAddCard = true">Add area</PrimaryButton>
                   <PrimaryButton @click="downloadItem(formPDF)">Form</PrimaryButton>
               </div>
               <div  class="relative z-0 w-full mt-6 group border-none">
@@ -153,7 +171,7 @@ const addArea = () =>{
                   </div>
               </div>
 
-              <div class="bg-slate-50 border-white shadow-lg rounded-lg my-2 p-2">
+              <div class="bg-slate-50 border-white shadow-lg rounded-lg my-2 p-2" v-if="showAddCard">
                   <center class="text-2xl">New Area</center>
                   <div class="my-4">
                       <div class="flex flex-col mt-1">
@@ -172,8 +190,9 @@ const addArea = () =>{
                         <input type="color" v-model="colorInput" class="text-gray-900 rounded-md border-1 placeholder-gray-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700"/> 
                       </div>
                       <PrimaryButton @click="handleConnect">Connect</PrimaryButton>
-                      <div class="flex flex-row-reverse">
-                        <PrimaryButton @click="addArea">Save</PrimaryButton>
+                      <div class="flex flex-row-reverse gap-2">
+                        <PrimaryButton @click="addArea">Save</PrimaryButton> 
+                        <SecondaryButton @click="cancelHandler">Cancel</SecondaryButton>
                       </div>
                   </div>
               </div>
