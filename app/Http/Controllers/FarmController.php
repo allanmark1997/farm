@@ -105,4 +105,12 @@ class FarmController extends Controller
 
         return Redirect::back();
     }
+
+    public function farms(Request $request, $farmer_id)
+    {
+        $farms = Farm::where(['farmer_id' => $farmer_id])->get();
+        return Inertia::render('Farmer/Farms',[
+            'farms' => $farms
+        ]);
+    }
 }

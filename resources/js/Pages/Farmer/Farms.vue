@@ -11,7 +11,7 @@ import InputError from "@/Components/InputError.vue";
 import { reactive } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
 
-const props = defineProps(["farmers"]);
+const props = defineProps(["farms"]);
 
 const form = useForm(
     {
@@ -36,7 +36,7 @@ const showModal = () => {
     modals.add_edit.show = true;
 };
 
-const saveFarmer = () => {
+const saveFarm = () => {
     form.post(route("farmers.store"), {
         preserveScroll: true,
         onSuccess: () => {
@@ -56,7 +56,7 @@ const saveFarmer = () => {
 </script>
 
 <template>
-    <AppLayout title="Farmers">
+    <AppLayout title="Farms">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Farmer
@@ -66,50 +66,11 @@ const saveFarmer = () => {
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <PrimaryButton class="my-2" @click="showModal()"
-                    >New Farmer</PrimaryButton
+                    >Add Farm</PrimaryButton
                 >
                 <div
                     class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6"
-                >
-                    <TableList>
-                        <template #header>
-                            <th
-                                class="p-2 border border-l"
-                                v-for="header in [
-                                    'Name',
-                                    'Action',
-                                    'Name',
-                                    'Action',
-                                ]"
-                            >
-                                {{ header }}
-                            </th>
-                        </template>
-                        <template #body>
-                            <tr
-                                class="text-md border-b border-l border-r border-gray-100 text-slate-500 hover:bg-slate-50"
-                                v-for="(farmer, index) in farmers.data"
-                                :key="index"
-                            >
-                                <td class="p-2">
-                                    <Link
-                                        :href="
-                                            route('farmers.farms', {
-                                                farmer_id: farmer.id,
-                                            })
-                                        "
-                                    >
-                                        {{ farmer.name }}
-                                    </Link>
-                                </td>
-                                <td class="p-2">{{ farmer.amount }}</td>
-                                <td class="p-2">{{ farmer.active }}</td>
-                                <td class="p-2">{{ farmer.created_at }}</td>
-                            </tr>
-                        </template>
-                    </TableList>
-                    <Pagination :links="farmers.links"></Pagination>
-                </div>
+                ></div>
             </div>
         </div>
         <DialogModal :show="modals.add_edit.show">
@@ -133,7 +94,7 @@ const saveFarmer = () => {
                     <SecondaryButton @click="modals.add_edit.show = false"
                         >Cancel</SecondaryButton
                     >
-                    <PrimaryButton @click="saveFarmer">Submit</PrimaryButton>
+                    <PrimaryButton @click="saveFarm">Submit</PrimaryButton>
                 </div>
             </template>
         </DialogModal>

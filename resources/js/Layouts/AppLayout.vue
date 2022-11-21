@@ -63,7 +63,10 @@ const logout = () => {
                                 </NavLink>
                                 <NavLink
                                     :href="route('farmers.index')"
-                                    :active="route().current('farmers.index')"
+                                    :active="
+                                        route().current('farmers.index') ||
+                                        route().current('farmers.farms')
+                                    "
                                 >
                                     Farmers
                                 </NavLink>
@@ -73,12 +76,12 @@ const logout = () => {
                                 >
                                     Maps
                                 </NavLink>
-                                <!-- <NavLink
+                                <NavLink
                                     :href="route('farms.index')"
                                     :active="route().current('farms.index')"
                                 >
                                     Farms
-                                </NavLink> -->
+                                </NavLink>
                                 <NavLink
                                     :href="route('inventory.index')"
                                     :active="route().current('inventory.index')"
@@ -393,12 +396,12 @@ const logout = () => {
                         >
                             maps
                         </ResponsiveNavLink>
-                        <!-- <ResponsiveNavLink
+                        <ResponsiveNavLink
                             :href="route('farms.index')"
                             :active="route().current('farms.index')"
                         >
                             farms
-                        </ResponsiveNavLink> -->
+                        </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('inventory.index')"
                             :active="route().current('inventory.index')"
