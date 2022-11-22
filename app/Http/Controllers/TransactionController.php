@@ -14,9 +14,11 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $transactions = Transaction::paginate(10);
+        $transactions = Transaction::when($request->search != null && $request->search!= '', function ($query, $value) {
+            // $query->where('name', 'like', "%{$search}%");
+        })->paginate(10);
         return Inertia::render('Transaction/Index',[
             'transactions' => $transactions
         ]);
