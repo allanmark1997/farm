@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -14,10 +15,12 @@ class InventoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $inventories = Inventory::all();
+        $inventories = Inventory::with('category')->paginate(10);
+        $categories = Category::all();
         return Inertia::render('Inventory/Index',[
+            'categories' => $categories,
             'inventories' => $inventories
         ]);
     }
@@ -40,8 +43,13 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => ['required', 'max:255']
+        ]);
+
         Inventory::create([
-            'amount' => $request->amount,
+            'name' => $request->name,
+            'category_id' => $request->category_id,
             'details' => $request->details
         ]);
 
@@ -79,8 +87,14 @@ class InventoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => ['required', 'max:255']
+        ]);
+
         $inventory = Inventory::find($id);
         $inventory->update([
+            'name' => $request->name,
+            'category_id' => $request->category_id,
             'details' => $request->details
         ]);
 

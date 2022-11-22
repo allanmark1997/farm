@@ -26,7 +26,7 @@ const form = useForm(
 
 const modals = reactive({
     add_edit: {
-        show: true,
+        show: false,
         details: {
             title: "Add Transaction",
             id: 0,
@@ -56,29 +56,28 @@ const saveTransaction = () => {
 
 <template>
     <AppLayout title="Transactions">
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Transactions
-            </h2>
-        </template>
-
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <PrimaryButton class="my-2" @click="showModal()"
-                    >Add</PrimaryButton
-                >
                 <div
-                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6"
+                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2"
                 >
+                    <div class="flex gap-1">
+                        <TextInput
+                            placeholder="Search"
+                            type="text"
+                            class="text-xs mb-2"
+                        />
+                    </div>
                     <TableList>
                         <template #header>
                             <th
                                 class="p-2 border border-l"
                                 v-for="header in [
-                                    'Name',
-                                    'Action',
-                                    'Name',
-                                    'Action',
+                                    'Date',
+                                    'Processed By',
+                                    'Farmer',
+                                    'Farm',
+                                    'Type',
                                 ]"
                             >
                                 {{ header }}
@@ -93,13 +92,14 @@ const saveTransaction = () => {
                                 :key="index"
                             >
                                 <td class="p-2">
-                                    {{ transaction.inventory_id }}
-                                </td>
-                                <td class="p-2">{{ transaction.amount }}</td>
-                                <td class="p-2">{{ transaction.type }}</td>
-                                <td class="p-2">
                                     {{ transaction.created_at }}
                                 </td>
+                                <td class="p-2">{{ transaction.user_id }}</td>
+                                <td class="p-2">
+                                    {{ transaction.farmer.name }}
+                                </td>
+                                <td class="p-2">{{ transaction.farm.name }}</td>
+                                <td class="p-2">{{ transaction.type }}</td>
                             </tr>
                         </template>
                     </TableList>
