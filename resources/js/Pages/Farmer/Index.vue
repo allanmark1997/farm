@@ -8,6 +8,7 @@ import Pagination from "@/Components/Pagination.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
+import Icon from "@/Components/Icons.vue";
 import { reactive } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
 
@@ -57,29 +58,29 @@ const saveFarmer = () => {
 
 <template>
     <AppLayout title="Farmers">
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Farmer
-            </h2>
-        </template>
-
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <PrimaryButton class="my-2" @click="showModal()"
-                    >New Farmer</PrimaryButton
-                >
                 <div
-                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6"
+                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2"
                 >
+                    <div class="flex justify-between gap-1">
+                        <PrimaryButton class="mb-2" @click="showModal()"
+                            >New Farmer</PrimaryButton
+                        >
+                        <SecondaryButton class="mb-2"
+                            >Download Registration Form</SecondaryButton
+                        >
+                    </div>
+
                     <TableList>
                         <template #header>
                             <th
                                 class="p-2 border border-l"
                                 v-for="header in [
                                     'Name',
-                                    'Action',
-                                    'Name',
-                                    'Action',
+                                    'Total Income',
+                                    'Member since',
+                                    'Status',
                                 ]"
                             >
                                 {{ header }}
@@ -103,8 +104,27 @@ const saveFarmer = () => {
                                     </Link>
                                 </td>
                                 <td class="p-2">{{ farmer.amount }}</td>
-                                <td class="p-2">{{ farmer.active }}</td>
                                 <td class="p-2">{{ farmer.created_at }}</td>
+                                <td class="p-2">
+                                    <div class="flex justify-between">
+                                        <span>{{
+                                            farmer.active
+                                                ? "Active"
+                                                : "Inactive"
+                                        }}</span>
+
+                                        <div
+                                            class="flex flex-row-reverse gap-3"
+                                        >
+                                            <div class="cursor-pointer">
+                                                <Icon icon="delete" />
+                                            </div>
+                                            <div class="cursor-pointer">
+                                                <Icon icon="edit" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         </template>
                     </TableList>

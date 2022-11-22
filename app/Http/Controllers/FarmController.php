@@ -16,11 +16,13 @@ class FarmController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $farms = Farm::all();
+        $farmers = Farmer::where(['active'=> true])->get();
         return Inertia::render('Farm/Index',[
-            'farms' => $farms
+            'farms' => $farms,
+            'farmers' => $farmers
         ]);
     }
 

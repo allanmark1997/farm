@@ -57,12 +57,6 @@ const saveFarm = () => {
 
 <template>
     <AppLayout title="Farms">
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Farmer
-            </h2>
-        </template>
-
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <PrimaryButton class="my-2" @click="showModal()"
