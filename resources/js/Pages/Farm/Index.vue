@@ -12,13 +12,21 @@ import Icon from "@/Components/Icons.vue";
 import Map from "./Map.vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
-import { reactive } from "vue";
+import { reactive,ref } from "vue"; 
 
 const props = defineProps(["farms", "farmers", "selected_farmer"]);
+const childred = ref(null); 
 
+const callChildMethod = (map) => {
+    console.log(childred.value);
+    childred.value.doSomething(map);
+}
 const form = useForm({
     selected_farmer: props.selected_farmer,
-    name: "",
+    map: {
+        name:"",
+        coordinates:[]
+    },
 });
 
 const modals = reactive({
@@ -41,6 +49,7 @@ const showModal = () => {
     modals.add_edit.show = true;
 };
 
+
 const saveFarm = () => {
     form.post(route("farms.store"), {
         preserveScroll: true,
@@ -57,6 +66,30 @@ const saveFarm = () => {
         },
     });
 };
+
+const handleMap = (farm)=>{ 
+    form.farmer_id = farm.farmer_id;
+    form.farmer_id = farm.details;
+    form.map.name = farm.map.name
+    form.put(route("farms.update", farm), {
+        preserveScroll: true,
+        onSuccess: () => {
+            alert("update map"); 
+            childred.value.clearMarker();
+        },
+        onError: () => {
+            //code
+        },
+        onFinish: () => {
+            //code
+        },
+    });
+}
+
+const mapCoordinate = (points) =>{ 
+    form.map.coordinates = points; 
+} 
+
 </script>
 
 <template>
@@ -101,19 +134,15 @@ const saveFarm = () => {
                                             </div>
                                         </template>
                                         <template #content>
-                                            <div>Name: Farm 1</div>
-                                            <div>Owner: Ajeje</div>
-                                            <div>Income: 100</div>
+                                            <div>Name: {{farm.map.name}}</div>
+                                            <div>Owner: {{farm.farmer.name}}</div>
+                                            <div>Income: {{farm.income}}</div>
                                             <div>Color:</div></template
                                         >
                                         <template #footer>
-                                            <PrimaryButton>Map</PrimaryButton>
-                                            <PrimaryButton
-                                                :disabled="
-                                                    farm.status == 'active' ||
-                                                    farm.map == null
-                                                "
-                                                >Plant</PrimaryButton
+                                            <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm.map)">View</PrimaryButton>
+                                            <PrimaryButton @click="handleMap(farm)"  :disabled="farm?.map?.coordinates.length">Map</PrimaryButton>
+                                            <PrimaryButton :disabled="!farm?.map?.coordinates.length">Plant</PrimaryButton
                                             >
                                             <PrimaryButton
                                                 :disabled="
@@ -127,7 +156,7 @@ const saveFarm = () => {
                             </div>
                         </div>
                         <div class="col-span-6">
-                            <Map />
+                            <Map :mapCoordinate="mapCoordinate" ref="childred"/>
                         </div>
                     </div>
                 </div>
@@ -143,7 +172,7 @@ const saveFarm = () => {
                             type="text"
                             class="mt-1 block w-full"
                             required
-                            v-model="form.name"
+                            v-model="form.map.name"
                         />
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
