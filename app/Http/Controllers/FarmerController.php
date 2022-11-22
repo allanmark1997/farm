@@ -48,7 +48,7 @@ class FarmerController extends Controller
 
         Farmer::create([
             'name' => $request->name,
-            'amount' => 0,
+            'income' => 0,
             'active' => true
         ]);
 

@@ -38,13 +38,7 @@ const onMapClick = (e) => {
 </script>
 
 <template>
-    <div class="px-6">
-        <div class="min-w-full min-h-full" id="mapid"></div>
+    <div class="pl-6">
+        <div class="rounded-md h-[790px] z-10" id="mapid"></div>
     </div>
 </template>
-<style scoped>
-#mapid {
-    height: 800px;
-    width: 1500px;
-}
-</style>

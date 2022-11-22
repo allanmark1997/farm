@@ -13,6 +13,11 @@ class Farm extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'details' => 'json'  
+        'details' => 'json',
+        'map' => 'json'
     ];
+
+    public function farmer(){
+        return $this->belongsTo(Farmer::class);
+    }
 }

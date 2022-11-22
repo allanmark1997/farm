@@ -18,11 +18,15 @@ class FarmController extends Controller
      */
     public function index(Request $request)
     {
-        $farms = Farm::all();
+
+        $farms = Farm::with('farmer')->when($request->selected_farmer != null || $request->selected_farmer != 'all', function ($query, $value) {
+            $query->where(['farmer_id' => $value]);
+        })->get();
         $farmers = Farmer::where(['active'=> true])->get();
         return Inertia::render('Farm/Index',[
             'farms' => $farms,
-            'farmers' => $farmers
+            'farmers' => $farmers,
+            'selected_farmer' => $request->selected_farmer ?? 'all'
         ]);
     }
 
@@ -45,8 +49,8 @@ class FarmController extends Controller
     public function store(Request $request)
     {
         Farm::create([
-            'map_id' => $request->map_id,
-            'farmer_id' => $request->farmer_id,
+            'farmer_id' => $request->selected_farmer,
+            'income' => 0,
             'details' => $request->details
         ]);
 
