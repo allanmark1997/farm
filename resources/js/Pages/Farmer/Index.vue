@@ -95,8 +95,8 @@ const saveFarmer = () => {
                                 <td class="p-2">
                                     <Link
                                         :href="
-                                            route('farmers.farms', {
-                                                farmer_id: farmer.id,
+                                            route('farms.index', {
+                                                selected_farmer: farmer.id,
                                             })
                                         "
                                     >

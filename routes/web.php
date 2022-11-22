@@ -60,6 +60,8 @@ Route::middleware([
         Route::post('/store', [FarmController::class, 'store'])->name('store');
         Route::put('/update/{id}', [FarmController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [FarmController::class, 'destroy'])->name('delete');
+        Route::post('/plant/{id}', [FarmController::class, 'plant'])->name('plant');
+        Route::post('/harvest/{id}', [FarmController::class, 'harvest'])->name('harvest');
     });
 
     Route::prefix('inventory')->name('inventory.')->group(function () {

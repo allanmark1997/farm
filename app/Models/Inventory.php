@@ -14,4 +14,8 @@ class Inventory extends Model
     protected $casts = [
         'details' => 'json'  
     ];
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 }

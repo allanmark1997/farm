@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Farm;
 use App\Models\Farmer;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -118,5 +119,29 @@ class FarmController extends Controller
         return Inertia::render('Farmer/Farms',[
             'farms' => $farms
         ]);
+    }
+
+    public function plant(Request $request, $id)
+    {
+        $farm = Farm::find($id);
+        $inventory = Inventory::find($request->inventory_id);
+        $details = $farm->details;
+        $farm->update([
+            'status' => 'farming',
+            'details' => $details,
+            'map->color' => $inventory->details['color']
+        ]);
+        return Redirect::back();
+    }
+
+    public function harvest(Request $request, $id)
+    {
+        $farm = Farm::find($id);
+        $farm->update([
+            'status' => 'idle',
+            'details' => $request->details,
+            // 'map->color' => $inventory->details['color'] //default color
+        ]);
+        return Redirect::back();
     }
 }
