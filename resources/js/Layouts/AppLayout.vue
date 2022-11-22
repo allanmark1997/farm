@@ -70,12 +70,12 @@ const logout = () => {
                                 >
                                     Farmers
                                 </NavLink>
-                                <NavLink
+                                <!-- <NavLink
                                     :href="route('maps.index')"
                                     :active="route().current('maps.index')"
                                 >
                                     Maps
-                                </NavLink>
+                                </NavLink> -->
                                 <NavLink
                                     :href="route('farms.index')"
                                     :active="route().current('farms.index')"
@@ -88,15 +88,16 @@ const logout = () => {
                                 >
                                     Inventory
                                 </NavLink>
-                                <!-- <NavLink
+                                <NavLink
                                     :href="route('transactions.index')"
                                     :active="
                                         route().current('transactions.index')
                                     "
                                 >
                                     Transactions
-                                </NavLink> -->
+                                </NavLink>
                                 <NavLink
+                                    v-if="$page.props.user.is_admin"
                                     :href="route('users.index')"
                                     :active="route().current('users.index')"
                                 >
@@ -390,12 +391,12 @@ const logout = () => {
                         >
                             farmers
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink
+                        <!-- <ResponsiveNavLink
                             :href="route('maps.index')"
                             :active="route().current('maps.index')"
                         >
                             maps
-                        </ResponsiveNavLink>
+                        </ResponsiveNavLink> -->
                         <ResponsiveNavLink
                             :href="route('farms.index')"
                             :active="route().current('farms.index')"
@@ -408,13 +409,14 @@ const logout = () => {
                         >
                             inventory
                         </ResponsiveNavLink>
-                        <!-- <ResponsiveNavLink
+                        <ResponsiveNavLink
                             :href="route('transactions.index')"
                             :active="route().current('transactions.index')"
                         >
                             transactions
-                        </ResponsiveNavLink> -->
+                        </ResponsiveNavLink>
                         <ResponsiveNavLink
+                            v-if="$page.props.user.is_admin"
                             :href="route('users.index')"
                             :active="route().current('users.index')"
                         >

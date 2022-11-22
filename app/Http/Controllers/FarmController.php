@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Farm;
 use App\Models\Farmer;
 use App\Models\Inventory;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -52,7 +53,8 @@ class FarmController extends Controller
         Farm::create([
             'farmer_id' => $request->selected_farmer,
             'income' => 0,
-            'details' => $request->details
+            'details' => $request->details,
+            'status' => 'idle'
         ]);
 
         return Redirect::back();
@@ -91,8 +93,8 @@ class FarmController extends Controller
     {
         $farm = Farm::find($id);
         $farm->update([
-            'map_id' => $request->map_id,
-            'farmer_id' => $request->farmer_id,
+            'map' => $request->map,
+            'status' => $request->status,
             'details' => $request->details
         ]);
 
@@ -124,13 +126,21 @@ class FarmController extends Controller
     public function plant(Request $request, $id)
     {
         $farm = Farm::find($id);
-        $inventory = Inventory::find($request->inventory_id);
-        $details = $farm->details;
+        
         $farm->update([
             'status' => 'farming',
-            'details' => $details,
-            'map->color' => $inventory->details['color']
+            'details' => $request->details, //['expected_income' => 100, 'income' => 0, 'inventories'=> ['seedling' => 'Corn', 'fertilizers' => ['fert1', 'fert2']]]
+            'map->color' => $request->color
         ]);
+
+        Transaction::create([
+            'farmer_id' => $farm->farmer->id,
+            'farm_id' => $farm->id,
+            'user_id' => Auth::user()->id,
+            'type' => 'plant',
+            'details' => $request->details
+        ]);
+
         return Redirect::back();
     }
 
@@ -139,8 +149,20 @@ class FarmController extends Controller
         $farm = Farm::find($id);
         $farm->update([
             'status' => 'idle',
-            'details' => $request->details,
+            'details' => $request->details, //update the income
             // 'map->color' => $inventory->details['color'] //default color
+        ]);
+        $farmer = $farm->farmer;
+        $farmer->update([
+            'income' => $farmer->income + $request->details['income']
+        ]);
+
+        Transaction::create([
+            'farmer_id' => $farm->farmer->id,
+            'farm_id' => $farm->id,
+            'user_id' => Auth::user()->id,
+            'type' => 'harvest',
+            'details' => $request->details //update the income
         ]);
         return Redirect::back();
     }

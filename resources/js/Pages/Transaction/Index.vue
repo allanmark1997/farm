@@ -26,7 +26,7 @@ const form = useForm(
 
 const modals = reactive({
     add_edit: {
-        show: true,
+        show: false,
         details: {
             title: "Add Transaction",
             id: 0,
@@ -75,10 +75,11 @@ const saveTransaction = () => {
                             <th
                                 class="p-2 border border-l"
                                 v-for="header in [
-                                    'Name',
-                                    'Action',
-                                    'Name',
-                                    'Action',
+                                    'Date',
+                                    'Processed By',
+                                    'Farmer',
+                                    'Farm',
+                                    'Type',
                                 ]"
                             >
                                 {{ header }}
@@ -93,13 +94,14 @@ const saveTransaction = () => {
                                 :key="index"
                             >
                                 <td class="p-2">
-                                    {{ transaction.inventory_id }}
-                                </td>
-                                <td class="p-2">{{ transaction.amount }}</td>
-                                <td class="p-2">{{ transaction.type }}</td>
-                                <td class="p-2">
                                     {{ transaction.created_at }}
                                 </td>
+                                <td class="p-2">{{ transaction.user_id }}</td>
+                                <td class="p-2">
+                                    {{ transaction.farmer.name }}
+                                </td>
+                                <td class="p-2">{{ transaction.farm.name }}</td>
+                                <td class="p-2">{{ transaction.type }}</td>
                             </tr>
                         </template>
                     </TableList>
