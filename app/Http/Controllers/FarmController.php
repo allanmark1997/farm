@@ -53,7 +53,8 @@ class FarmController extends Controller
         Farm::create([
             'farmer_id' => $request->selected_farmer,
             'income' => 0,
-            'details' => $request->details
+            'details' => $request->details, 
+            'map' => $request->map
         ]);
 
         return Redirect::back();
@@ -94,7 +95,8 @@ class FarmController extends Controller
         $farm->update([
             'map_id' => $request->map_id,
             'farmer_id' => $request->farmer_id,
-            'details' => $request->details
+            'details' => $request->details,
+            'map' => $request->map
         ]);
 
         return Redirect::back();
