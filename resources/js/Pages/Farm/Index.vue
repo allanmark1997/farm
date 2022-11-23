@@ -14,7 +14,7 @@ import { useForm } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive,ref } from "vue"; 
 
-const props = defineProps(["farms", "farmers", "selected_farmer"]);
+const props = defineProps(["farms", "farmers", "selected_farmer", "inventories","categories"]);
 const childred = ref(null); 
 
 const callChildMethod = (map) => {
@@ -25,9 +25,30 @@ const form = useForm({
     selected_farmer: props.selected_farmer,
     map: {
         name:"",
-        coordinates:[]
-    },
+        coordinates:[], 
+    }, 
 });
+const details = ref({
+        expected_income:0,
+        income:0,
+        inventories:{
+            seedling:"",
+            fertilizer:[]
+        } 
+    });
+
+const formPlants = useForm({
+    details:{
+        expected_income:0,
+        income:0,
+        inventories:{
+            seedling:"",
+            fertilizer:[]
+        } 
+    },
+    color:null
+});
+
 
 const modals = reactive({
     add_edit: {
@@ -37,6 +58,20 @@ const modals = reactive({
             id: 0,
         },
     },
+    add_plant: {
+        show: false,
+        details: {
+            title: "Add Plant",
+            id: 1,
+        },
+    },
+});
+
+const category_id = ref();
+
+const fertilizerVar = ref({
+    name:"",
+    unit:""
 });
 
 const selectFarmer = () => {
@@ -48,6 +83,12 @@ const selectFarmer = () => {
 const showModal = () => {
     modals.add_edit.show = true;
 };
+
+const showModalPlant = (farm)=>{
+    console.log(farm);
+    //formPlants.details = farm.details;
+    modals.add_plant.show = true;
+}
 
 
 const saveFarm = () => {
@@ -90,24 +131,27 @@ const mapCoordinate = (points) =>{
     form.map.coordinates = points; 
 } 
 
+const plantHandle = ()=>{
+    console.log(details.value);
+}
+
+const removeFilterizer = (index)=>{
+    details.value.inventories.fertilizer.value.filter((item,indexItem)=> indexItem != index);
+    console.log(details);
+}
+
 </script>
 
 <template>
     <AppLayout title="Farms">
         <div class="pb-4">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8">
-                <div
-                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-2"
-                >
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-2">
                     <div class="grid grid-cols-8 gap-1 p-6">
                         <div class="col-span-2">
                             <InputLabel value="Farms" />
                             <div class="flex gap-1">
-                                <SelectInput
-                                    class="block w-full"
-                                    v-model="form.selected_farmer"
-                                    @change="selectFarmer()"
-                                >
+                                <SelectInput class="block w-full" v-model="form.selected_farmer" @change="selectFarmer()">
                                     <option value="all">All</option>
                                     <template v-for="farmer in farmers">
                                         <option :value="farmer.id">
@@ -142,7 +186,7 @@ const mapCoordinate = (points) =>{
                                         <template #footer>
                                             <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm.map)">View</PrimaryButton>
                                             <PrimaryButton @click="handleMap(farm)"  :disabled="farm?.map?.coordinates.length">Map</PrimaryButton>
-                                            <PrimaryButton :disabled="!farm?.map?.coordinates.length">Plant</PrimaryButton
+                                            <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="showModalPlant(farm)">Plant</PrimaryButton
                                             >
                                             <PrimaryButton
                                                 :disabled="
@@ -156,7 +200,7 @@ const mapCoordinate = (points) =>{
                             </div>
                         </div>
                         <div class="col-span-6">
-                            <Map :mapCoordinate="mapCoordinate" ref="childred"/>
+                            <Map :mapCoordinate="mapCoordinate" ref="childred" :inventories="inventories"/>
                         </div>
                     </div>
                 </div>
@@ -184,6 +228,89 @@ const mapCoordinate = (points) =>{
                         >Cancel</SecondaryButton
                     >
                     <PrimaryButton @click="saveFarm">Submit</PrimaryButton>
+                </div>
+            </template>
+        </DialogModal>
+        <DialogModal :show="modals.add_plant.show">
+            <template #title>{{ modals.add_plant.details.title }}</template>
+            <template #content>
+                <div class="grid grid-cols-6 gap-6">
+                    <div class="col-span-6">
+                        <InputLabel value="Plant" />
+                        <SelectInput class="block w-full mt-1" v-model="category_id">
+                            <template v-for="category in categories">
+                                <option :value="category.id">
+                                    {{ category.name }}
+                                </option>
+                            </template>
+                        </SelectInput>
+                        <hr class="my-4"/>
+                        <div v-if="category_id === '1'" class="grid grid-cols-2 gap-2">
+                            <div>
+                                <InputLabel value="Seedling" />
+                                <SelectInput class="block w-full" v-model="details.inventories.seedling"> 
+                                    <template v-for="seedling in inventories.seedling">
+                                        <option :value="seedling.name">
+                                            {{ seedling.name }}
+                                        </option>
+                                    </template>
+                                </SelectInput> 
+                            </div>
+                            <div>
+                                <InputLabel value="Expected Income " />
+                                <TextInput
+                                    type="text"
+                                    class="block w-full"
+                                    required
+                                    v-model="details.expected_income"
+                                />
+                                <!-- <InputError class="mt-2" :message="formPlants.errors.details.expected_income" /> -->
+                            </div>
+                        </div>
+                        <div v-if="category_id === '2'">
+                            <div class="grid grid-cols-7 gap-2">
+                                <div class="col-span-3">
+                                <InputLabel value="Fertilizer" />
+                                <SelectInput class="block w-full" v-model="fertilizerVar.name"> 
+                                    <template v-for="fertilizer in inventories.fertilizer">
+                                        <option :value="fertilizer.name">
+                                            {{ fertilizer.name }}
+                                        </option>
+                                    </template>
+                                </SelectInput> 
+                                </div>
+                                <div class="col-span-3">
+                                    <InputLabel value="Unit" />
+                                    <TextInput
+                                        type="text"
+                                        class="block w-full"
+                                        required
+                                        v-model="fertilizerVar.unit"
+                                    />
+                                   
+                                </div>
+                                <div class="mt-6">
+                                    <PrimaryButton @click="details.inventories.fertilizer.push(JSON.parse(JSON.stringify(fertilizerVar)))">Add</PrimaryButton>
+                                </div>
+                            </div>
+                            <div class="mt-2 border rounded-md p-2">
+                                Lists:
+                                <div v-for="(fertilizer, index) in details.inventories.fertilizer" class="grid grid-cols-3">
+                                    <div>{{fertilizer.name}}</div>
+                                    <div>{{fertilizer.unit}} </div>
+                                    <div class="text-red-500 cursor-pointer" @click="removeFilterizer(index)">Remove</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template #footer>
+                <div class="flex gap-1">
+                    <SecondaryButton @click="modals.add_plant.show = false"
+                        >Cancel</SecondaryButton
+                    >
+                    <PrimaryButton @click="plantHandle">Submit</PrimaryButton>
                 </div>
             </template>
         </DialogModal>

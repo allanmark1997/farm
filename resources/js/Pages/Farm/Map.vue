@@ -2,7 +2,7 @@
 import { onMounted, ref } from "vue";
 import leaflet from "leaflet";
 
-const props = defineProps(["maps", "farmers", "mapCoordinate"]); 
+const props = defineProps(["maps", "inventories", "mapCoordinate"]); 
 const markersLatLngs = ref([]);
 const markerData = ref([]);
 const latlngs = ref([]);
