@@ -106,4 +106,14 @@ class UserController extends Controller
     {
         //
     }
+
+    public function deactivate($id)
+    {
+        $user = User::find($id);
+        $user->update([
+            'status' => $user->status == 'active' ? 'inactive' : 'acive'
+        ]);
+
+        return Redirect::back();
+    }
 }
