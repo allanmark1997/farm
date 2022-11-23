@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Farm;
 use App\Models\Farmer;
 use App\Models\Inventory;
@@ -25,10 +26,17 @@ class FarmController extends Controller
             $query->where(['farmer_id' => $value]);
         })->get();
         $farmers = Farmer::where(['active'=> true])->get();
+        $categories = Category::all();
+        $inventories = [
+            'seedling' => Inventory::with('category')->where('category_id', 1)->get(),
+            'fertilizer' => Inventory::with('category')->where('category_id', 2)->get(),
+        ];
         return Inertia::render('Farm/Index',[
             'farms' => $farms,
             'farmers' => $farmers,
-            'selected_farmer' => $request->selected_farmer ?? 'all'
+            'selected_farmer' => $request->selected_farmer ?? 'all',
+            'categories' => $categories,
+            'inventories' => $inventories
         ]);
     }
 
