@@ -46,7 +46,7 @@ const logout = () => {
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('farmers.index')">
                                     <ApplicationMark class="block h-9 w-auto" />
                                 </Link>
                             </div>
@@ -55,12 +55,12 @@ const logout = () => {
                             <div
                                 class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
                             >
-                                <NavLink
+                                <!-- <NavLink
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
                                 >
                                     Dashboard
-                                </NavLink>
+                                </NavLink> -->
                                 <NavLink
                                     :href="route('farmers.index')"
                                     :active="
@@ -379,12 +379,12 @@ const logout = () => {
                     class="sm:hidden"
                 >
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink
+                        <!-- <ResponsiveNavLink
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >
                             Dashboard
-                        </ResponsiveNavLink>
+                        </ResponsiveNavLink> -->
                         <ResponsiveNavLink
                             :href="route('farmers.index')"
                             :active="route().current('farmers.index')"
