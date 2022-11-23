@@ -9,10 +9,12 @@ import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import SelectInput from "@/Components/SelectInput.vue";
-import { reactive } from "vue";
+import { reactive, ref, watch } from "vue";
 import { useForm } from "@inertiajs/inertia-vue3";
+import { debounce } from "lodash";
+import { Inertia } from "@inertiajs/inertia";
 
-const props = defineProps(["transactions"]);
+const props = defineProps(["transactions", "search"]);
 const form = useForm(
     {
         amount: "",
@@ -24,6 +26,7 @@ const form = useForm(
     }
 );
 
+const search = ref(props.search);
 const modals = reactive({
     add_edit: {
         show: false,
@@ -52,6 +55,12 @@ const saveTransaction = () => {
         },
     });
 };
+
+const searchTransaction = () => {
+    Inertia.get(route("transactions.index", { search: search.value }));
+};
+
+watch(() => search.value, debounce(searchTransaction, 1000));
 </script>
 
 <template>
@@ -63,6 +72,7 @@ const saveTransaction = () => {
                 >
                     <div class="flex gap-1">
                         <TextInput
+                            v-model="search"
                             placeholder="Search"
                             type="text"
                             class="text-xs mb-2"

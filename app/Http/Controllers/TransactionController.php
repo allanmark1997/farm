@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Database\Eloquent\Builder;
 use Inertia\Inertia;
 
 class TransactionController extends Controller
@@ -16,11 +17,14 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $transactions = Transaction::when($request->search != null && $request->search!= '', function ($query, $value) {
-            // $query->where('name', 'like', "%{$search}%");
+        $transactions = Transaction::when($request->search != null && $request->search!= '', function ($query) use ($request) {
+            $query->whereHas('farmer', function (Builder $query) use ($request) {
+                $query->where('name', 'like', "%$request->search%");
+            });
         })->paginate(10);
         return Inertia::render('Transaction/Index',[
-            'transactions' => $transactions
+            'transactions' => $transactions,
+            'search' => $request->search ?? ''
         ]);
     }
 

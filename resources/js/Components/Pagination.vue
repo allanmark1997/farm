@@ -1,6 +1,14 @@
 <script setup>
-import { Link } from "@inertiajs/inertia-vue3";
+import { Link, usePage } from "@inertiajs/inertia-vue3";
+import { computed } from "vue";
+
 const props = defineProps(["links"]);
+const search_url = computed(() =>
+    usePage().props.value.search != "" &&
+    usePage().props.value.search != undefined
+        ? "&search=" + usePage().props.value.search
+        : ""
+);
 </script>
 
 <template>
@@ -20,7 +28,7 @@ const props = defineProps(["links"]);
                     'text-white text-gray-800': link.active,
                     'ml-auto': links.length === key + 1,
                 }"
-                :href="link.url"
+                :href="link.url + search_url"
             >
                 <span v-html="link.label"></span>
             </Link>
