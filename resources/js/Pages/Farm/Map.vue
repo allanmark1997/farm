@@ -1,6 +1,8 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import leaflet from "leaflet";
+import leaflet from "leaflet"; 
+import Plant from "../../../assets/plant.png";
+import Shadow from "../../../assets/shadow.png";
 
 const props = defineProps(["maps", "inventories", "mapCoordinate"]); 
 const markersLatLngs = ref([]);
@@ -69,10 +71,40 @@ const clearMarker = ()=>{
             mymap.removeLayer(item);
         });
 }
-const doSomething = (map) =>{
-    var polygon = leaflet
-            .polygon(map.coordinates, { color:"#ffffff"})
-            .addTo(mymap);
+const doSomething = (map,details) =>{ 
+
+    var greenIcon = leaflet.icon({
+    iconUrl: Plant,
+    shadowUrl: Shadow, 
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+    let {fertilizer, seedling} = details;
+    console.log(fertilizer);
+    let fertilizerHtml = fertilizer.map(item => 
+    '<div class="grid grid-cols-8 gap-2 border p-2">'+
+        '<div class="col-span-4">'+ item.name +'</div>' + 
+        '<div class="col-span-4">'+ item.unit +'</div>'+ 
+    '</div>').join(""); 
+    var polygon = leaflet.polygon(map.coordinates, { color:map.color}).addTo(mymap);
+        var center = polygon.getBounds().getCenter();
+        var marker = leaflet.marker(center,{icon: greenIcon}).bindPopup(`
+            <div class="border rounded-md p-2 w-64 shadow-md"> 
+                <div class="font-bold my-2">Plant: ${seedling || 'No Plant'}</div>
+                <div class="grid grid-cols-8 gap-2 border p-2">
+                    <div class="col-span-4">Name</div>
+                    <div class="col-span-4">Quality</div>
+                </div>
+                ${fertilizerHtml}
+                <div>  
+                </div>
+            </div>`);;
+        var polygonAndItsCenter = leaflet.layerGroup([polygon, marker]);
+        polygonAndItsCenter.addTo(mymap);
         polygon.bindTooltip(map.name, { permanent: true, direction: "center" })
         .openTooltip();
         mymap.fitBounds(polygon.getBounds());

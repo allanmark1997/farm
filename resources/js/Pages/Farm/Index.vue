@@ -12,32 +12,44 @@ import Icon from "@/Components/Icons.vue";
 import Map from "./Map.vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
-import { reactive,ref } from "vue"; 
+import { reactive,ref,onMounted } from "vue"; 
 
 const props = defineProps(["farms", "farmers", "selected_farmer", "inventories","categories"]);
 const childred = ref(null); 
 
-const callChildMethod = (map) => {
-    console.log(childred.value);
-    childred.value.doSomething(map);
+
+onMounted(() => {
+  if (props.farms.length){
+    props.farms.map((item)=>{
+        if(item.map.coordinates.length){
+            callChildMethod(item);
+        }
+    })
+  }
+});
+
+const callChildMethod = (farm) => {
+    console.log(farm);
+    childred.value.doSomething(farm.map, farm.details.inventories);
 }
 const form = useForm({
     selected_farmer: props.selected_farmer,
     map: {
         name:"",
         coordinates:[], 
-    }, 
-});
-const details = ref({
+        color:"#ffffff"
+    },
+    details:{
         expected_income:0,
         income:0,
         inventories:{
             seedling:"",
             fertilizer:[]
         } 
-    });
-
+    }, 
+}); 
 const formPlants = useForm({
+    id:null,
     details:{
         expected_income:0,
         income:0,
@@ -47,8 +59,7 @@ const formPlants = useForm({
         } 
     },
     color:null
-});
-
+}); 
 
 const modals = reactive({
     add_edit: {
@@ -68,6 +79,7 @@ const modals = reactive({
 });
 
 const category_id = ref();
+const seedling_id = ref();
 
 const fertilizerVar = ref({
     name:"",
@@ -85,8 +97,14 @@ const showModal = () => {
 };
 
 const showModalPlant = (farm)=>{
-    console.log(farm);
-    //formPlants.details = farm.details;
+    console.log(farm); 
+    formPlants.id = farm.id;
+    formPlants.details = farm.details || Object.assign({
+            expected_income:0,
+            income:0,inventories:{
+            seedling:"",
+            fertilizer:[]
+        } });
     modals.add_plant.show = true;
 }
 
@@ -117,6 +135,7 @@ const handleMap = (farm)=>{
         onSuccess: () => {
             alert("update map"); 
             childred.value.clearMarker();
+            callChildMethod(form);
         },
         onError: () => {
             //code
@@ -131,13 +150,31 @@ const mapCoordinate = (points) =>{
     form.map.coordinates = points; 
 } 
 
-const plantHandle = ()=>{
-    console.log(details.value);
+const plantHandle = ()=>{ 
+    formPlants.put(route("farms.plant", formPlants.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+            alert("update plant");  
+        },
+        onError: () => {
+            //code
+        },
+        onFinish: () => {
+            //code
+        },
+    });
 }
 
 const removeFilterizer = (index)=>{
-    details.value.inventories.fertilizer.value.filter((item,indexItem)=> indexItem != index);
-    console.log(details);
+    let removeFertilizer = formPlants.details.inventories.fertilizer.filter((item,indexItem)=> indexItem != index);
+    formPlants.details.inventories.fertilizer = removeFertilizer; 
+}
+
+const onchangeColor = (e) =>{
+    let getPlant = props.inventories.seedling.filter(item=> item.id === parseInt(e.target.value));  
+    formPlants.details.inventories.seedling = getPlant[0].name;
+    formPlants.color = getPlant[0].details.color;  
+    console.log(formPlants);
 }
 
 </script>
@@ -184,7 +221,7 @@ const removeFilterizer = (index)=>{
                                             <div>Color:</div></template
                                         >
                                         <template #footer>
-                                            <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm.map)">View</PrimaryButton>
+                                            <!-- <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm)">View</PrimaryButton> -->
                                             <PrimaryButton @click="handleMap(farm)"  :disabled="farm?.map?.coordinates.length">Map</PrimaryButton>
                                             <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="showModalPlant(farm)">Plant</PrimaryButton
                                             >
@@ -247,10 +284,10 @@ const removeFilterizer = (index)=>{
                         <hr class="my-4"/>
                         <div v-if="category_id === '1'" class="grid grid-cols-2 gap-2">
                             <div>
-                                <InputLabel value="Seedling" />
-                                <SelectInput class="block w-full" v-model="details.inventories.seedling"> 
+                                <InputLabel value="Seedling" /> 
+                                <SelectInput class="block w-full"  @change="onchangeColor($event)" v-model="seedling_id"> 
                                     <template v-for="seedling in inventories.seedling">
-                                        <option :value="seedling.name">
+                                        <option :value="seedling.id">
                                             {{ seedling.name }}
                                         </option>
                                     </template>
@@ -262,7 +299,7 @@ const removeFilterizer = (index)=>{
                                     type="text"
                                     class="block w-full"
                                     required
-                                    v-model="details.expected_income"
+                                    v-model="formPlants.details.expected_income"
                                 />
                                 <!-- <InputError class="mt-2" :message="formPlants.errors.details.expected_income" /> -->
                             </div>
@@ -290,12 +327,12 @@ const removeFilterizer = (index)=>{
                                    
                                 </div>
                                 <div class="mt-6">
-                                    <PrimaryButton @click="details.inventories.fertilizer.push(JSON.parse(JSON.stringify(fertilizerVar)))">Add</PrimaryButton>
+                                    <PrimaryButton @click="formPlants.details.inventories.fertilizer.push(JSON.parse(JSON.stringify(fertilizerVar)))">Add</PrimaryButton>
                                 </div>
                             </div>
                             <div class="mt-2 border rounded-md p-2">
                                 Lists:
-                                <div v-for="(fertilizer, index) in details.inventories.fertilizer" class="grid grid-cols-3">
+                                <div v-for="(fertilizer, index) in formPlants.details.inventories.fertilizer" class="grid grid-cols-3">
                                     <div>{{fertilizer.name}}</div>
                                     <div>{{fertilizer.unit}} </div>
                                     <div class="text-red-500 cursor-pointer" @click="removeFilterizer(index)">Remove</div>
@@ -310,7 +347,7 @@ const removeFilterizer = (index)=>{
                     <SecondaryButton @click="modals.add_plant.show = false"
                         >Cancel</SecondaryButton
                     >
-                    <PrimaryButton @click="plantHandle">Submit</PrimaryButton>
+                    <PrimaryButton @click="plantHandle">Save</PrimaryButton>
                 </div>
             </template>
         </DialogModal>
