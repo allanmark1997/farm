@@ -13,6 +13,7 @@ import { reactive, ref, watch } from "vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import { debounce } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
+import moment from "moment";
 
 const props = defineProps(["transactions", "search"]);
 const form = useForm(
@@ -104,12 +105,24 @@ watch(() => search.value, debounce(searchTransaction, 1000));
                                 <td class="p-2">
                                     {{ transaction.created_at }}
                                 </td>
-                                <td class="p-2">{{ transaction.user_id }}</td>
                                 <td class="p-2">
-                                    {{ transaction.farmer.name }}
+                                    {{ transaction.user?.name }}
                                 </td>
-                                <td class="p-2">{{ transaction.farm.name }}</td>
-                                <td class="p-2">{{ transaction.type }}</td>
+                                <td class="p-2">
+                                    {{
+                                        transaction.farmer?.name ||
+                                        "Inactive Farmer"
+                                    }}
+                                </td>
+                                <td class="p-2">
+                                    {{
+                                        transaction.farm?.name ||
+                                        "Inactive Farm"
+                                    }}
+                                </td>
+                                <td class="p-2 uppercase">
+                                    {{ transaction.type }}
+                                </td>
                             </tr>
                         </template>
                     </TableList>

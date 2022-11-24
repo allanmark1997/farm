@@ -21,6 +21,7 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
-        "leaflet": "^1.9.2"
+        "leaflet": "^1.9.2",
+        "moment": "^2.29.4"
     }
 }

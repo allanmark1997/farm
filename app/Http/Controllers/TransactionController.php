@@ -17,7 +17,7 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $transactions = Transaction::when($request->search != null && $request->search!= '', function ($query) use ($request) {
+        $transactions = Transaction::with('farmer')->with('farm')->with('user')->when($request->search != null && $request->search!= '', function ($query) use ($request) {
             $query->whereHas('farmer', function (Builder $query) use ($request) {
                 $query->where('name', 'like', "%$request->search%");
             });
