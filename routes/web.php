@@ -30,6 +30,9 @@ Route::get('/', function () {
     ]);
 });
 
+
+Route::post('/authenticate', [UserController::class, 'authenticate'])->name('authenticate');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -81,8 +84,8 @@ Route::middleware([
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::post('/store', [UserController::class, 'store'])->name('store');
-        Route::post('/deactivate/{id}', [UserController::class, 'deactivate'])->name('deactivate');
         Route::put('/update/{id}', [UserController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('delete');
+        Route::put('/toggle_status/{id}', [UserController::class, 'toggle_status'])->name('toggle_status');
     });
 });

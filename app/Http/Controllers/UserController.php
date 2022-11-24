@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -107,11 +108,20 @@ class UserController extends Controller
         //
     }
 
-    public function deactivate($id)
+    public function authenticate(Request $request)
+    {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => 'active'], $request->remember)) {
+            return redirect(route('farmers.index'));
+        } else {
+            return redirect()->back()->withErrors(['email' => "We couldn't find an account that matches what you entered"]);
+        }
+    }
+
+    public function toggle_status($id)
     {
         $user = User::find($id);
         $user->update([
-            'status' => $user->status == 'active' ? 'inactive' : 'acive'
+            'status' => $user->status == 'active' ? 'inactive' : 'active'
         ]);
 
         return Redirect::back();

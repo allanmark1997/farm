@@ -10,7 +10,11 @@ class Transaction extends Model
     use HasFactory;
 
     protected $guarded = [];
-    
+
+    protected $casts = [
+        'details' => 'json',
+    ];
+
     public function farmer(){
         return $this->belongsTo(Farmer::class);
     }

@@ -22,8 +22,8 @@ class FarmController extends Controller
     public function index(Request $request)
     {
 
-        $farms = Farm::with('farmer')->when($request->selected_farmer != null || $request->selected_farmer != 'all', function ($query, $value) {
-            $query->where(['farmer_id' => $value]);
+        $farms = Farm::with('farmer')->when($request->selected_farmer != null && $request->selected_farmer != 'all', function ($query) use ($request) {
+            $query->where(['farmer_id' => $request->selected_farmer]);
         })->get();
         $farmers = Farmer::where(['active'=> true])->get();
         $categories = Category::all();
@@ -116,7 +116,7 @@ class FarmController extends Controller
      * @param  \App\Models\Farm  $farm
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Farm $id)
+    public function destroy($id)
     {
         $farm = Farm::find($id);
         $farm->delete();

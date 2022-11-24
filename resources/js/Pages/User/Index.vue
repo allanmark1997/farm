@@ -7,12 +7,12 @@ import DialogModal from "@/Components/DialogModal.vue";
 import Pagination from "@/Components/Pagination.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
-import ColorInput from "@/Components/ColorInput.vue";
+import ToggleSwitch from "@/Components/ToggleSwitch.vue";
 import InputError from "@/Components/InputError.vue";
 import SelectInput from "@/Components/SelectInput.vue";
-import Icon from "@/Components/Icons.vue";
-import { reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { useForm } from "@inertiajs/inertia-vue3";
+import { Inertia } from "@inertiajs/inertia";
 
 const props = defineProps(["users"]);
 
@@ -23,6 +23,8 @@ const form = useForm({
     password_confirmation: "",
 });
 
+const activate = ref([]);
+
 const modals = reactive({
     add_edit: {
         show: false,
@@ -31,6 +33,16 @@ const modals = reactive({
             id: 0,
         },
     },
+});
+
+onMounted(() => {
+    props.users.data.forEach((user) => {
+        if (user.status == "active") {
+            activate.value.push(true);
+        } else {
+            activate.value.push(false);
+        }
+    });
 });
 
 const showModal = () => {
@@ -52,6 +64,10 @@ const saveUser = () => {
             //code
         },
     });
+};
+
+const toggle_status = (id) => {
+    Inertia.put(route("users.toggle_status", { id: id }));
 };
 </script>
 
@@ -101,14 +117,17 @@ const saveUser = () => {
                                         <span class="capitalize">{{
                                             user.status
                                         }}</span>
-
-                                        <div
+                                        <ToggleSwitch
+                                            @change="toggle_status(user.id)"
+                                            v-model:checked="activate[index]"
+                                        />
+                                        <!-- <div
                                             class="flex flex-row-reverse gap-3"
                                         >
                                             <div class="cursor-pointer">
                                                 <Icon icon="delete" />
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </td>
                             </tr>
