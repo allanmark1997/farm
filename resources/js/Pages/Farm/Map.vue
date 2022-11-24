@@ -71,7 +71,7 @@ const clearMarker = ()=>{
             mymap.removeLayer(item);
         });
 }
-const doSomething = (map,details) =>{ 
+const doSomething = (map,details,owner) =>{ 
 
     var greenIcon = leaflet.icon({
     iconUrl: Plant,
@@ -84,7 +84,10 @@ const doSomething = (map,details) =>{
 });
 
     let {fertilizer, seedling} = details;
-    console.log(fertilizer);
+    let tagName = '<div>'+
+        '<div class="font-bold">Owner: '+ owner +'</div>' + 
+        '<div class="font-bold">Name: '+ map.name +'</div>'+ 
+    '</div>'
     let fertilizerHtml = fertilizer.map(item => 
     '<div class="grid grid-cols-8 gap-2 border p-2">'+
         '<div class="col-span-4">'+ item.name +'</div>' + 
@@ -97,7 +100,7 @@ const doSomething = (map,details) =>{
                 <div class="font-bold my-2">Plant: ${seedling || 'No Plant'}</div>
                 <div class="grid grid-cols-8 gap-2 border p-2">
                     <div class="col-span-4">Name</div>
-                    <div class="col-span-4">Quality</div>
+                    <div class="col-span-4">Quantity</div>
                 </div>
                 ${fertilizerHtml}
                 <div>  
@@ -105,7 +108,7 @@ const doSomething = (map,details) =>{
             </div>`);;
         var polygonAndItsCenter = leaflet.layerGroup([polygon, marker]);
         polygonAndItsCenter.addTo(mymap);
-        polygon.bindTooltip(map.name, { permanent: true, direction: "center" })
+        polygon.bindTooltip(tagName, { permanent: true, direction: "center" })
         .openTooltip();
         mymap.fitBounds(polygon.getBounds());
 }

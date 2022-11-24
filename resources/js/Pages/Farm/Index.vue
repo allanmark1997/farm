@@ -30,7 +30,7 @@ onMounted(() => {
 
 const callChildMethod = (farm) => {
     console.log(farm);
-    childred.value.doSomething(farm.map, farm.details.inventories);
+    childred.value.doSomething(farm.map, farm.details.inventories, farm.farmer.name);
 }
 const form = useForm({
     selected_farmer: props.selected_farmer,
@@ -74,6 +74,13 @@ const modals = reactive({
         details: {
             title: "Add Plant",
             id: 1,
+        },
+    },
+    deleteFarm: {
+        show: false,
+        details: {
+            title: "Delete Plant",
+            id: 2,
         },
     },
 });
@@ -177,6 +184,23 @@ const onchangeColor = (e) =>{
     console.log(formPlants);
 }
 
+const onDeleteHandler = ()=>{
+    formPlants.delete(route('farms.delete',formPlants.id),{
+                preserveScroll: true,
+                onSuccess: () => { 
+                    alert("Deleted");
+                    modals.deleteFarm.show = false;
+                },
+                onError: () => {
+                    //code
+                    loading.value = false;
+                },
+                onFinish: () => {
+                    //code
+                }
+            })
+}
+
 </script>
 
 <template>
@@ -196,18 +220,13 @@ const onchangeColor = (e) =>{
                                         </option>
                                     </template>
                                 </SelectInput>
-                                <PrimaryButton
-                                    class="w-36"
-                                    @click="showModal()"
-                                    :disabled="form.selected_farmer == 'all'"
-                                    ><span>Add Farm</span></PrimaryButton
-                                >
+                                <PrimaryButton class="w-36" @click="showModal()" :disabled="form.selected_farmer == 'all'"><span>Add Farm</span></PrimaryButton >
                             </div>
                             <div class="max-h-[720px] overflow-y-auto mt-2">
                                 <template v-for="farm in farms">
                                     <FarmCard>
                                         <template #actions>
-                                            <div class="cursor-pointer">
+                                            <div class="cursor-pointer" @click="modals.deleteFarm.show = true; formPlants.id = farm.id">
                                                 <Icon icon="delete" />
                                             </div>
                                             <div class="cursor-pointer">
@@ -223,13 +242,8 @@ const onchangeColor = (e) =>{
                                         <template #footer>
                                             <!-- <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm)">View</PrimaryButton> -->
                                             <PrimaryButton @click="handleMap(farm)"  :disabled="farm?.map?.coordinates.length">Map</PrimaryButton>
-                                            <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="showModalPlant(farm)">Plant</PrimaryButton
-                                            >
-                                            <PrimaryButton
-                                                :disabled="
-                                                    farm.status == 'idle'
-                                                "
-                                                >Harvest</PrimaryButton
+                                            <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="showModalPlant(farm)">Plant</PrimaryButton>
+                                            <PrimaryButton :disabled=" farm.status == 'idle' ">Harvest</PrimaryButton
                                             >
                                         </template>
                                     </FarmCard>
@@ -348,6 +362,24 @@ const onchangeColor = (e) =>{
                         >Cancel</SecondaryButton
                     >
                     <PrimaryButton @click="plantHandle">Save</PrimaryButton>
+                </div>
+            </template>
+        </DialogModal>
+        <DialogModal :show="modals.deleteFarm.show">
+            <template #title>{{ modals.deleteFarm.details.title }}</template>
+            <template #content>
+                <div class="grid grid-cols-6 gap-6">
+                    <div class="col-span-6">
+                        Are you sure you want to remove this farm?
+                    </div>
+                </div>
+            </template>
+            <template #footer>
+                <div class="flex gap-1">
+                    <SecondaryButton @click="modals.deleteFarm.show = false"
+                        >Cancel</SecondaryButton
+                    >
+                    <PrimaryButton @click="onDeleteHandler">Continue</PrimaryButton>
                 </div>
             </template>
         </DialogModal>
