@@ -105,7 +105,7 @@ const doSomething = (map,details,owner) =>{
                 ${fertilizerHtml}
                 <div>  
                 </div>
-            </div>`);;
+            </div>`);
         var polygonAndItsCenter = leaflet.layerGroup([polygon, marker]);
         polygonAndItsCenter.addTo(mymap);
         polygon.bindTooltip(tagName, { permanent: true, direction: "center" })
