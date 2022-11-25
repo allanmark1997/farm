@@ -11,6 +11,7 @@ import InputError from "@/Components/InputError.vue";
 import Icon from "@/Components/Icons.vue";
 import { reactive } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
+import moment from "moment";
 
 const props = defineProps(["farmers"]);
 
@@ -103,8 +104,14 @@ const saveFarmer = () => {
                                         {{ farmer.name }}
                                     </Link>
                                 </td>
-                                <td class="p-2">{{ farmer.amount }}</td>
-                                <td class="p-2">{{ farmer.created_at }}</td>
+                                <td class="p-2">{{ farmer.income }}</td>
+                                <td class="p-2">
+                                    {{
+                                        moment(farmer.created_at).format(
+                                            "MMMM Do YYYY"
+                                        )
+                                    }}
+                                </td>
                                 <td class="p-2">
                                     <div class="flex justify-between">
                                         <span>{{

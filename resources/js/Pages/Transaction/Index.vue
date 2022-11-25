@@ -103,7 +103,11 @@ watch(() => search.value, debounce(searchTransaction, 1000));
                                 :key="index"
                             >
                                 <td class="p-2">
-                                    {{ transaction.created_at }}
+                                    {{
+                                        moment(transaction.created_at).format(
+                                            "MMMM Do YYYY"
+                                        )
+                                    }}
                                 </td>
                                 <td class="p-2">
                                     {{ transaction.user?.name }}
