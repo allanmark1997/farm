@@ -107,7 +107,7 @@ class InventoryController extends Controller
      * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inventory $id)
+    public function destroy($id)
     {
         $inventory = Inventory::find($id);
         $inventory->delete();

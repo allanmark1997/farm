@@ -93,7 +93,7 @@ class FarmerController extends Controller
         $farmer = Farmer::find($id);
         $farmer->update([
             'name' => $request->name,
-            'amount' => $request->amount
+            'income' => $request->income
         ]);
 
         return Redirect::back();

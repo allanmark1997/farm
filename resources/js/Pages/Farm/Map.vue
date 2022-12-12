@@ -71,8 +71,7 @@ const clearMarker = ()=>{
             mymap.removeLayer(item);
         });
 }
-const doSomething = (map,details,owner) =>{ 
-
+const drawMap = (map,details,owner) =>{  
     var greenIcon = leaflet.icon({
     iconUrl: Plant,
     shadowUrl: Shadow, 
@@ -111,9 +110,13 @@ const doSomething = (map,details,owner) =>{
         polygon.bindTooltip(tagName, { permanent: true, direction: "center" })
         .openTooltip();
         mymap.fitBounds(polygon.getBounds());
+
+        polygon.on('click', function(e) { 
+            mymap.removeLayer(polygon); 
+        });
 }
 
-defineExpose({ doSomething,clearMarker});
+defineExpose({ drawMap,clearMarker});
 </script>
 
 <template>
