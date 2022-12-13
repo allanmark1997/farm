@@ -4,6 +4,7 @@ use App\Http\Controllers\FarmController;
 use App\Http\Controllers\FarmerController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MapController;
+use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -41,6 +42,13 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::prefix('timeline')->name('timeline.')->group(function () {
+        Route::get('/', [TimelineController::class, 'index'])->name('index');
+        Route::post('/store', [TimelineController::class, 'store'])->name('store');
+        Route::put('/update/{id}', [TimelineController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [FarmerController::class, 'destroy'])->name('delete');
+    });
 
     Route::prefix('farmers')->name('farmers.')->group(function () {
         Route::get('/', [FarmerController::class, 'index'])->name('index');

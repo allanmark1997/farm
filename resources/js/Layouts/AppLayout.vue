@@ -62,6 +62,15 @@ const logout = () => {
                                     Dashboard
                                 </NavLink> -->
                                 <NavLink
+                                    :href="route('timeline.index')"
+                                    :active="
+                                        route().current('timeline.index') ||
+                                        route().current('timeline.farms')
+                                    "
+                                >
+                                    Timeline
+                                </NavLink>
+                                <NavLink
                                     :href="route('farmers.index')"
                                     :active="
                                         route().current('farmers.index') ||
@@ -385,6 +394,12 @@ const logout = () => {
                         >
                             Dashboard
                         </ResponsiveNavLink> -->
+                        <ResponsiveNavLink
+                            :href="route('timeline.index')"
+                            :active="route().current('timeline.index')"
+                        >
+                            timeline
+                        </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('farmers.index')"
                             :active="route().current('farmers.index')"

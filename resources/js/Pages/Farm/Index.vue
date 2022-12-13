@@ -12,53 +12,62 @@ import Icon from "@/Components/Icons.vue";
 import Map from "./Map.vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
-import { reactive,ref,onMounted } from "vue"; 
+import { reactive, ref, onMounted } from "vue";
 
-const props = defineProps(["farms", "farmers", "selected_farmer", "inventories","categories"]);
-const childred = ref(null); 
-
+const props = defineProps([
+    "farms",
+    "farmers",
+    "selected_farmer",
+    "inventories",
+    "categories",
+]);
+const childred = ref(null);
 
 onMounted(() => {
-  if (props.farms.length){
-    props.farms.map((item)=>{
-        if(item.map.coordinates.length){
-            callChildMethod(item);
-        }
-    })
-  }
+    if (props.farms.length) {
+        props.farms.map((item) => {
+            if (item.map.coordinates.length) {
+                callChildMethod(item);
+            }
+        });
+    }
 });
 
-const callChildMethod = (farm) => { 
-    childred.value.drawMap(farm.map, farm.details.inventories, farm.farmer.name);
-}
+const callChildMethod = (farm) => {
+    childred.value.drawMap(
+        farm.map,
+        farm.details.inventories,
+        farm.farmer?.name
+    );
+};
 const form = useForm({
     selected_farmer: props.selected_farmer,
     map: {
-        name:"",
-        coordinates:[], 
-        color:"#ffffff"
+        name: "",
+        coordinates: [],
+        color: "#ffffff",
     },
-    details:{
-        expected_income:0,
-        income:0,
-        inventories:{
-            seedling:"",
-            fertilizer:[]
-        } 
-    }, 
-}); 
+    details: {
+        expected_income: 0,
+        income: 0,
+        inventories: {
+            seedling: "",
+            fertilizer: [],
+        },
+    },
+});
 const formPlants = useForm({
-    id:null,
-    details:{
-        expected_income:0,
-        income:0,
-        inventories:{
-            seedling:"",
-            fertilizer:[]
-        } 
+    id: null,
+    details: {
+        expected_income: 0,
+        income: 0,
+        inventories: {
+            seedling: "",
+            fertilizer: [],
+        },
     },
-    color:null
-}); 
+    color: null,
+});
 
 const modals = reactive({
     add_edit: {
@@ -85,8 +94,8 @@ const modals = reactive({
 });
 
 const fertilizerVar = ref({
-    name:"",
-    unit:""
+    name: "",
+    unit: "",
 });
 
 const selectFarmer = () => {
@@ -99,19 +108,21 @@ const showModal = () => {
     modals.add_edit.show = true;
 };
 
-const showModalPlant = (farm)=>{
-    console.log(farm); 
+const showModalPlant = (farm) => {
+    console.log(farm);
     formPlants.id = farm.id;
-    formPlants.details = farm.details || Object.assign({
-            expected_income:0,
-            income:0,
-            inventories:{
-            seedling:"",
-            fertilizer:[]
-        } });
+    formPlants.details =
+        farm.details ||
+        Object.assign({
+            expected_income: 0,
+            income: 0,
+            inventories: {
+                seedling: "",
+                fertilizer: [],
+            },
+        });
     modals.add_plant.show = true;
-}
-
+};
 
 const saveFarm = () => {
     form.post(route("farms.store"), {
@@ -130,13 +141,13 @@ const saveFarm = () => {
     });
 };
 
-const handleMap = (farm)=>{ 
+const handleMap = (farm) => {
     form.farmer_id = farm.farmer_id;
     form.farmer_id = farm.details;
-    form.map.name = farm.map.name
+    form.map.name = farm.map.name;
     form.put(route("farms.update", farm), {
         preserveScroll: true,
-        onSuccess: () => {  
+        onSuccess: () => {
             window.location.reload();
             childred.value.clearMarker();
             callChildMethod(form);
@@ -148,17 +159,17 @@ const handleMap = (farm)=>{
             //code
         },
     });
-}
+};
 
-const mapCoordinate = (points) =>{ 
-    form.map.coordinates = points; 
-} 
+const mapCoordinate = (points) => {
+    form.map.coordinates = points;
+};
 
-const plantHandle = ()=>{ 
+const plantHandle = () => {
     formPlants.put(route("farms.plant", formPlants.id), {
         preserveScroll: true,
         onSuccess: () => {
-            alert("update plant");  
+            alert("update plant");
             window.location.reload();
         },
         onError: () => {
@@ -168,65 +179,88 @@ const plantHandle = ()=>{
             //code
         },
     });
-}
+};
 
-const removeFilterizer = (index)=>{
-    let removeFertilizer = formPlants.details.inventories.fertilizer.filter((item,indexItem)=> indexItem != index);
-    formPlants.details.inventories.fertilizer = removeFertilizer; 
-}
+const removeFilterizer = (index) => {
+    let removeFertilizer = formPlants.details.inventories.fertilizer.filter(
+        (item, indexItem) => indexItem != index
+    );
+    formPlants.details.inventories.fertilizer = removeFertilizer;
+};
 
-const onchangeColor = (e) =>{
+const onchangeColor = (e) => {
     console.log(e.target.value);
-    let getPlant = props.inventories.seedling.filter(item=> item.name === e.target.value);  
+    let getPlant = props.inventories.seedling.filter(
+        (item) => item.name === e.target.value
+    );
     formPlants.details.inventories.seedling = getPlant[0].name;
-    formPlants.color = getPlant[0].details.color;  
+    formPlants.color = getPlant[0].details.color;
     console.log(formPlants);
-}
+};
 
-const onDeleteHandler = ()=>{
-    formPlants.delete(route('farms.delete',formPlants.id),{
-                preserveScroll: true,
-                onSuccess: () => { 
-                    alert("Deleted");
-                    modals.deleteFarm.show = false;
-                    window.location.reload();
-                },
-                onError: () => {
-                    //code
-                    loading.value = false;
-                },
-                onFinish: () => {
-                    //code
-                }
-            })
-}
-
+const onDeleteHandler = () => {
+    formPlants.delete(route("farms.delete", formPlants.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+            alert("Deleted");
+            modals.deleteFarm.show = false;
+            window.location.reload();
+        },
+        onError: () => {
+            //code
+            loading.value = false;
+        },
+        onFinish: () => {
+            //code
+        },
+    });
+};
 </script>
 
 <template>
     <AppLayout title="Farms">
         <div class="pb-4">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-2">
+                <div
+                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-2"
+                >
                     <div class="grid grid-cols-8 gap-1 p-6">
                         <div class="col-span-2">
                             <InputLabel value="Farms" />
                             <div class="flex gap-1">
-                                <SelectInput class="block w-full" v-model="form.selected_farmer" @change="selectFarmer()">
+                                <SelectInput
+                                    class="block w-full"
+                                    v-model="form.selected_farmer"
+                                    @change="selectFarmer()"
+                                >
                                     <option value="all">All</option>
-                                    <template v-for="farmer in farmers" :key="farmer">
+                                    <template
+                                        v-for="farmer in farmers"
+                                        :key="farmer"
+                                    >
                                         <option :value="farmer.id">
                                             {{ farmer.name }}
                                         </option>
                                     </template>
                                 </SelectInput>
-                                <PrimaryButton class="w-36" @click="showModal()" :disabled="form.selected_farmer == 'all'"><span>Add Farm</span></PrimaryButton >
+                                <PrimaryButton
+                                    class="w-36"
+                                    @click="showModal()"
+                                    :disabled="form.selected_farmer == 'all'"
+                                    ><span>Add Farm</span></PrimaryButton
+                                >
                             </div>
                             <div class="max-h-[720px] overflow-y-auto mt-2">
                                 <template v-for="farm in farms" :key="farm">
                                     <FarmCard>
                                         <template #actions>
-                                            <div class="cursor-pointer" @click="modals.deleteFarm.show = true; formPlants.id = farm.id">
+                                            <div
+                                                class="cursor-pointer"
+                                                @click="
+                                                    modals.deleteFarm.show = true;
+                                                    formPlants.id = farm.id;
+                                                "
+                                            >
                                                 <Icon icon="delete" />
                                             </div>
                                             <div class="cursor-pointer">
@@ -234,16 +268,41 @@ const onDeleteHandler = ()=>{
                                             </div>
                                         </template>
                                         <template #content>
-                                            <div>Name: {{farm.map.name}}</div>
-                                            <div>Owner: {{farm.farmer.name}}</div>
-                                            <div>Income: {{farm.income}}</div>
+                                            <div>
+                                                Name: {{ farm.map?.name }}
+                                            </div>
+                                            <div>
+                                                Owner: {{ farm.farmer?.name }}
+                                            </div>
+                                            <div>Income: {{ farm.income }}</div>
                                             <div>Color:</div></template
                                         >
                                         <template #footer>
                                             <!-- <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm)">View</PrimaryButton> -->
-                                            <PrimaryButton @click="handleMap(farm)">{{`${farm?.map?.coordinates.length ? 'Remap' : 'Map'}`}}</PrimaryButton>
-                                            <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="showModalPlant(farm)">Plant</PrimaryButton>
-                                            <PrimaryButton :disabled=" farm.status == 'idle' ">Harvest</PrimaryButton
+                                            <PrimaryButton
+                                                @click="handleMap(farm)"
+                                                >{{
+                                                    `${
+                                                        farm?.map?.coordinates
+                                                            .length
+                                                            ? "Remap"
+                                                            : "Map"
+                                                    }`
+                                                }}</PrimaryButton
+                                            >
+                                            <PrimaryButton
+                                                :disabled="
+                                                    !farm?.map?.coordinates
+                                                        .length
+                                                "
+                                                @click="showModalPlant(farm)"
+                                                >Plant</PrimaryButton
+                                            >
+                                            <PrimaryButton
+                                                :disabled="
+                                                    farm.status == 'idle'
+                                                "
+                                                >Harvest</PrimaryButton
                                             >
                                         </template>
                                     </FarmCard>
@@ -251,7 +310,11 @@ const onDeleteHandler = ()=>{
                             </div>
                         </div>
                         <div class="col-span-6">
-                            <Map :mapCoordinate="mapCoordinate" ref="childred" :inventories="inventories"/>
+                            <Map
+                                :mapCoordinate="mapCoordinate"
+                                ref="childred"
+                                :inventories="inventories"
+                            />
                         </div>
                     </div>
                 </div>
@@ -286,18 +349,27 @@ const onDeleteHandler = ()=>{
             <template #title>{{ modals.add_plant.details.title }}</template>
             <template #content>
                 <div class="grid grid-cols-6 gap-6">
-                    <div class="col-span-6"> 
-                        <hr class="my-4"/>
-                        <div  class="grid grid-cols-2 gap-2">
+                    <div class="col-span-6">
+                        <hr class="my-4" />
+                        <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <InputLabel value="Seedling" /> 
-                                <SelectInput class="block w-full"  @change="onchangeColor($event)" v-model="formPlants.details.inventories.seedling"> 
-                                    <template v-for="seedling in inventories.seedling" :key="seedling">
+                                <InputLabel value="Seedling" />
+                                <SelectInput
+                                    class="block w-full"
+                                    @change="onchangeColor($event)"
+                                    v-model="
+                                        formPlants.details.inventories.seedling
+                                    "
+                                >
+                                    <template
+                                        v-for="seedling in inventories.seedling"
+                                        :key="seedling"
+                                    >
                                         <option :value="seedling.name">
                                             {{ seedling.name }}
                                         </option>
                                     </template>
-                                </SelectInput> 
+                                </SelectInput>
                             </div>
                             <div>
                                 <InputLabel value="Expected Income " />
@@ -306,20 +378,26 @@ const onDeleteHandler = ()=>{
                                     class="block w-full"
                                     required
                                     v-model="formPlants.details.expected_income"
-                                /> 
+                                />
                             </div>
                         </div>
                         <div class="mt-4 pt-3 border-t-2">
                             <div class="grid grid-cols-7 gap-2">
                                 <div class="col-span-3">
-                                <InputLabel value="Fertilizer" />
-                                <SelectInput class="block w-full" v-model="fertilizerVar.name"> 
-                                    <template v-for="fertilizer in inventories.fertilizer" :key="fertilizer">
-                                        <option :value="fertilizer.name">
-                                            {{ fertilizer.name }}
-                                        </option>
-                                    </template>
-                                </SelectInput> 
+                                    <InputLabel value="Fertilizer" />
+                                    <SelectInput
+                                        class="block w-full"
+                                        v-model="fertilizerVar.name"
+                                    >
+                                        <template
+                                            v-for="fertilizer in inventories.fertilizer"
+                                            :key="fertilizer"
+                                        >
+                                            <option :value="fertilizer.name">
+                                                {{ fertilizer.name }}
+                                            </option>
+                                        </template>
+                                    </SelectInput>
                                 </div>
                                 <div class="col-span-3">
                                     <InputLabel value="Unit" />
@@ -329,18 +407,38 @@ const onDeleteHandler = ()=>{
                                         required
                                         v-model="fertilizerVar.unit"
                                     />
-                                   
                                 </div>
                                 <div class="mt-6">
-                                    <PrimaryButton @click="formPlants.details.inventories.fertilizer.push(JSON.parse(JSON.stringify(fertilizerVar)))">Add</PrimaryButton>
+                                    <PrimaryButton
+                                        @click="
+                                            formPlants.details.inventories.fertilizer.push(
+                                                JSON.parse(
+                                                    JSON.stringify(
+                                                        fertilizerVar
+                                                    )
+                                                )
+                                            )
+                                        "
+                                        >Add</PrimaryButton
+                                    >
                                 </div>
                             </div>
                             <div class="mt-2 border rounded-md p-2">
                                 Lists:
-                                <div v-for="(fertilizer, index) in formPlants.details.inventories.fertilizer" class="grid grid-cols-3" :key="index">
-                                    <div>{{fertilizer.name}}</div>
-                                    <div>{{fertilizer.unit}} </div>
-                                    <div class="text-red-500 cursor-pointer" @click="removeFilterizer(index)">Remove</div>
+                                <div
+                                    v-for="(fertilizer, index) in formPlants
+                                        .details.inventories.fertilizer"
+                                    class="grid grid-cols-3"
+                                    :key="index"
+                                >
+                                    <div>{{ fertilizer.name }}</div>
+                                    <div>{{ fertilizer.unit }}</div>
+                                    <div
+                                        class="text-red-500 cursor-pointer"
+                                        @click="removeFilterizer(index)"
+                                    >
+                                        Remove
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -370,7 +468,9 @@ const onDeleteHandler = ()=>{
                     <SecondaryButton @click="modals.deleteFarm.show = false"
                         >Cancel</SecondaryButton
                     >
-                    <PrimaryButton @click="onDeleteHandler">Continue</PrimaryButton>
+                    <PrimaryButton @click="onDeleteHandler"
+                        >Continue</PrimaryButton
+                    >
                 </div>
             </template>
         </DialogModal>
