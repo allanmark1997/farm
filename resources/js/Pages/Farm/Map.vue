@@ -1,10 +1,10 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import leaflet from "leaflet"; 
 import Plant from "../../../assets/plant.png";
 import Shadow from "../../../assets/shadow.png";
 
-const props = defineProps(["maps", "inventories", "mapCoordinate"]); 
+const props = defineProps(["maps", "inventories", "mapCoordinate","enableEditMap"]); 
 const markersLatLngs = ref([]);
 const markerData = ref([]);
 const latlngs = ref([]);
@@ -14,18 +14,31 @@ let mymap;
 
 onMounted(() => {
     mymap = leaflet.map("mapid").setView([7.997357, 125.027804], 15);
-    leaflet
-        .tileLayer("http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}", {
+    leaflet.tileLayer("http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}", {
             maxZoom: 19,
             subdomains: ["mt0", "mt1", "mt2", "mt3"],
             attribution:
                 '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         })
         .addTo(mymap);
-    mymap.on("click", onMapClick);
 });
 
+watch(
+  () => props.enableEditMap,
+  (n, o) => {
+    if(n){
+        mymap.on("click", onMapClick);
+    }else{
+        mymap.on("click", ()=>{});
+    } 
+  },
+  { deep: true }
+)
+
 const onMapClick = (e) => {
+    if(!props.enableEditMap){
+        return;
+    }  
     var newMarker = new L.marker(e.latlng)
         .addTo(mymap)
         .bindPopup(`<button type="button" class="remove">Cancel</button>`);
@@ -34,6 +47,12 @@ const onMapClick = (e) => {
     handleConnect();
     console.log(markerData);
     newMarker.on("popupopen", removeMarker);
+    
+    mymap.on('zoomend', function() {
+    if (mymap.getZoom() <= 10) {
+        newMarker.setIconSize([20, 20]);
+    }
+    });
 };
 
 function removeMarker() {
@@ -76,10 +95,10 @@ const drawMap = (map,details,owner) =>{
     iconUrl: Plant,
     shadowUrl: Shadow, 
     iconSize:     [38, 95], // size of the icon
-    shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    // shadowSize:   [50, 64], // size of the shadow
+    // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    // shadowAnchor: [4, 62],  // the same for the shadow
+    // popupAnchor:  [-3, -76], // point from which the popup should open relative to the iconAnchor 
 });
 
     let {fertilizer, seedling} = details;
@@ -104,13 +123,16 @@ const drawMap = (map,details,owner) =>{
                 ${fertilizerHtml}
                 <div>  
                 </div>
-            </div>`);
+            </div>`,{maxWidth: 300});
         var polygonAndItsCenter = leaflet.layerGroup([polygon, marker]);
         polygonAndItsCenter.addTo(mymap);
         polygon.bindTooltip(tagName, { permanent: true, direction: "center" })
         .openTooltip();
         mymap.fitBounds(polygon.getBounds());
-
+        
+        if(!props.enableEditMap){
+            return;
+        } 
         polygon.on('click', function(e) { 
             mymap.removeLayer(polygon); 
         });

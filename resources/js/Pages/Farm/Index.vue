@@ -22,6 +22,7 @@ const props = defineProps([
     "categories",
 ]);
 const childred = ref(null);
+const enableEditMap = ref(false);
 
 onMounted(() => {
     if (props.farms.length) {
@@ -218,13 +219,13 @@ const onDeleteHandler = () => {
 </script>
 
 <template>
-    <AppLayout title="Farms">
+    <AppLayout title="Farms"> 
         <div class="pb-4">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8">
-                <div
-                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-2"
-                >
-                    <div class="grid grid-cols-8 gap-1 p-6">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-2"> 
+                    <div class="grid grid-cols-8 gap-1 p-6 relative"> 
+                        <div class="top-8 right-8 absolute border p-2 bg-white z-50 rounded-md" @click="enableEditMap = enableEditMap == false ? true : false ">
+                            <button>Edit Map</button></div>
                         <div class="col-span-2">
                             <InputLabel value="Farms" />
                             <div class="flex gap-1">
@@ -266,6 +267,9 @@ const onDeleteHandler = () => {
                                             <div class="cursor-pointer">
                                                 <Icon icon="edit" />
                                             </div>
+                                            <button @click="callChildMethod(farm)">
+                                                <Icon icon="eye" />
+                                            </button>
                                         </template>
                                         <template #content>
                                             <div>
@@ -279,10 +283,8 @@ const onDeleteHandler = () => {
                                         >
                                         <template #footer>
                                             <!-- <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm)">View</PrimaryButton> -->
-                                            <PrimaryButton
-                                                @click="handleMap(farm)"
-                                                >{{
-                                                    `${
+                                            <PrimaryButton :disabled="!enableEditMap"
+                                                @click="handleMap(farm)">{{`${
                                                         farm?.map?.coordinates
                                                             .length
                                                             ? "Remap"
@@ -314,6 +316,7 @@ const onDeleteHandler = () => {
                                 :mapCoordinate="mapCoordinate"
                                 ref="childred"
                                 :inventories="inventories"
+                                :enableEditMap="enableEditMap"
                             />
                         </div>
                     </div>

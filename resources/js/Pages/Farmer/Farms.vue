@@ -59,7 +59,7 @@ const saveFarm = () => {
     <AppLayout title="Farms">
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <PrimaryButton class="my-2" @click="showModal()">Add Farm</PrimaryButton >
+                <PrimaryButton class="my-2" @click="showModal()">Add Farm</PrimaryButton>
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6"></div>
             </div>
         </div>
