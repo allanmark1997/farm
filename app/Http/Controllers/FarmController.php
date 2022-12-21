@@ -104,7 +104,8 @@ class FarmController extends Controller
             // 'map_id' => $request->map_id,
             'farmer_id' => $request->farmer_id,
             'details' => $request->details,
-            'map' => $request->map
+            'map' => $request->map, 
+            'status' => 'idle',
         ]);
 
         return Redirect::back();

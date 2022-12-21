@@ -182,6 +182,7 @@ const plantHandle = () => {
     });
 };
 
+
 const removeFilterizer = (index) => {
     let removeFertilizer = formPlants.details.inventories.fertilizer.filter(
         (item, indexItem) => indexItem != index
@@ -264,9 +265,9 @@ const onDeleteHandler = () => {
                                             >
                                                 <Icon icon="delete" />
                                             </div>
-                                            <div class="cursor-pointer">
+                                            <!-- <div class="cursor-pointer">
                                                 <Icon icon="edit" />
-                                            </div>
+                                            </div> -->
                                             <button @click="callChildMethod(farm)">
                                                 <Icon icon="eye" />
                                             </button>
@@ -301,6 +302,7 @@ const onDeleteHandler = () => {
                                                 >Plant</PrimaryButton
                                             >
                                             <PrimaryButton
+                                                @click="showModalPlant(farm)"
                                                 :disabled="
                                                     farm.status == 'idle'
                                                 "
