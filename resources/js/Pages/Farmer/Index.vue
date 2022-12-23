@@ -8,7 +8,9 @@ import Pagination from "@/Components/Pagination.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
+import formPDF from "../../../../storage/Form.pdf";
 import Icon from "@/Components/Icons.vue";
+import axios from "axios";
 import { reactive } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
 import moment from "moment";
@@ -34,6 +36,27 @@ const modals = reactive({
         },
     },
 });
+
+const downloadItem = (url) => {
+    axios({
+        method: "get",
+        url,
+        responseType: "arraybuffer",
+    })
+        .then((response) => {
+            forceFileDownload(response, "Form.pdf");
+        })
+        .catch((e) => console.log(e +" error occured"));
+};
+const forceFileDownload = (response, title) => {
+    console.log(title);
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", title);
+    document.body.appendChild(link);
+    link.click();
+};
 
 const showModal = (status,data) => {
     modals.add_edit.status = status;
@@ -114,7 +137,7 @@ const saveFarmer = () => {
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2">
                     <div class="flex justify-between gap-1">
                         <PrimaryButton class="mb-2" @click="showModal('add')">New Farmer</PrimaryButton>
-                        <SecondaryButton class="mb-2">Download Registration Form</SecondaryButton>
+                        <SecondaryButton class="mb-2" @click="downloadItem(formPDF)">Download Registration Form</SecondaryButton>
                     </div>
 
                     <TableList>

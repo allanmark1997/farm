@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\Timeline;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +24,13 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
+    $timelines = Timeline::all();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'timelines' => $timelines
     ]);
 });
 
@@ -47,7 +50,7 @@ Route::middleware([
         Route::get('/', [TimelineController::class, 'index'])->name('index');
         Route::post('/store', [TimelineController::class, 'store'])->name('store');
         Route::put('/update/{id}', [TimelineController::class, 'update'])->name('update');
-        Route::delete('/delete/{id}', [FarmerController::class, 'destroy'])->name('delete');
+        Route::delete('/delete/{id}', [TimelineController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('farmers')->name('farmers.')->group(function () {

@@ -48,13 +48,18 @@ const showModal = (status, data) => {
             ? "Delete Event"
             : "Add Event";
     modals.add_edit.show = true;
-    if (status == "edit" || status == "delete") {
-        form.name = data.name;
+    if (status == "edit" || status == "delete") { 
         form.id = data.id;
-        form.income = data.income;
+        form.title = data.title;
+        form.content = data.content;
+        form.started_at = data.started_at; 
+        form.ended_at = data.ended_at;
         console.log(form);
     } else {
-        form.reset("name");
+        form.reset("title");
+        form.reset("content");
+        form.reset("started_at");
+        form.reset("ended_at");
     }
 };
 
@@ -92,7 +97,7 @@ const saveTimeline = () => {
                 //code
             },
         });
-    } else {
+    } if (modals.add_edit.status == "add") {
         form.post(route("timeline.store"), {
             preserveScroll: true,
             onSuccess: () => {
@@ -116,17 +121,46 @@ const saveTimeline = () => {
     <AppLayout title="Timeline">
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div
-                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2"
-                >
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2">
                     <div class="flex justify-between gap-1">
                         <PrimaryButton class="mb-2" @click="showModal('add')"
                             >New Event</PrimaryButton
                         >
                     </div>
-                    <template v-for="timeline in timelines">
+                    <TableList>
+                        <template #header>
+                            <th class="p-2 border border-l" v-for="header in ['Title','Content','Event Start','Event End','Action']" :key="header">
+                                {{ header }}
+                            </th>
+                        </template>
+                        <template #body> 
+                            <tr class="text-md border-b border-l border-r border-gray-100 text-slate-500 hover:bg-slate-50" v-for="timeline,index in timelines"
+                                :key="index">
+                                <td class="p-2">
+                                    {{ timeline.title }}
+                                </td>
+                                <td class="p-2">{{ timeline.content }}</td>
+                                <td class="p-2">{{moment(timeline.started_at).format("MMMM Do YYYY")}}</td>
+                                <td class="p-2">{{moment(timeline.ended_at).format("MMMM Do YYYY")}}
+                                </td>
+                                <td class="p-2">
+                                    <div class=""> 
+                                        <div class="flex justify-center items-center gap-3"> 
+                                            <div class="cursor-pointer" @click="showModal('edit',timeline)">
+                                                <Icon icon="edit" />
+                                            </div>
+                                            <div class="cursor-pointer"  @click="showModal('delete',timeline)">
+                                                <Icon icon="delete"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </TableList>
+                    <!-- <template v-for="timeline in timelines" :key="timeline">
                         <Event :timeline="timeline"></Event>
-                    </template>
+                    </template> -->
                 </div>
             </div>
         </div>
