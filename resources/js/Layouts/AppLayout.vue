@@ -46,7 +46,7 @@ const logout = () => {
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('farmers.index')">
+                                <Link :href="route('event.index')">
                                     <ApplicationMark class="block h-9 w-auto" />
                                 </Link>
                             </div>
@@ -62,13 +62,16 @@ const logout = () => {
                                     Dashboard
                                 </NavLink> -->
                                 <NavLink
-                                    :href="route('timeline.index')"
-                                    :active="
-                                        route().current('timeline.index') ||
-                                        route().current('timeline.farms')
-                                    "
+                                    :href="route('event.index')"
+                                    :active="route().current('event.index')"
                                 >
                                     Timeline
+                                </NavLink>
+                                <NavLink
+                                    :href="route('event.index')"
+                                    :active="route().current('event.index')"
+                                >
+                                    Events
                                 </NavLink>
                                 <NavLink
                                     :href="route('farmers.index')"
@@ -395,10 +398,16 @@ const logout = () => {
                             Dashboard
                         </ResponsiveNavLink> -->
                         <ResponsiveNavLink
-                            :href="route('timeline.index')"
-                            :active="route().current('timeline.index')"
+                            :href="route('event.index')"
+                            :active="route().current('event.index')"
                         >
                             timeline
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('event.index')"
+                            :active="route().current('event.index')"
+                        >
+                            events
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('farmers.index')"

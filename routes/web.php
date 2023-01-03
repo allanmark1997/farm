@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\FarmController;
 use App\Http\Controllers\FarmerController;
 use App\Http\Controllers\InventoryController;
@@ -7,10 +8,10 @@ use App\Http\Controllers\MapController;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Models\Event;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Models\Timeline;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,13 +25,13 @@ use App\Models\Timeline;
 */
 
 Route::get('/', function () {
-    $timelines = Timeline::all();
+    $events = Event::all();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'timelines' => $timelines
+        'events' => $events
     ]);
 });
 
@@ -46,11 +47,11 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::prefix('timeline')->name('timeline.')->group(function () {
-        Route::get('/', [TimelineController::class, 'index'])->name('index');
-        Route::post('/store', [TimelineController::class, 'store'])->name('store');
-        Route::put('/update/{id}', [TimelineController::class, 'update'])->name('update');
-        Route::delete('/delete/{id}', [TimelineController::class, 'destroy'])->name('delete');
+    Route::prefix('events')->name('event.')->group(function () {
+        Route::get('/', [EventController::class, 'index'])->name('index');
+        Route::post('/store', [EventController::class, 'store'])->name('store');
+        Route::put('/update/{id}', [EventController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [EventController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('farmers')->name('farmers.')->group(function () {

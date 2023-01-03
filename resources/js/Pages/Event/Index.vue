@@ -12,9 +12,11 @@ import Icon from "@/Components/Icons.vue";
 import Event from "./Event.vue";
 import { reactive } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
+import Pagination from "@/Components/Pagination.vue";
+
 import moment from "moment";
 
-const props = defineProps(["timelines"]);
+const props = defineProps(["events"]);
 
 let form = useForm(
     {
@@ -48,11 +50,11 @@ const showModal = (status, data) => {
             ? "Delete Event"
             : "Add Event";
     modals.add_edit.show = true;
-    if (status == "edit" || status == "delete") { 
+    if (status == "edit" || status == "delete") {
         form.id = data.id;
         form.title = data.title;
         form.content = data.content;
-        form.started_at = data.started_at; 
+        form.started_at = data.started_at;
         form.ended_at = data.ended_at;
         console.log(form);
     } else {
@@ -63,9 +65,9 @@ const showModal = (status, data) => {
     }
 };
 
-const saveTimeline = () => {
+const saveEvent = () => {
     if (modals.add_edit.status == "edit") {
-        form.put(route("timeline.update", form), {
+        form.put(route("event.update", form), {
             preserveScroll: true,
             onSuccess: () => {
                 alert("Event Updated");
@@ -73,7 +75,7 @@ const saveTimeline = () => {
                 modals.add_edit.show = false;
             },
             onError: () => {
-                //code
+                alert("Event error");
                 loading.value = false;
             },
             onFinish: () => {
@@ -82,7 +84,7 @@ const saveTimeline = () => {
         });
     }
     if (modals.add_edit.status == "delete") {
-        form.delete(route("timeline.delete", form), {
+        form.delete(route("event.delete", form), {
             preserveScroll: true,
             onSuccess: () => {
                 alert("Event Deleted");
@@ -90,23 +92,8 @@ const saveTimeline = () => {
                 modals.add_edit.show = false;
             },
             onError: () => {
-                //code
-                loading.value = false;
-            },
-            onFinish: () => {
-                //code
-            },
-        });
-    } if (modals.add_edit.status == "add") {
-        form.post(route("timeline.store"), {
-            preserveScroll: true,
-            onSuccess: () => {
-                alert("Event Added");
-                form.reset();
-                modals.add_edit.show = false;
-            },
-            onError: () => {
-                //code
+                alert("Event error");
+
                 loading.value = false;
             },
             onFinish: () => {
@@ -114,14 +101,40 @@ const saveTimeline = () => {
             },
         });
     }
+    if (modals.add_edit.status == "add") {
+        if (form.started_at == null || form.ended_at == null) {
+            alert("Please enter date");
+        } else {
+            form.post(route("event.store"), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    alert("Event Added");
+                    form.reset();
+                    modals.add_edit.show = false;
+                },
+                onError: () => {
+                    //code
+                    alert(
+                        "System notice that your content is beyond the limit, please post 255 characters only."
+                    );
+                    loading.value = false;
+                },
+                onFinish: () => {
+                    //code
+                },
+            });
+        }
+    }
 };
 </script>
 
 <template>
-    <AppLayout title="Timeline">
+    <AppLayout title="Event">
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2">
+                <div
+                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2"
+                >
                     <div class="flex justify-between gap-1">
                         <PrimaryButton class="mb-2" @click="showModal('add')"
                             >New Event</PrimaryButton
@@ -129,28 +142,64 @@ const saveTimeline = () => {
                     </div>
                     <TableList>
                         <template #header>
-                            <th class="p-2 border border-l" v-for="header in ['Title','Content','Event Start','Event End','Action']" :key="header">
+                            <th
+                                class="p-2 border border-l"
+                                v-for="header in [
+                                    'Title',
+                                    'Content',
+                                    'Event Start',
+                                    'Event End',
+                                    'Action',
+                                ]"
+                                :key="header"
+                            >
                                 {{ header }}
                             </th>
                         </template>
-                        <template #body> 
-                            <tr class="text-md border-b border-l border-r border-gray-100 text-slate-500 hover:bg-slate-50" v-for="timeline,index in timelines"
-                                :key="index">
+                        <template #body>
+                            <tr
+                                class="text-md border-b border-l border-r border-gray-100 text-slate-500 hover:bg-slate-50"
+                                v-for="(event, index) in events.data"
+                                :key="index"
+                            >
                                 <td class="p-2">
-                                    {{ timeline.title }}
+                                    {{ event.title }}
                                 </td>
-                                <td class="p-2">{{ timeline.content }}</td>
-                                <td class="p-2">{{moment(timeline.started_at).format("MMMM Do YYYY")}}</td>
-                                <td class="p-2">{{moment(timeline.ended_at).format("MMMM Do YYYY")}}
+                                <td class="p-2">{{ event.content }}</td>
+                                <td class="p-2">
+                                    {{
+                                        moment(event.started_at).format(
+                                            "MMMM Do YYYY"
+                                        )
+                                    }}
                                 </td>
                                 <td class="p-2">
-                                    <div class=""> 
-                                        <div class="flex justify-center items-center gap-3"> 
-                                            <div class="cursor-pointer" @click="showModal('edit',timeline)">
+                                    {{
+                                        moment(event.ended_at).format(
+                                            "MMMM Do YYYY"
+                                        )
+                                    }}
+                                </td>
+                                <td class="p-2">
+                                    <div class="">
+                                        <div
+                                            class="flex justify-center items-center gap-3"
+                                        >
+                                            <div
+                                                class="cursor-pointer"
+                                                @click="
+                                                    showModal('edit', event)
+                                                "
+                                            >
                                                 <Icon icon="edit" />
                                             </div>
-                                            <div class="cursor-pointer"  @click="showModal('delete',timeline)">
-                                                <Icon icon="delete"/>
+                                            <div
+                                                class="cursor-pointer"
+                                                @click="
+                                                    showModal('delete', event)
+                                                "
+                                            >
+                                                <Icon icon="delete" />
                                             </div>
                                         </div>
                                     </div>
@@ -158,8 +207,10 @@ const saveTimeline = () => {
                             </tr>
                         </template>
                     </TableList>
-                    <!-- <template v-for="timeline in timelines" :key="timeline">
-                        <Event :timeline="timeline"></Event>
+                    <Pagination :links="events.links"></Pagination>
+
+                    <!-- <template v-for="event in events" :key="event">
+                        <Event :event="event"></Event>
                     </template> -->
                 </div>
             </div>
@@ -223,7 +274,7 @@ const saveTimeline = () => {
                     >
                     <PrimaryButton
                         :disabled="form.processing"
-                        @click="saveTimeline"
+                        @click="saveEvent"
                         >Submit</PrimaryButton
                     >
                 </div>
