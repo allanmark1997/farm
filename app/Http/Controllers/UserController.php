@@ -111,7 +111,7 @@ class UserController extends Controller
     public function authenticate(Request $request)
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => 'active'], $request->remember)) {
-            return redirect(route('event.index'));
+            return redirect(route('timeline.index'));
         } else {
             return redirect()->back()->withErrors(['email' => "We couldn't find an account that matches what you entered"]);
         }

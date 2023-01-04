@@ -98,9 +98,10 @@ const SendResume = () => {
         </div>
         <div class="relative">
             <div
-                class="text-white text-[4vmin] font-bold relative bg-hero bg-no-repeat bg-cover bg-center bg-fixed h-[55vh] flex flex-col justify-center items-center strokeme"
+                class="text-white text-[4vmin] font-bold relative bg-hero bg-no-repeat bg-cover bg-center h-[55vh] flex flex-col justify-center items-center strokeme"
                 style="
-                    background-image: url('./images/background/farm.jpg');
+                    background-image: url('./images/background/background.png');
+                    background-size: 100%;
                     /* background-image: url('http://[::1]:5173/resources/assets/farm.jpg'); */
                     /* background-image: url('https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1678&q=80'); */
                 "
@@ -111,14 +112,41 @@ const SendResume = () => {
             </div>
         </div>
         <div class="bg-slate-100 py-4">
+            <div class="grid grid-cols-8 mx-6 gap-4">
+                <div
+                    class="mt-6 col-span-4 text-center italic font-bold font-mono"
+                >
+                    "THE LGU OF LANTAPAN SHALL PROVIDE ATMOSPHERE ENSURING
+                    SUSTAINABLE QUALITY HIGH VALUED CROPS PRODUCTION BY
+                    ENHANCING MARKETTING ACCESS AND ADOPTING ATRRACTIVE
+                    INVESTMENT POLICIES THAT ESTABLISHES A DYNAMIC PARTNERSHIP
+                    WITH MULTI-STAKEHOLDERS AND FACILITATE ADEQUATE DELIVERY OF
+                    BASIC SERVICES."
+                    <br />
+                    - Mission
+                </div>
+                <div
+                    class="mt-6 col-span-4 text-center italic font-bold font-mono"
+                >
+                    "WE ENVISIONED LANTAPAN AS THE PRIME VEGETABLES BASKET OF
+                    BUKIDNON, WITH A DEVELOPED AGRI-BASED INDUSTRY THROUGH
+                    RESPONSIVE LOCAL GOVERNANCE WHERE SELF-RELIANT PEOPLE ENJOY
+                    THE FULL LIFE IN A GOD-CENTERED COMMUNITY & HEALTHY
+                    ENVIRONMENT, IN A PPRESERVED CULTURE."
+                    <br />
+                    - Vission
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="bg-slate-100 py-4">
             <div
-                class="flex justify-center items-center font-bold text-4xl font-black text-gray-900 pb-6"
+                class="flex justify-center items-center font-bold text-4xl font-black text-gray-900 pb-6 mt-6"
             >
                 Events
             </div>
             <div class="grid grid-cols-8 mx-6 gap-4">
                 <div
-                    class="border rounded-md shadow-lg"
                     :class="
                         usePage().props.value.events.length == 1
                             ? 'col-span-8'
@@ -127,31 +155,56 @@ const SendResume = () => {
                     v-for="(events, index) in usePage().props.value.events"
                     :key="index"
                 >
-                    <div class="p-2 flex flex-col">
-                        <div
-                            class="font-bold my-2 flex justify-center items-center"
-                        >
-                            {{ events.title }}
-                        </div>
-                        <hr />
-                        <div class="p-2 indent-8">{{ events.content }}</div>
-                        <div
-                            class="flex justify-between text-xs p-x-2 gap-2 py-4 italic"
-                        >
-                            <div>
-                                {{ only_date_conversion(events.started_at) }}
+                    <a
+                        href="#"
+                        class="flex bg-white border rounded-lg shadow-md md:flex-row md:max-w-[100%]"
+                    >
+                        <img
+                            class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                            src="/images/logo/logoL.png"
+                            alt=""
+                        />
+                        <div class="flex flex-col justify-between p-4">
+                            <h5
+                                class="mb-2 text-2xl font-bold tracking-tight text-gray-900"
+                            >
+                                {{ events.title }}
+                            </h5>
+                            <small
+                                >Posted on
+                                {{
+                                    only_date_conversion(events.created_at)
+                                }}</small
+                            >
+
+                            <p
+                                class="mb-3 mt-4 font-normal text-gray-700 indent-8"
+                            >
+                                <span v-html="events.content"></span>
+                            </p>
+                            <div class="justify-between">
+                                <small class="mr-4"
+                                    >From:
+                                    {{
+                                        only_date_conversion(events.started_at)
+                                    }}</small
+                                >
+                                <small
+                                    >To:
+                                    {{
+                                        only_date_conversion(events.ended_at)
+                                    }}</small
+                                >
                             </div>
-                            <div>
-                                {{ only_date_conversion(events.ended_at) }}
-                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
+        <hr />
         <div class="bg-slate-100 py-4">
             <div
-                class="flex justify-center items-center font-bold text-4xl font-black text-gray-900 pb-6"
+                class="flex justify-center items-center font-bold text-4xl font-black text-gray-900 pb-6 mt-6"
             >
                 Objectives
             </div>

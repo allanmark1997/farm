@@ -25,7 +25,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    $events = Event::all();
+    $events = Event::orderBy('created_at', 'desc')->limit(10)->get();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -46,6 +46,13 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::prefix('timelines')->name('timeline.')->group(function () {
+        Route::get('/', [TimelineController::class, 'index'])->name('index');
+        Route::post('/store', [TimelineController::class, 'store'])->name('store');
+        Route::put('/update/{id}', [TimelineController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [TimelineController::class, 'destroy'])->name('delete');
+    });
 
     Route::prefix('events')->name('event.')->group(function () {
         Route::get('/', [EventController::class, 'index'])->name('index');

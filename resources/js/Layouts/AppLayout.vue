@@ -46,7 +46,7 @@ const logout = () => {
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('event.index')">
+                                <Link :href="route('timeline.index')">
                                     <ApplicationMark class="block h-9 w-auto" />
                                 </Link>
                             </div>
@@ -62,8 +62,8 @@ const logout = () => {
                                     Dashboard
                                 </NavLink> -->
                                 <NavLink
-                                    :href="route('event.index')"
-                                    :active="route().current('event.index')"
+                                    :href="route('timeline.index')"
+                                    :active="route().current('timeline.index')"
                                 >
                                     Timeline
                                 </NavLink>
