@@ -29,7 +29,7 @@ const modals = reactive({
     add_edit: {
         show: false,
         details: {
-            title: "Add Inventory",
+            title: "Add User",
             id: 0,
         },
     },
@@ -66,8 +66,10 @@ const saveUser = () => {
     });
 };
 
-const toggle_status = (id) => {
-    Inertia.put(route("users.toggle_status", { id: id }));
+const toggle_status = (user) => {
+    if (user.is_admin == 0) {
+        Inertia.put(route("users.toggle_status", { id: user.id }));
+    }
 };
 </script>
 
@@ -118,7 +120,8 @@ const toggle_status = (id) => {
                                             user.status
                                         }}</span>
                                         <ToggleSwitch
-                                            @change="toggle_status(user.id)"
+                                            v-if="user.is_admin == 0"
+                                            @change="toggle_status(user)"
                                             v-model:checked="activate[index]"
                                         />
                                         <!-- <div
