@@ -10,7 +10,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import Icon from "@/Components/Icons.vue";
 import { reactive } from "vue";
-import { Link, useForm } from "@inertiajs/inertia-vue3";
+import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 import Pagination from "@/Components/Pagination.vue";
 
 import moment from "moment";
@@ -21,7 +21,108 @@ import moment from "moment";
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <!-- <p class="text-[3vmin] text-bold mb-4">Timeline</p> -->
+                <div class="bg-gray-200 p-3 shadow-sm rounded-lg mb-6 mt-4">
+                    <p class="text-lg">What's on your mind?</p>
+                    <div
+                        class="w-full h-16 flex items-center flex justify-between px-5"
+                    >
+                        <a>
+                            <img
+                                class="rounded-full w-10 h-10 mr-3"
+                                :src="
+                                    usePage().props.value.user.profile_photo_url
+                                "
+                                alt=""
+                            />
+                        </a>
 
+                        <div class="flex w-full items-center">
+                            <div class="relative w-full mb-5 mt-10">
+                                <textarea
+                                    id="postEditor"
+                                    class="bg-gray-50 max-h-sm border border-gray-300 overflow-hidden text-gray-900 text-sm rounded-lg border-t-1 border-gray-500 focus:ring-blue-500 focus:border-blue-500 block w-full relative p-2.5"
+                                    contentType="html"
+                                >
+                                </textarea>
+                                <!-- <QuillEditor
+                                                v-model:content="
+                                                    post_data.content
+                                                "
+                                                theme="snow"
+                                                toolbar="minimal"
+                                                id="postEditor"
+                                                :content="post_data?.content"
+                                                contentType="html"
+                                            ></QuillEditor> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="w-full h-10 flex justify-between mt-6 px-3 md:px-10 lg:px-24 xl:px-5"
+                    >
+                        <div class="flex">
+                            <button class="flex h-full items-center">
+                                <svg
+                                    class="h-12 text-green-500 stroke-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="27"
+                                    height="27"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="#b0b0b0"
+                                    stroke-width="2"
+                                    stroke-linecap="square"
+                                    stroke-linejoin="round"
+                                >
+                                    <rect
+                                        x="3"
+                                        y="3"
+                                        width="18"
+                                        height="18"
+                                        rx="2"
+                                    />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <path d="M20.4 14.5L16 10 4 20" />
+                                </svg>
+                                <span
+                                    class="text-xs lg:text-md mx-2 font-semibold text-gray-500"
+                                    >Upload Photo
+                                </span>
+                            </button>
+                        </div>
+                        <input
+                            id="post_image"
+                            type="file"
+                            class="hidden"
+                            accept="image/png, image/gif, image/jpeg"
+                            multiple
+                        />
+
+                        <!-- <template v-for="image in post_images">
+                                        <img class="h-auto" :src="image" />
+                                    </template> -->
+
+                        <button
+                            type="button"
+                            class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                        >
+                            Post
+                            <svg
+                                aria-hidden="true"
+                                class="ml-2 -mr-1 w-5 h-5"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"
+                                ></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
                 <div
                     class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2"
                 >
