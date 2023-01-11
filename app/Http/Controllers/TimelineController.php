@@ -17,7 +17,7 @@ class TimelineController extends Controller
     public function index()
     {
         
-        $timelines = Timeline::all();
+        $timelines = Timeline::with('user')->get();
 
         return Inertia::render('Timeline/Index', [
             'timelines' => $timelines

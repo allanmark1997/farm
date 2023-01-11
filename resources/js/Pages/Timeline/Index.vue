@@ -14,6 +14,24 @@ import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 import Pagination from "@/Components/Pagination.vue";
 
 import moment from "moment";
+
+const date_conversion = (value) => {
+    if (value) {
+        return moment(value).format("MMMM Do YYYY, h:mm:ss a");
+    }
+};
+
+const only_date_conversion = (value) => {
+    if (value) {
+        return moment(value).format("MMMM Do YYYY");
+    }
+};
+
+const date_conversion_from_now = (value) => {
+    if (value) {
+        return moment(value).fromNow();
+    }
+};
 </script>
 
 <template>
@@ -127,11 +145,16 @@ import moment from "moment";
                     class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2"
                 >
                     <ol class="relative border-l border-gray-200">
-                        <li class="mb-10 ml-6">
+                        <li
+                            class="mb-10 ml-6"
+                            v-for="(post, key) in usePage().props.value
+                                .timelines"
+                            :key="key"
+                        >
                             <span
-                                class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white"
+                                class="absolute flex items-center justify-center w-8 h-8 bg-blue-200 rounded-full -left-3 ring-8 ring-white"
                             >
-                                <svg
+                                <!-- <svg
                                     aria-hidden="true"
                                     class="w-3 h-3 text-blue-600"
                                     fill="currentColor"
@@ -143,80 +166,51 @@ import moment from "moment";
                                         d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
                                         clip-rule="evenodd"
                                     ></path>
-                                </svg>
+                                </svg> -->
+                                <img
+                                    class="w-6 h-6 text-blue-600"
+                                    :src="
+                                        usePage().props.value.user
+                                            .profile_photo_url
+                                    "
+                                    alt=""
+                                    style="border-radius: 50%"
+                                />
                             </span>
                             <h3
-                                class="flex items-center mb-1 text-lg font-semibold text-gray-900"
+                                class="mb-1 ml-4 text-lg font-semibold text-gray-900"
                             >
-                                Flowbite Application UI v2.0.0
+                                {{ post.title }}
                                 <span
-                                    class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-3"
-                                    >Latest</span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-4"
+                                    >{{
+                                        only_date_conversion(post.created_at)
+                                    }}</span
                                 >
+                                <div class="inline float-right">
+                                    <button
+                                        class="bg-orange-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-3"
+                                    >
+                                        edit
+                                    </button>
+                                    <button
+                                        class="bg-red-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-3"
+                                    >
+                                        delete
+                                    </button>
+                                </div>
                             </h3>
                             <time
-                                class="block mb-2 text-sm font-normal leading-none text-gray-400"
-                                >Posted on January 13th, 2022</time
+                                class="block mb-2 ml-4 text-sm font-normal leading-none text-gray-400"
+                                >Posted on
+                                {{
+                                    only_date_conversion(post.created_at)
+                                }}</time
                             >
-                            <p class="mb-4 text-base font-normal text-gray-500">
-                                Get access to over 20+ pages including a
-                                dashboard layout, charts, kanban board,
-                                calendar, and pre-order E-commerce & Marketing
-                                pages.
-                            </p>
-                            <a
-                                href="#"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-200 focus:text-blue-700"
-                                ><svg
-                                    class="w-4 h-4 mr-2"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
-                                        clip-rule="evenodd"
-                                    ></path>
-                                </svg>
-                                Download ZIP</a
+                            <p
+                                class="text-base font-normal text-gray-500 ml-4 mt-4"
                             >
-                        </li>
-                        <li class="mb-10 ml-6">
-                            <span
-                                class="absolute flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white"
-                            >
-                                <svg
-                                    aria-hidden="true"
-                                    class="w-3 h-3 text-blue-600"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                                        clip-rule="evenodd"
-                                    ></path>
-                                </svg>
-                            </span>
-                            <h3
-                                class="mb-1 text-lg font-semibold text-gray-900"
-                            >
-                                Flowbite Figma v1.3.0
-                                <span
-                                    class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-3"
-                                    >Latest</span
-                                >
-                            </h3>
-                            <time
-                                class="block mb-2 text-sm font-normal leading-none text-gray-400"
-                                >Released on December 7th, 2021</time
-                            >
-                            <p class="text-base font-normal text-gray-500">
-                                All of the pages and components are first
-                                designed in Figma and we keep a parity between
-                                the two versions even as we update the project.
+                                {{ post.content }}
                             </p>
                         </li>
                     </ol>
