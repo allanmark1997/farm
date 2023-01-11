@@ -398,8 +398,8 @@ const logout = () => {
                             Dashboard
                         </ResponsiveNavLink> -->
                         <ResponsiveNavLink
-                            :href="route('event.index')"
-                            :active="route().current('event.index')"
+                            :href="route('timeline.index')"
+                            :active="route().current('timeline.index')"
                         >
                             timeline
                         </ResponsiveNavLink>

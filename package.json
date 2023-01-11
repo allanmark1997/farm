@@ -21,6 +21,7 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "@vueup/vue-quill": "^1.0.1",
         "leaflet": "^1.9.2",
         "moment": "^2.29.4"
     }

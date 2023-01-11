@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Timeline;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
+
 
 class TimelineController extends Controller
 {
@@ -17,7 +20,9 @@ class TimelineController extends Controller
     public function index()
     {
         
-        $timelines = Timeline::with('user')->get();
+        $timelines = Timeline::with('user')->whereHas('user', function($query){
+            $query->where('status', 'active');
+        })->orderBy('id', 'desc')->get();
 
         return Inertia::render('Timeline/Index', [
             'timelines' => $timelines
@@ -47,11 +52,20 @@ class TimelineController extends Controller
             'content' => ['required', 'max:255']
         ]);
 
+        $images = array();
+        if($request->hasfile('photos')){
+            foreach($request->file('photos') as $photo){
+                $imageName = Str::random(40).'.'.$photo->extension();
+                $photo->move(public_path().'/images/posts/', $imageName); 
+                array_push($images, $imageName);
+            }
+        }
+
         Timeline::create([
             'title' => $request->title,
             'content' => $request->content,
-            'started_at' => $request->started_at,
-            'ended_at' => $request->ended_at
+            'user_id' => Auth::user()->id,
+            'photo' => $images,
         ]);
 
         return Redirect::back();
