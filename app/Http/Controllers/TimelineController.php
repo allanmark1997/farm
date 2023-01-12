@@ -48,8 +48,7 @@ class TimelineController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => ['required', 'max:255'],
-            'content' => ['required', 'max:255']
+            'title' => ['required', 'max:255']
         ]);
 
         $images = array();
@@ -104,15 +103,12 @@ class TimelineController extends Controller
     {
         $request->validate([
             'title' => ['required', 'max:255'],
-            'content' => ['required', 'max:255']
         ]);
         
         $timeline = Timeline::find($id);
         $timeline->update([
             'title' => $request->title,
-            'content' => $request->content,
-            'started_at' => $request->started_at,
-            'ended_at' => $request->ended_at
+            'content' => $request->content
         ]);
 
         return Redirect::back();

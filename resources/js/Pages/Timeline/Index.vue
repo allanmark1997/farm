@@ -17,11 +17,18 @@ import moment from "moment";
 
 const post_images = ref([]);
 const delete_modal = ref(false);
+const update_modal = ref(false);
 
 const post_data = useForm({
     title: "",
     content: "",
     photos: []
+});
+
+const post_update_data = useForm({
+    id:'',
+    title: "",
+    content: ""
 });
 
 const delete_post_data = useForm({
@@ -65,6 +72,31 @@ const post_content = () => {
     }
 
 };
+const update_post_modal = (id, title, content) => {
+    post_update_data.id = id;
+    post_update_data.title = title;
+    post_update_data.content = content;
+    update_modal.value = !update_modal.value;
+}
+
+const close_update_post_modal = () => {
+    update_modal.value = !update_modal.value;
+
+}
+
+const update_post = () => {
+    post_update_data.put(route('timeline.update', post_update_data.id),{
+        preserveScroll: true,
+        onSuccess: () => {
+            update_modal.value = !update_modal.value;
+            post_update_data.reset()
+            var element = document.getElementsByClassName("ql-editor");
+                element[0].innerHTML = "";
+                post_images.value = [];
+                post_data.photos = [];
+        },
+    })
+}
 
 const delete_post_modal = (id) => {
     delete_post_data.id = id;
@@ -218,6 +250,9 @@ const remove_image = (key) => {
                                 " alt="" style="border-radius: 50%" />
                             </span>
                             <h3 class="mb-1 ml-4 text-lg font-semibold text-gray-900">
+                                <p>
+                                {{ post.user.name }}
+                                </p>
                                 {{ post.title }}
                                 <span
                                     class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-4">{{
@@ -225,7 +260,7 @@ const remove_image = (key) => {
                                     }}</span>
                                 <div class="inline float-right"
                                     v-if="usePage().props.value.user.id == post.user.id || usePage().props.value.user.is_admin">
-                                    <button
+                                    <button @click="update_post_modal(post.id, post.title, post.content)"
                                         class="bg-orange-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-3">
                                         edit
                                     </button>
@@ -305,6 +340,33 @@ const remove_image = (key) => {
             <template #footer>
                 <PrimaryButton class="mr-2 bg-red-500" @click="delete_post()">Delete</PrimaryButton>
                 <SecondaryButton @click="delete_post_modal()">Cancel</SecondaryButton>
+            </template>
+        </DialogModal>
+        <DialogModal :show="update_modal">
+            <template #title>
+                Update Post
+            </template>
+            <template #content>
+                <div class="w-full h-[20vmin] flex items-center flex justify-between px-5 mt-2">
+                        <div class="w-full">
+                            <div class="relative block w-full mt-2 sm:mt-10 md:mt-10">
+                                <input v-model="post_update_data.title"
+                                    class="bg-gray-50 max-h-sm border border-gray-300 overflow-hidden text-gray-900 text-sm rounded-lg border-t-1 border-gray-500 focus:ring-blue-500 focus:border-blue-500 block w-full relative p-2.5"
+                                    type="text" placeholder="Title" required />
+                            </div>
+                            <div class="relative w-full mb-5 mt-2">
+                                <QuillEditor v-model:content="
+                                    post_update_data.content
+                                " theme="snow" toolbar="minimal" id="postEditor" :content="post_update_data?.content"
+                                    contentType="html" class="min-h-[10vmin] max-h-[10vmin] overflow-auto">
+                                </QuillEditor>
+                            </div>
+                        </div>
+                    </div>
+            </template>
+            <template #footer>
+                <PrimaryButton class="mr-2 bg-red-500" @click="update_post()">Save</PrimaryButton>
+                <SecondaryButton @click="close_update_post_modal()">Cancel</SecondaryButton>
             </template>
         </DialogModal>
     </AppLayout>
