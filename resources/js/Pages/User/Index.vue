@@ -165,9 +165,11 @@ const toggle_status = (user) => {
                             />
                         </div>
                     </div>
-                    <table class="w-full text-sm text-left text-gray-500">
+                    <table
+                        class="w-full text-sm text-left text-gray-500 rounded-lg"
+                    >
                         <thead
-                            class="text-xs text-gray-700 uppercase bg-green-300"
+                            class="text-xs text-gray-700 uppercase bg-green-300 rounded-lg"
                         >
                             <tr>
                                 <th scope="col" class="px-6 py-3">Name</th>
