@@ -124,9 +124,9 @@ class TimelineController extends Controller
      * @param  \App\Models\Timeline  $timeline
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $timeline = Timeline::find($id);
+        $timeline = Timeline::find($request->id);
         $timeline->delete();
 
         return Redirect::back();

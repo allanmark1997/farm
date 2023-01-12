@@ -16,11 +16,16 @@ import Pagination from "@/Components/Pagination.vue";
 import moment from "moment";
 
 const post_images = ref([]);
+const delete_modal = ref(false);
 
 const post_data = useForm({
     title: "",
     content: "",
     photos: []
+});
+
+const delete_post_data = useForm({
+    id: ''
 });
 
 const date_conversion = (value) => {
@@ -49,7 +54,7 @@ const post_content = () => {
         post_data.post(route("timeline.store"), {
             preserveScroll: true,
             onSuccess: () => {
-                alert("Successfully posted");
+                // alert("Successfully posted");
                 post_data.reset()
                 var element = document.getElementsByClassName("ql-editor");
                 element[0].innerHTML = "";
@@ -60,6 +65,23 @@ const post_content = () => {
     }
 
 };
+
+const delete_post_modal = (id) => {
+    delete_post_data.id = id;
+    delete_modal.value = !delete_modal.value;
+}
+
+const delete_post = () => {
+    delete_post_data.delete(route('timeline.delete'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            // alert("Successfully deleted");
+            delete_modal.value = !delete_modal.value;
+
+            delete_post_data.reset()
+        },
+    })
+}
 
 const openFile = () => {
     let hidden = document.getElementById("post_image");
@@ -207,7 +229,7 @@ const remove_image = (key) => {
                                         class="bg-orange-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-3">
                                         edit
                                     </button>
-                                    <button
+                                    <button @click="delete_post_modal(post.id)"
                                         class="bg-red-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-3">
                                         delete
                                     </button>
@@ -233,29 +255,29 @@ const remove_image = (key) => {
                                         </template>
 
                                     </div>
-                                    <div  v-if="post.photo.length == 3">
+                                    <div v-if="post.photo.length == 3">
                                         <div class="flex justify-between ">
                                             <template v-for="(photo, key) in post.photo" :key="key">
-                                                <div  v-if="key != 2">
+                                                <div v-if="key != 2">
                                                     <img :src="'/images/posts/' + photo" alt="" class="h-[40vmin] ">
                                                 </div>
                                             </template>
                                         </div>
                                         <div class="flex justify-center">
-                                                <img :src="'/images/posts/' + post.photo[2]" alt="" class="h-[40vmin] ">
+                                            <img :src="'/images/posts/' + post.photo[2]" alt="" class="h-[40vmin] ">
                                         </div>
                                     </div>
-                                    <div  v-if="post.photo.length == 4">
+                                    <div v-if="post.photo.length == 4">
                                         <div class="flex justify-between">
                                             <template v-for="(photo, key) in post.photo" :key="key">
-                                                <div  v-if="key <= 1">
+                                                <div v-if="key <= 1">
                                                     <img :src="'/images/posts/' + photo" alt="" class="h-[35vmin] ">
                                                 </div>
                                             </template>
                                         </div>
                                         <div class="flex justify-between">
                                             <template v-for="(photo, key) in post.photo" :key="key">
-                                                <div  v-if="key >= 2">
+                                                <div v-if="key >= 2">
                                                     <img :src="'/images/posts/' + photo" alt="" class="h-[35vmin] ">
                                                 </div>
                                             </template>
@@ -273,5 +295,17 @@ const remove_image = (key) => {
                 </div>
             </div>
         </div>
+        <DialogModal :show="delete_modal">
+            <template #title>
+                <h1>Delete</h1>
+            </template>
+            <template #content>
+                Are you sure you want to delete this post?
+            </template>
+            <template #footer>
+                <PrimaryButton class="mr-2 bg-red-500" @click="delete_post()">Delete</PrimaryButton>
+                <SecondaryButton @click="delete_post_modal()">Cancel</SecondaryButton>
+            </template>
+        </DialogModal>
     </AppLayout>
 </template>

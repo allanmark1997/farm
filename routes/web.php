@@ -51,7 +51,7 @@ Route::middleware([
         Route::get('/', [TimelineController::class, 'index'])->name('index');
         Route::post('/store', [TimelineController::class, 'store'])->name('store');
         Route::put('/update/{id}', [TimelineController::class, 'update'])->name('update');
-        Route::delete('/delete/{id}', [TimelineController::class, 'destroy'])->name('delete');
+        Route::delete('/delete', [TimelineController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('events')->name('event.')->group(function () {
