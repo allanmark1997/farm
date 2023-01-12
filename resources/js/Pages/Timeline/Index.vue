@@ -199,7 +199,7 @@ const remove_image = (key) => {
                                 {{ post.title }}
                                 <span
                                     class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-4">{{
-                                        only_date_conversion(post.created_at)
+                                        date_conversion_from_now(post.created_at)
                                     }}</span>
                                 <div class="inline float-right"
                                     v-if="usePage().props.value.user.id == post.user.id || usePage().props.value.user.is_admin">
@@ -218,23 +218,49 @@ const remove_image = (key) => {
                                     only_date_conversion(post.created_at)
                                 }}</time>
                             <p class="text-base font-normal text-gray-500 ml-4 mt-4">
-                            <div v-html="post.content"></div>
+                            <p class="ql-editor" v-html="post.content"></p>
                             </p>
                             <div class="flex justify-center">
                                 <div class="flex gap-1">
-                                    <template v-for="(photo, key) in post.photo" :key="key">
-                                        <div class="justify-center" v-if="post.photo.length == 1">
+                                    <div class="justify-center" v-if="post.photo.length == 1">
+                                        <template v-for="(photo, key) in post.photo" :key="key">
+                                            <img :src="'/images/posts/' + photo" alt="" class="h-[60vmin] ">
+                                        </template>
+                                    </div>
+                                    <div class="flex justify-between mr-4" v-if="post.photo.length == 2">
+                                        <template v-for="(photo, key) in post.photo" :key="key">
                                             <img :src="'/images/posts/' + photo" alt="" class="h-[50vmin] ">
+                                        </template>
+
+                                    </div>
+                                    <div  v-if="post.photo.length == 3">
+                                        <div class="flex justify-between ">
+                                            <template v-for="(photo, key) in post.photo" :key="key">
+                                                <div  v-if="key != 2">
+                                                    <img :src="'/images/posts/' + photo" alt="" class="h-[40vmin] ">
+                                                </div>
+                                            </template>
                                         </div>
-                                        <div class="flex justify-between mr-4" v-if="post.photo.length == 2">
-                                            <img :src="'/images/posts/' + photo" alt="" class="h-[30vmin] ">
+                                        <div class="flex justify-center">
+                                                <img :src="'/images/posts/' + post.photo[2]" alt="" class="h-[40vmin] ">
                                         </div>
-                                        <div class="flex justify-between mr-4" v-if="post.photo.length == 3">
-                                            <div>
-                                                <img :src="'/images/posts/' + photo" alt="" class="h-[30vmin] ">
-                                            </div>
+                                    </div>
+                                    <div  v-if="post.photo.length == 4">
+                                        <div class="flex justify-between">
+                                            <template v-for="(photo, key) in post.photo" :key="key">
+                                                <div  v-if="key <= 1">
+                                                    <img :src="'/images/posts/' + photo" alt="" class="h-[35vmin] ">
+                                                </div>
+                                            </template>
                                         </div>
-                                    </template>
+                                        <div class="flex justify-between">
+                                            <template v-for="(photo, key) in post.photo" :key="key">
+                                                <div  v-if="key >= 2">
+                                                    <img :src="'/images/posts/' + photo" alt="" class="h-[35vmin] ">
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
