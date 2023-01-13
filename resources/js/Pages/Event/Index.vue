@@ -336,7 +336,7 @@ const saveEvent = () => {
                     v-if="modals.add_edit.status == 'delete'"
                 >
                     <div class="col-span-6">
-                        Click SUBMIT to continue to remove the Farmer.
+                        Click SUBMIT to continue to remove an event.
                     </div>
                 </div>
                 <div class="grid grid-cols-6 gap-3" v-else>
@@ -359,6 +359,20 @@ const saveEvent = () => {
                             v-model="form.content"
                         />
                         <InputError class="mt-2" message="" />
+                    </div>
+                    <div class="col-span-4">
+                        <InputLabel value="Image link" />
+                        <TextInput
+                            type="text"
+                            class="mt-1 block w-full"
+                            required
+                            disabled
+                            v-model="form.photo"
+                        />
+                        <InputError class="mt-2" message="" />
+                    </div>
+                    <div class="col-span-2">
+                        <PrimaryButton class="mt-7">Select Image</PrimaryButton>
                     </div>
                     <div class="col-span-3">
                         <InputLabel value="Event Start" />
