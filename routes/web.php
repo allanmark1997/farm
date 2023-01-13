@@ -57,7 +57,7 @@ Route::middleware([
     Route::prefix('events')->name('event.')->group(function () {
         Route::get('/', [EventController::class, 'index'])->name('index');
         Route::post('/store', [EventController::class, 'store'])->name('store');
-        Route::put('/update/{id}', [EventController::class, 'update'])->name('update');
+        Route::post('/update/{id}', [EventController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [EventController::class, 'destroy'])->name('delete');
     });
 

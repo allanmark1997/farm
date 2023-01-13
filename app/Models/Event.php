@@ -11,4 +11,7 @@ class Event extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+    protected $casts = [
+        'photo' => 'json',
+    ];
 }

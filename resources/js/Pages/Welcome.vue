@@ -156,12 +156,15 @@ const SendResume = () => {
                     :key="index"
                 >
                     <a
-                        href="#"
-                        class="flex bg-white border rounded-lg shadow-md md:flex-row md:max-w-[100%]"
+                        class="flex bg-white border rounded-lg shadow-md md:flex-row md:max-w-[100%] h-[100%]"
                     >
                         <img
                             class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                            src="/images/logo/logoL.png"
+                            :src="
+                                events.photo == 0
+                                    ? '/images/logo/logoL.png'
+                                    : '/images/events/' + events.photo[0]
+                            "
                             alt=""
                         />
                         <div class="flex flex-col justify-between p-4">

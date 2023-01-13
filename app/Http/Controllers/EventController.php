@@ -6,6 +6,8 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
+
 
 class EventController extends Controller
 {
@@ -46,11 +48,22 @@ class EventController extends Controller
             'content' => ['required', 'max:255']
         ]);
 
+        $images = array();
+        if($request->hasfile('photos')){
+            foreach($request->file('photos') as $photo){
+                $imageName = Str::random(40).'.'.$photo->extension();
+                $photo->move(public_path().'/images/events/', $imageName); 
+                array_push($images, $imageName);
+            }
+        }
+
         Event::create([
             'title' => $request->title,
             'content' => $request->content,
             'started_at' => $request->started_at,
-            'ended_at' => $request->ended_at
+            'ended_at' => $request->ended_at,
+            'photo' => $images,
+
         ]);
 
         return Redirect::back();
@@ -91,13 +104,24 @@ class EventController extends Controller
             'title' => ['required', 'max:255'],
             'content' => ['required', 'max:255']
         ]);
+
+        $images = array();
+        if($request->hasfile('photos')){
+            foreach($request->file('photos') as $photo){
+                $imageName = Str::random(40).'.'.$photo->extension();
+                $photo->move(public_path().'/images/events/', $imageName); 
+                array_push($images, $imageName);
+            }
+        }
         
         $event = Event::find($id);
         $event->update([
             'title' => $request->title,
             'content' => $request->content,
             'started_at' => $request->started_at,
-            'ended_at' => $request->ended_at
+            'ended_at' => $request->ended_at,
+            'photo' => $images,
+
         ]);
 
         return Redirect::back();

@@ -10,13 +10,14 @@ import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import Icon from "@/Components/Icons.vue";
 import Event from "./Event.vue";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
 import Pagination from "@/Components/Pagination.vue";
 
 import moment from "moment";
 
 const props = defineProps(["events"]);
+const post_images = ref([]);
 
 let form = useForm(
     {
@@ -24,6 +25,7 @@ let form = useForm(
         content: "",
         started_at: null,
         ended_at: null,
+        photos: [],
     },
     {
         resetOnSuccess: true,
@@ -67,12 +69,14 @@ const showModal = (status, data) => {
 
 const saveEvent = () => {
     if (modals.add_edit.status == "edit") {
-        form.put(route("event.update", form), {
+        form.post(route("event.update", form), {
             preserveScroll: true,
             onSuccess: () => {
                 alert("Event Updated");
                 form.reset();
                 modals.add_edit.show = false;
+                post_images.value = [];
+                form.photos = [];
             },
             onError: () => {
                 alert("Event error");
@@ -111,6 +115,8 @@ const saveEvent = () => {
                     alert("Event Added");
                     form.reset();
                     modals.add_edit.show = false;
+                    post_images.value = [];
+                    form.photos = [];
                 },
                 onError: () => {
                     //code
@@ -125,6 +131,29 @@ const saveEvent = () => {
             });
         }
     }
+};
+
+const openFile = () => {
+    let hidden = document.getElementById("post_image");
+    hidden.click();
+    hidden.onchange = (e) => {
+        if (post_images.value.length + e.target.files.length > 1) {
+            alert("Only 1 image can be selected");
+            return;
+        } else {
+            for (let index = 0; index < e.target.files.length; index++) {
+                post_images.value.push(
+                    window.URL.createObjectURL(e.target.files[index])
+                );
+                form.photos.push(e.target.files[index]);
+            }
+        }
+    };
+};
+
+const remove_image = (key) => {
+    post_images.value.splice(key, 1);
+    form.photos.splice(key, 1);
 };
 </script>
 
@@ -287,7 +316,17 @@ const saveEvent = () => {
                                     {{ event.content }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="flex items-center">None</div>
+                                    <div class="flex items-center">
+                                        <div v-if="event.photo == 0">None</div>
+                                        <img
+                                            :src="
+                                                './images/events/' +
+                                                event.photo[0]
+                                            "
+                                            alt=""
+                                            style="width: 10vmin"
+                                        />
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4">
                                     {{
@@ -367,12 +406,21 @@ const saveEvent = () => {
                             class="mt-1 block w-full"
                             required
                             disabled
-                            v-model="form.photo"
+                            v-model="post_images[0]"
                         />
                         <InputError class="mt-2" message="" />
                     </div>
+                    <input
+                        id="post_image"
+                        type="file"
+                        class="hidden"
+                        accept="image/png, image/gif, image/jpeg"
+                        multiple
+                    />
                     <div class="col-span-2">
-                        <PrimaryButton class="mt-7">Select Image</PrimaryButton>
+                        <PrimaryButton @click="openFile" class="mt-7"
+                            >Select Image</PrimaryButton
+                        >
                     </div>
                     <div class="col-span-3">
                         <InputLabel value="Event Start" />

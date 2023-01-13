@@ -19,6 +19,7 @@ return new class extends Migration
             $table->longText('content');
             $table->timestamp('started_at')->nullable();
             $table->timestamp('ended_at')->nullable();
+            $table->json('photo')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
