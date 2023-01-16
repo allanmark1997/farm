@@ -137,6 +137,13 @@ const toggle_status = (user) => {
                     <div
                         class="flex items-center justify-between py-4 bg-white"
                     >
+                        <div class="flex justify-between gap-1">
+                            <PrimaryButton
+                                class="mb-2 bg-green-500"
+                                @click="showModal()"
+                                >Add User</PrimaryButton
+                            >
+                        </div>
                         <div></div>
                         <label for="table-search" class="sr-only">Search</label>
                         <div class="relative">

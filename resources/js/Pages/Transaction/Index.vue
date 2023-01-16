@@ -216,7 +216,7 @@ watch(() => search.value, debounce(searchTransaction, 1000));
                                 </td>
                                 <td class="px-6 py-4">
                                     {{
-                                        transaction.farm?.name ||
+                                        transaction.farm.map?.name ||
                                         "Inactive Farm"
                                     }}
                                 </td>
