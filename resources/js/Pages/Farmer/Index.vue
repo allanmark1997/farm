@@ -11,10 +11,11 @@ import InputError from "@/Components/InputError.vue";
 // import formPDF from "../../../../storage/Form.pdf";
 import Icon from "@/Components/Icons.vue";
 import axios from "axios";
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
 import moment from "moment";
 import ToggleSwitch from "@/Components/ToggleSwitch.vue";
+import { Inertia } from "@inertiajs/inertia";
 
 const props = defineProps(["farmers"]);
 const activate = ref([]);
@@ -37,6 +38,16 @@ const modals = reactive({
             id: 0,
         },
     },
+});
+
+onMounted(() => {
+    props.farmers.data.forEach((farmer) => {
+        if (farmer.active == "1") {
+            activate.value.push(true);
+        } else {
+            activate.value.push(false);
+        }
+    });
 });
 
 // const downloadItem = (url) => {
@@ -132,6 +143,10 @@ const saveFarmer = () => {
             },
         });
     }
+};
+
+const toggle_status = (farmer) => {
+    Inertia.put(route("farmers.toggle_status", { id: farmer.id }));
 };
 </script>
 
@@ -244,7 +259,7 @@ const saveFarmer = () => {
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center">
-                                        <div
+                                        <!-- <div
                                             class="cursor-pointer mr-4"
                                             @click="showModal('delete', farmer)"
                                         >
@@ -255,15 +270,16 @@ const saveFarmer = () => {
                                             @click="showModal('edit', farmer)"
                                         >
                                             <Icon icon="edit" />
-                                        </div>
+                                        </div> -->
                                         <div>
                                             <a href="#">Profile</a>
                                         </div>
+                                        <ToggleSwitch
+                                            class="ml-3"
+                                            @change="toggle_status(farmer)"
+                                            v-model:checked="activate[index]"
+                                        />
                                     </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <!-- Modal toggle -->
-                                    <ToggleSwitch :checked="activate[index]" />
                                 </td>
                             </tr>
                         </tbody>

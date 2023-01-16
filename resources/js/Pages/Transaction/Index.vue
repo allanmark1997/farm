@@ -16,6 +16,8 @@ import { Inertia } from "@inertiajs/inertia";
 import moment from "moment";
 
 const props = defineProps(["transactions", "search"]);
+const filter_view = ref("1");
+
 const form = useForm(
     {
         amount: "",
@@ -140,7 +142,15 @@ watch(() => search.value, debounce(searchTransaction, 1000));
                     <div
                         class="flex items-center justify-between py-4 bg-white"
                     >
-                        <div></div>
+                        <div>
+                            <Select
+                                class="mt-1 border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm w-full"
+                                v-model="filter_view"
+                            >
+                                <option value="0">Planting</option>
+                                <option value="1">Harvest</option>
+                            </Select>
+                        </div>
                         <label for="table-search" class="sr-only">Search</label>
                         <div class="relative">
                             <div
@@ -182,6 +192,14 @@ watch(() => search.value, debounce(searchTransaction, 1000));
                                 </th>
                                 <th scope="col" class="px-6 py-3">Farmer</th>
                                 <th scope="col" class="px-6 py-3">Farm</th>
+                                <th scope="col" class="px-6 py-3">Income</th>
+                                <th scope="col" class="px-6 py-3">Seedlings</th>
+                                <th scope="col" class="px-6 py-3">
+                                    Fertilizers
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Expected Income
+                                </th>
                                 <th scope="col" class="px-6 py-3">Type</th>
                             </tr>
                         </thead>
@@ -219,6 +237,44 @@ watch(() => search.value, debounce(searchTransaction, 1000));
                                         transaction.farm.map?.name ||
                                         "Inactive Farm"
                                     }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ transaction.details.expected_income }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{
+                                        transaction.details.inventories
+                                            .seedlings
+                                            ? transaction.details.inventories
+                                                  .seedlings
+                                            : "None"
+                                    }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <template
+                                        v-if="
+                                            transaction.details.inventories
+                                                .fertilizer != 0
+                                        "
+                                    >
+                                        <template
+                                            v-for="(
+                                                fertilizer, key
+                                            ) in transaction.details.inventories
+                                                .fertilizer"
+                                            :key="key"
+                                        >
+                                            <p>Name: {{ fertilizer.name }}</p>
+                                            <p>Unit: {{ fertilizer.unit }}</p>
+                                            <p></p>
+                                        </template>
+                                    </template>
+                                    <template v-else>
+                                        <p>None</p>
+                                    </template>
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ transaction.details.income }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ transaction.type }}

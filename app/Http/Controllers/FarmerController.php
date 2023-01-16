@@ -17,7 +17,7 @@ class FarmerController extends Controller
      */
     public function index()
     {
-        $farmers = Farmer::where('active', true)->paginate(10);
+        $farmers = Farmer::paginate(10);
 
         return Inertia::render('Farmer/Index', [
             'farmers' => $farmers
@@ -109,6 +109,16 @@ class FarmerController extends Controller
     {
         $farmer = Farmer::find($id);
         $farmer->delete();
+
+        return Redirect::back();
+    }
+
+    public function toggle_status($id)
+    {
+        $farmer = Farmer::find($id);
+        $farmer->update([
+            'active' => $farmer->active == '1' ? '0' : '1'
+        ]);
 
         return Redirect::back();
     }
