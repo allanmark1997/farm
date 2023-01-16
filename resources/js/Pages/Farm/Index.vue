@@ -38,7 +38,8 @@ const callChildMethod = (farm) => {
     childred.value.drawMap(
         farm.map,
         farm.details.inventories,
-        farm.farmer?.name
+        farm.farmer?.name,
+        farm.status
     );
 };
 const form = useForm({
@@ -67,7 +68,7 @@ const formPlants = useForm({
             fertilizer: [],
         },
     },
-    color: null,
+    color: '#ffffff',
 });
 
 const modals = reactive({
@@ -181,6 +182,26 @@ const plantHandle = () => {
         },
     });
 };
+
+const harestHandler = (farm) =>{
+    console.log(farm);
+    formPlants.id = farm.id;
+    // formPlants.details = farm.details;
+    formPlants.color = '#ffffff';
+    formPlants.put(route("farms.harvest", farm.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+            alert("harvest plant");
+            window.location.reload();
+        },
+        onError: () => {
+            //code
+        },
+        onFinish: () => {
+            //code
+        },
+    });
+}
 
 
 const removeFilterizer = (index) => {
@@ -302,7 +323,7 @@ const onDeleteHandler = () => {
                                                 >Plant</PrimaryButton
                                             >
                                             <PrimaryButton
-                                                @click="showModalPlant(farm)"
+                                                @click="harestHandler(farm)"
                                                 :disabled="
                                                     farm.status == 'idle'
                                                 "

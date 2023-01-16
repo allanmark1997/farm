@@ -90,21 +90,18 @@ const clearMarker = ()=>{
             mymap.removeLayer(item);
         });
 }
-const drawMap = (map,details,owner) =>{  
+const drawMap = (map,details,owner,status) =>{ 
     var greenIcon = leaflet.icon({
     iconUrl: Plant,
     shadowUrl: Shadow, 
     iconSize:     [38, 95], // size of the icon
-    // shadowSize:   [50, 64], // size of the shadow
-    // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-    // shadowAnchor: [4, 62],  // the same for the shadow
-    // popupAnchor:  [-3, -76], // point from which the popup should open relative to the iconAnchor 
-});
+}); 
 
     let {fertilizer, seedling} = details;
     let tagName = '<div>'+
         '<div class="font-bold">Owner: '+ owner +'</div>' + 
         '<div class="font-bold">Name: '+ map.name +'</div>'+ 
+        '<div class="font-bold">Status: '+ `${status === "idle" ? "Ready for planting" : "Crops are growing"}` +'</div>'+ 
     '</div>'
     let fertilizerHtml = fertilizer.map(item => 
     '<div class="grid grid-cols-8 gap-2 border p-2">'+
@@ -125,11 +122,22 @@ const drawMap = (map,details,owner) =>{
                 </div>
             </div>`,{maxWidth: 300});
         var polygonAndItsCenter = leaflet.layerGroup([polygon, marker]);
-        polygonAndItsCenter.addTo(mymap);
-        polygon.bindTooltip(tagName, { permanent: true, direction: "center" })
-        .openTooltip();
+        polygonAndItsCenter.addTo(mymap); 
         mymap.fitBounds(polygon.getBounds());
         
+        mymap.on('zoomend' , function (e) {
+            var geo = polygon.getCenter(); 
+                if (mymap.getZoom()>16.5)
+                {
+                    marker.setLatLng(geo);
+                    marker.addTo(mymap);
+                }else {
+                    marker.remove();
+                }
+        }); 
+        polygon.on('mouseover', function (e) { 
+            polygon.bindTooltip(tagName, {direction: "center" }).openTooltip();
+        });
         if(!props.enableEditMap){
             return;
         } 
@@ -137,7 +145,6 @@ const drawMap = (map,details,owner) =>{
             mymap.removeLayer(polygon); 
         });
 }
-
 defineExpose({ drawMap,clearMarker});
 </script>
 

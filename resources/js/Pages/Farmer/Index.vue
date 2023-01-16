@@ -113,7 +113,7 @@ const saveFarmer = () => {
                 //code
             },
         });
-    } else {
+    } else if (modals.add_edit.status == "add") {
         form.post(route("farmers.store"), {
             preserveScroll: true,
             onSuccess: () => {
@@ -137,90 +137,6 @@ const saveFarmer = () => {
     <AppLayout title="Farmers">
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <!-- <div
-                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2"
-                >
-                    <div class="flex justify-between gap-1">
-                        <PrimaryButton class="mb-2" @click="showModal('add')"
-                            >New Farmer</PrimaryButton
-                        >
-                    </div>
-
-                    <TableList>
-                        <template #header>
-                            <th
-                                class="p-2 border border-l"
-                                v-for="header in [
-                                    'Name',
-                                    'Total Income',
-                                    'Member since',
-                                    'Status',
-                                ]"
-                                :key="header"
-                            >
-                                {{ header }}
-                            </th>
-                        </template>
-                        <template #body>
-                            <tr
-                                class="text-md border-b border-l border-r border-gray-100 text-slate-500 hover:bg-slate-50"
-                                v-for="(farmer, index) in farmers.data"
-                                :key="index"
-                            >
-                                <td class="p-2">
-                                    <Link
-                                        :href="
-                                            route('farms.index', {
-                                                selected_farmer: farmer.id,
-                                            })
-                                        "
-                                    >
-                                        {{ farmer.name }}
-                                    </Link>
-                                </td>
-                                <td class="p-2">{{ farmer.income }}</td>
-                                <td class="p-2">
-                                    {{
-                                        moment(farmer.created_at).format(
-                                            "MMMM Do YYYY"
-                                        )
-                                    }}
-                                </td>
-                                <td class="p-2">
-                                    <div class="flex justify-between">
-                                        <span>{{
-                                            farmer.active
-                                                ? "Active"
-                                                : "Inactive"
-                                        }}</span>
-
-                                        <div
-                                            class="flex flex-row-reverse gap-3"
-                                        >
-                                            <div
-                                                class="cursor-pointer"
-                                                @click="
-                                                    showModal('delete', farmer)
-                                                "
-                                            >
-                                                <Icon icon="delete" />
-                                            </div>
-                                            <div
-                                                class="cursor-pointer"
-                                                @click="
-                                                    showModal('edit', farmer)
-                                                "
-                                            >
-                                                <Icon icon="edit" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
-                    </TableList>
-                    <Pagination :links="farmers.links"></Pagination>
-                </div> -->
                 <div
                     class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 pb-12 mt-2"
                 >

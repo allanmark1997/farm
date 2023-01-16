@@ -160,11 +160,11 @@ class FarmController extends Controller
         $farm->update([
             'status' => 'idle',
             'details' => $request->details, //update the income
-            // 'map->color' => $inventory->details['color'] //default color
+            'map->color' => $request->color //default color
         ]);
         $farmer = $farm->farmer;
         $farmer->update([
-            'income' => $farmer->income + $request->details['income']
+            'income' => $farmer->income + $farm->details['expected_income']
         ]);
 
         Transaction::create([
