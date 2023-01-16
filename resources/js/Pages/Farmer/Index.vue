@@ -11,11 +11,13 @@ import InputError from "@/Components/InputError.vue";
 // import formPDF from "../../../../storage/Form.pdf";
 import Icon from "@/Components/Icons.vue";
 import axios from "axios";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
 import moment from "moment";
+import ToggleSwitch from "@/Components/ToggleSwitch.vue";
 
 const props = defineProps(["farmers"]);
+const activate = ref([]);
 
 let form = useForm(
     {
@@ -254,7 +256,14 @@ const saveFarmer = () => {
                                         >
                                             <Icon icon="edit" />
                                         </div>
+                                        <div>
+                                            <a href="#">Profile</a>
+                                        </div>
                                     </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <!-- Modal toggle -->
+                                    <ToggleSwitch :checked="activate[index]" />
                                 </td>
                             </tr>
                         </tbody>
