@@ -15,8 +15,8 @@ import { debounce } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
 import moment from "moment";
 
-const props = defineProps(["transactions", "search"]);
-const filter_view = ref("1");
+const props = defineProps(["transactions", "search", "view_filter"]);
+// const filter_view = ref("harvest");
 
 const form = useForm(
     {
@@ -30,6 +30,7 @@ const form = useForm(
 );
 
 const search = ref(props.search);
+const filter_view = ref(props.view_filter);
 const modals = reactive({
     add_edit: {
         show: false,
@@ -60,12 +61,30 @@ const saveTransaction = () => {
 };
 
 const searchTransaction = () => {
-    Inertia.get(route("transactions.index", { search: search.value }), {
-        preserveScroll: true,
-    });
+    Inertia.get(
+        route("transactions.index", {
+            search: search.value,
+            filter_view: filter_view.value,
+        }),
+        {
+            preserveScroll: true,
+        }
+    );
 };
 
 watch(() => search.value, debounce(searchTransaction, 1000));
+
+const view_filter = () => {
+    Inertia.get(
+        route("transactions.index", {
+            search: search.value,
+            filter_view: filter_view.value,
+        }),
+        {
+            preserveScroll: true,
+        }
+    );
+};
 </script>
 
 <template>
@@ -143,13 +162,15 @@ watch(() => search.value, debounce(searchTransaction, 1000));
                         class="flex items-center justify-between py-4 bg-white"
                     >
                         <div>
-                            <Select
+                            <select
                                 class="mt-1 border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm w-full"
                                 v-model="filter_view"
+                                @change="view_filter()"
                             >
-                                <option value="0">Planting</option>
-                                <option value="1">Harvest</option>
-                            </Select>
+                                <option value="all">All</option>
+                                <option value="plant">Planting</option>
+                                <option value="harvest">Harvest</option>
+                            </select>
                         </div>
                         <label for="table-search" class="sr-only">Search</label>
                         <div class="relative">
@@ -239,7 +260,8 @@ watch(() => search.value, debounce(searchTransaction, 1000));
                                     }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ transaction.details.expected_income }}
+                                    <span class="mr-1">&#8369;</span
+                                    >{{ transaction.details.income }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{
@@ -274,7 +296,8 @@ watch(() => search.value, debounce(searchTransaction, 1000));
                                     </template>
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ transaction.details.income }}
+                                    <span class="mr-1">&#8369;</span
+                                    >{{ transaction.details.expected_income }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ transaction.type }}

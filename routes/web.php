@@ -68,6 +68,9 @@ Route::middleware([
         Route::delete('/delete/{id}', [FarmerController::class, 'destroy'])->name('delete');
         Route::get('/farms/{farmer_id}', [FarmController::class, 'farms'])->name('farms');
         Route::put('/toggle_status/{id}', [FarmerController::class, 'toggle_status'])->name('toggle_status');
+        Route::get('/profile', [FarmerController::class, 'profile'])->name('profile');
+        Route::get('/add_farmer_page', [FarmerController::class, 'add_farmer_page'])->name('add_farmer_page');
+
 
     });
 

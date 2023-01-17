@@ -122,4 +122,15 @@ class FarmerController extends Controller
 
         return Redirect::back();
     }
-}
+
+    public function profile(Request $request){
+        $farmer = Farmer::where('id',$request->id)->get();
+        return Inertia::render('Farmer/FarmerProfile', [
+            'farmer' => $farmer
+        ]);
+    }
+
+    public function add_farmer_page(){
+        return Inertia::render('Farmer/AddFarmer');
+    }
+} 

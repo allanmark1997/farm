@@ -158,8 +158,10 @@ const toggle_status = (farmer) => {
                     class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 pb-12 mt-2"
                 >
                     <div class="flex justify-between gap-1">
-                        <PrimaryButton class="mb-2" @click="showModal('add')"
-                            >New Farmer</PrimaryButton
+                        <a
+                            class="mb-2 bg-green-600 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
+                            :href="route('farmers.add_farmer_page')"
+                            >New Farmer</a
                         >
                     </div>
                     <div
@@ -272,7 +274,14 @@ const toggle_status = (farmer) => {
                                             <Icon icon="edit" />
                                         </div> -->
                                         <div>
-                                            <a href="#">Profile</a>
+                                            <a
+                                                :href="
+                                                    route('farmers.profile', {
+                                                        id: farmer.id,
+                                                    })
+                                                "
+                                                >Profile</a
+                                            >
                                         </div>
                                         <ToggleSwitch
                                             class="ml-3"

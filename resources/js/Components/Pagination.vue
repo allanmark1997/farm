@@ -9,6 +9,12 @@ const search_url = computed(() =>
         ? "&search=" + usePage().props.value.search
         : ""
 );
+const view_filter = computed(() =>
+    usePage().props.value.view_filter != "" &&
+    usePage().props.value.view_filter != null
+        ? "&filter_view=" + usePage().props.value.view_filter
+        : ""
+);
 </script>
 
 <template>
@@ -28,7 +34,7 @@ const search_url = computed(() =>
                     'text-white text-gray-800': link.active,
                     'ml-auto': links.length === key + 1,
                 }"
-                :href="link.url + search_url"
+                :href="link.url + search_url + view_filter"
             >
                 <span v-html="link.label"></span>
             </Link>
