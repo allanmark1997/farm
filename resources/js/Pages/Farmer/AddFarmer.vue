@@ -15,7 +15,7 @@ import { Link, useForm } from "@inertiajs/inertia-vue3";
 <template>
     <AppLayout title="Farms">
         <div class="pb-4">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mx-auto sm:px-6 lg:px-8">
                 <PrimaryButton class="my-2 bg-green-600" @click="showModal()"
                     >Save</PrimaryButton
                 >
