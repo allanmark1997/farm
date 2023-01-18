@@ -86,11 +86,18 @@ const modals = reactive({
             id: 1,
         },
     },
+    harvest_plant: {
+        show: false,
+        details: {
+            title: "Harvest Plant",
+            id: 2,
+        },
+    },
     deleteFarm: {
         show: false,
         details: {
             title: "Delete Plant",
-            id: 2,
+            id: 3,
         },
     },
 });
@@ -174,33 +181,36 @@ const plantHandle = () => {
             alert("update plant");
             window.location.reload();
         },
-        onError: () => {
-            //code
-        },
-        onFinish: () => {
-            //code
-        },
     });
 };
 
-const harestHandler = (farm) =>{
-    console.log(farm);
-    formPlants.id = farm.id;
-    // formPlants.details = farm.details;
+const harvestHandler = ()=>{ 
     formPlants.color = '#ffffff';
-    formPlants.put(route("farms.harvest", farm.id), {
+    if(formPlants.details.expected_income <= 0){
+        alert("Please indicate your income.");
+        return;
+    }
+    formPlants.put(route("farms.harvest", formPlants.id), {
         preserveScroll: true,
         onSuccess: () => {
             alert("harvest plant");
             window.location.reload();
-        },
-        onError: () => {
-            //code
-        },
-        onFinish: () => {
-            //code
-        },
+        }
     });
+}
+
+const showHarvest = (farm) =>{
+    formPlants.id = farm.id;
+    formPlants.details = 
+        Object.assign({
+            expected_income: 0,
+            income: 0,
+            inventories: {
+                seedling: "",
+                fertilizer: [],
+            },
+    });
+    modals.harvest_plant.show = true; 
 }
 
 
@@ -323,7 +333,7 @@ const onDeleteHandler = () => {
                                                 >Plant</PrimaryButton
                                             >
                                             <PrimaryButton
-                                                @click="harestHandler(farm)"
+                                                @click="showHarvest(farm)"
                                                 :disabled="
                                                     farm.status == 'idle'
                                                 "
@@ -368,6 +378,31 @@ const onDeleteHandler = () => {
                         >Cancel</SecondaryButton
                     >
                     <PrimaryButton @click="saveFarm">Submit</PrimaryButton>
+                </div>
+            </template>
+        </DialogModal>
+        <DialogModal :show="modals.harvest_plant.show">
+            <template #title>{{ modals.harvest_plant.details.title }}</template>
+            <template #content>
+                <div class="grid grid-cols-6 gap-6">
+                    <div class="col-span-6">
+                        <InputLabel value="Income" />
+                        <TextInput
+                            type="number"
+                            class="mt-1 block w-full"
+                            required
+                            v-model="formPlants.details.expected_income"
+                        />
+                        <InputError class="mt-2" :message="formPlants.details.errors" />
+                    </div>
+                </div>
+            </template>
+            <template #footer>
+                <div class="flex gap-1">
+                    <SecondaryButton @click="modals.harvest_plant.show = false"
+                        >Cancel</SecondaryButton
+                    >
+                    <PrimaryButton @click="harvestHandler">Continue</PrimaryButton>
                 </div>
             </template>
         </DialogModal>

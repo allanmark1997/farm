@@ -255,7 +255,7 @@ const view_filter = () => {
                                 </td>
                                 <td class="px-6 py-4">
                                     {{
-                                        transaction.farm.map?.name ||
+                                        transaction.farm?.map?.name ||
                                         "Inactive Farm"
                                     }}
                                 </td>

@@ -164,7 +164,7 @@ class FarmController extends Controller
         ]);
         $farmer = $farm->farmer;
         $farmer->update([
-            'income' => $farmer->income + $farm->details['expected_income']
+            'income' => $farmer->income + $request->details['expected_income']
         ]);
 
         Transaction::create([
