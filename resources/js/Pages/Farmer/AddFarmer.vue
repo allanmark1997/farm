@@ -10,6 +10,8 @@ import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import { reactive } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
+
+const addFarmParcel = () => {};
 </script>
 
 <template>
@@ -836,7 +838,9 @@ Number of living household members"
                     <hr />
 
                     <div class="m-2 mt-2">
-                        <PrimaryButton class="bg-green-600 mb-2"
+                        <PrimaryButton
+                            class="bg-green-600 mb-2"
+                            @click="addFarmParcel()"
                             >Add Farm Parcel</PrimaryButton
                         >
                         <div class="relative overflow-x-auto mr-2 w-full">

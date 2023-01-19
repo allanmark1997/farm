@@ -70,9 +70,9 @@ const SendResume = () => {
         >
             <Link
                 v-if="$page.props.user"
-                :href="route('dashboard')"
+                :href="route('timeline.index')"
                 class="text-sm text-blue-700 underline"
-                >Dashboard</Link
+                >Timeline</Link
             >
 
             <template v-else>
