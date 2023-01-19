@@ -874,7 +874,10 @@ Number of living household members"
                                             >
                                                 Size (ha)
                                             </th>
-                                            <th scope="col" class="px-12 py-3">
+                                            <th
+                                                scope="col"
+                                                class="px-[10vmin] py-3"
+                                            >
                                                 No. head
                                                 <br />
                                                 (For Livestock and Poultry)
@@ -1129,7 +1132,7 @@ Number of living household members"
                                                     placeholder="Specify animals"
                                                     required=""
                                                     cols="30"
-                                                    rows="10"
+                                                    rows="30"
                                                 ></textarea>
                                             </td>
                                             <td class="px-6 py-4 w-[4vmin]">
@@ -1189,6 +1192,95 @@ Number of living household members"
                             </div>
                         </div>
                     </div>
+                    <hr />
+                    <p class="mt-4 text-md">
+                        I hereby declare that all information indicated above
+                        are true and correct, and that they may be used by
+                        Department of Agriculture for the purposes of
+                        registration to the Registry System for Basic Sectors in
+                        Agriculture (RSBSA) and other legitimate interests of
+                        the Department pursuant to its mandates.
+                    </p>
+                    <div class="flex m-2 mt-2">
+                        <div class="w-1/2 mr-2">
+                            <label
+                                for="Date"
+                                class="block mb-2 text-sm font-medium text-gray-900"
+                                >Date</label
+                            >
+                            <input
+                                type="date"
+                                name="date"
+                                id="date"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                required=""
+                            />
+                        </div>
+                        <div class="w-1/2 mr-2">
+                            <label
+                                for="Date"
+                                class="block mb-2 text-sm font-medium text-gray-900"
+                                >Name of Applicant</label
+                            >
+                            <input
+                                type="text"
+                                name="name_of_applicant"
+                                id="name_of_applicant"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                required=""
+                                disabled
+                            />
+                        </div>
+                    </div>
+                    <div class="flex m-2 mt-2">
+                        <div class="w-1/2 mr-2">
+                            <PrimaryButton class="w-full"
+                                >Upload Signature of applicant</PrimaryButton
+                            >
+                        </div>
+                        <div class="w-1/2 mr-2">
+                            <PrimaryButton class="w-full"
+                                >Upload Thumbmark of applicant</PrimaryButton
+                            >
+                        </div>
+                    </div>
+                    <hr />
+                    <p class="mt-4 text-md">VERIFIED TRUE AND CORRECT BY:</p>
+                    <div class="flex m-2 mt-2">
+                        <div class="w-1/2 mr-2">
+                            <PrimaryButton class="w-full"
+                                >Upload Signature above printed name of
+                                Baranggay Captain</PrimaryButton
+                            >
+                        </div>
+                        <div class="w-1/2 mr-2">
+                            <PrimaryButton class="w-full"
+                                >Upload Signature above printed name of
+                                City/Municipal Agriculture Office</PrimaryButton
+                            >
+                        </div>
+                        <div class="w-1/2 mr-2">
+                            <PrimaryButton class="w-full"
+                                >Upload Signature above printed name of
+                                CAFC/MAFC Chairman</PrimaryButton
+                            >
+                        </div>
+                    </div>
+                    <hr />
+                    <p class="mt-4 text-lg font-bold">DATA PRIVACY POLICY</p>
+                    <p class="mt-4 text-md">
+                        The collection of personal information is for
+                        documentation, planning, reporting and processing
+                        purposes in availing agricultural related interventions.
+                        Processed data shall only be shared to partner agencies
+                        for planning, reporting and other use in accordance to
+                        the mandate of the agency. This is in compliance with
+                        the Data Sharing Policy of the department. You have the
+                        right to ask for a copy of your personal data that we
+                        hold about you as well as to ask for it to be corrected
+                        if you think it is wrong. To do so, please contact
+                        (Contact Person and Contact Details).
+                    </p>
                 </div>
             </div>
         </div>
