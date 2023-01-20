@@ -49,7 +49,8 @@ class FarmerController extends Controller
         Farmer::create([
             'name' => $request->name,
             'income' => 0,
-            'active' => true
+            'active' => true,
+            'details' => $request->details
         ]);
 
         return Redirect::back();
