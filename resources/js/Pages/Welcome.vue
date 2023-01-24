@@ -134,7 +134,7 @@ const SendResume = () => {
                     THE FULL LIFE IN A GOD-CENTERED COMMUNITY & HEALTHY
                     ENVIRONMENT, IN A PPRESERVED CULTURE."
                     <br />
-                    - Vission
+                    - Vision
                 </div>
             </div>
         </div>
