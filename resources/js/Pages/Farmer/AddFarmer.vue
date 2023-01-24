@@ -8,12 +8,41 @@ import Pagination from "@/Components/Pagination.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
-import Parcel from "./Parcel.vue";
-
+import Parcel from "./Parcel.vue"; 
 import { reactive, ref, provide } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
+import {regions,getCityMunByProvince,getBarangayByMun,getProvincesByRegion} from 'phil-reg-prov-mun-brgy';
 
-const parcels = ref([]);
+const ADD_CATEGORY = {
+    provinces:"Provinces",
+    cities:"Cities",
+    baranggays:"Baranggays"
+};
+
+const parcels = ref([]); 
+const provinces = ref([]);
+const baranggays = ref([]); 
+const cities = ref([]);
+
+console.log(getProvincesByRegion('01')); 
+
+const getRegion = (event,cat)=>{ 
+    if(cat === ADD_CATEGORY.provinces){ 
+        description.value.address.region = JSON.parse(event.target.value);
+        provinces.value = getProvincesByRegion(JSON.parse(event.target.value).reg_code);
+        console.log(JSON.parse(event.target.value));
+    }if(cat === ADD_CATEGORY.cities){ 
+        description.value.address.province = JSON.parse(event.target.value);
+        cities.value = getCityMunByProvince(JSON.parse(event.target.value).prov_code);
+        console.log(cities.value);
+    }if(cat === ADD_CATEGORY.baranggays){ 
+        description.value.address.municpality = JSON.parse(event.target.value);
+        baranggays.value = getBarangayByMun(JSON.parse(event.target.value).mun_code);
+        console.log(baranggays.value);
+    }else{
+        description.value.address.baranngay = JSON.parse(event.target.value);
+    }
+}
 
 const add_farmer = useForm({
     name: "",
@@ -25,21 +54,15 @@ const add_farmer = useForm({
     },
 });
 
-const addFarmParcel = () => {
-    add_farmer.details.parcels.push({
-        description: {
+const description = ref({
             address: {
-                region: {
-                    name: "",
-                    code: "",
+                region: { 
                 },
-                province: {
-                    name: "",
-                    code: "",
+                province: { 
                 },
-                municpality: {
-                    name: "",
-                    code: "",
+                municpality: { 
+                },
+                baranngay:{ 
                 },
                 street: "",
                 hose_lot: "",
@@ -57,8 +80,9 @@ const addFarmParcel = () => {
             head_number: 0,
             type: "",
             organic: false,
-        },
-    });
+});
+const addFarmParcel = () => {
+    add_farmer.details.parcels.push(description.value);
 };
 
 provide("add_farmer", add_farmer);
@@ -127,15 +151,8 @@ provide("add_farmer", add_farmer);
                             />
                         </div>
                         <div class="w-1/4">
-                            <label
-                                for="Extension Name"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Extension Name</label
-                            >
-                            <input
-                                type="text"
-                                name="extension_name"
-                                id="extension_name"
+                            <label for="Extension Name"  class="block mb-2 text-sm font-medium text-gray-900">Extension Name</label >
+                            <input type="text" name="extension_name" id="extension_name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 placeholder="Extension Name"
                                 required=""
@@ -146,16 +163,9 @@ provide("add_farmer", add_farmer);
                     <hr />
                     <div class="flex mt-4 m-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Extension Name"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Extension Name</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
+                            <label for="Extension Name" class="block mb-2 text-sm font-medium text-gray-900">Gender</label>
+                            <select class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                name="" id="">
                                 <option value="0">Male</option>
                                 <option value="1">Female</option>
                             </select>
@@ -195,193 +205,92 @@ provide("add_farmer", add_farmer);
                     <p class="text-md">Place of Birth</p>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Region"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Region</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Region</label>
+                            <select @change="getRegion($event,ADD_CATEGORY.provinces)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                <option value="" disabled selected>Region</option>
+                                <option v-for="(region,key) in regions" :key="key" :value="JSON.stringify(region)">{{region.name}}</option> 
                             </select>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Province"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Province</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Province</label>
+                            <select @change="getRegion($event,ADD_CATEGORY.cities)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                <option value="" disabled selected>Province</option>
+                                <option v-for="(province,key) in provinces" :key="key" :value="JSON.stringify(province)">{{province.name}}</option> 
                             </select>
                         </div>
-                        <div class="w-1/2 mr-2">
-                            <label
-                                for="Municipality/City"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Municipality/City</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
+                        <div class="w-1/2 mr-2"> 
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Municipality/City</label>
+                            <select @change="getRegion($event,ADD_CATEGORY.baranggays)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                <option value="" disabled selected>Municipality/City</option>
+                                <option v-for="(city,key) in cities" :key="key" :value="JSON.stringify(city)">{{city.name}}</option> 
                             </select>
                         </div>
                     </div>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Baranggay"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Baranggay</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Baranggay</label>
+                            <select @change="getRegion($event,'bara')" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                <option value="" disabled selected>Baranggay</option>
+                                <option v-for="(baranggay,key) in baranggays" :key="key" :value="JSON.stringify(baranggay)">{{baranggay.name}}</option> 
                             </select>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Street"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Street</label
-                            >
-                            <select
+                            <label for="Street" class="block mb-2 text-sm font-medium text-gray-900">Street</label>
+                            <input type="text" name="Street" id="Street"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
-                            </select>
+                                placeholder="Street" required="" />
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="House/Lot"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >House/Lot</label
-                            >
-                            <select
+                            <label for="House/Lot" class="block mb-2 text-sm font-medium text-gray-900">House/Lot</label>
+                            <input type="text" name="House/Lot" id="House/Lot"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
-                            </select>
+                                placeholder="House/Lot" required="" />
                         </div>
                     </div>
                     <hr />
-                    <p class="text-md">Permanent Address</p>
-
+                    <p class="text-md">Permanent Address</p> 
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Region"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Region</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Region</label>
+                            <select @change="getRegion($event,ADD_CATEGORY.provinces)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                <option value="" disabled selected>Region</option>
+                                <option v-for="(region,key) in regions" :key="key" :value="JSON.stringify(region)">{{region.name}}</option> 
                             </select>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Province"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Province</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Province</label>
+                            <select @change="getRegion($event,ADD_CATEGORY.cities)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                <option value="" disabled selected>Province</option>
+                                <option v-for="(province,key) in provinces" :key="key" :value="JSON.stringify(province)">{{province.name}}</option> 
                             </select>
                         </div>
-                        <div class="w-1/2 mr-2">
-                            <label
-                                for="Municipality/City"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Municipality/City</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
+                        <div class="w-1/2 mr-2"> 
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Municipality/City</label>
+                            <select @change="getRegion($event,ADD_CATEGORY.baranggays)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                <option value="" disabled selected>Municipality/City</option>
+                                <option v-for="(city,key) in cities" :key="key" :value="JSON.stringify(city)">{{city.name}}</option> 
                             </select>
                         </div>
                     </div>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Baranggay"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Baranggay</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Baranggay</label>
+                            <select @change="getRegion($event,ADD_CATEGORY.baranggays)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                <option value="" disabled selected>Baranggay</option>
+                                <option v-for="(baranggay,key) in baranggays" :key="key" :value="JSON.stringify(baranggay)">{{baranggay.name}}</option> 
                             </select>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Street"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Street</label
-                            >
-                            <select
+                            <label for="Street" class="block mb-2 text-sm font-medium text-gray-900">Street</label>
+                            <input type="text" name="Street" id="Street"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
-                            </select>
+                                placeholder="Street" required="" />
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="House/Lot"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >House/Lot</label
-                            >
-                            <select
+                            <label for="House/Lot" class="block mb-2 text-sm font-medium text-gray-900">House/Lot</label>
+                            <input type="text" name="House/Lot" id="House/Lot"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
-                            </select>
+                                placeholder="House/Lot" required="" />
                         </div>
                     </div>
                     <hr />

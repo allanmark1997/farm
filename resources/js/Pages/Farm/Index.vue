@@ -175,6 +175,7 @@ const mapCoordinate = (points) => {
 };
 
 const plantHandle = () => {
+    formPlants.details.datePlant = new Date();
     formPlants.put(route("farms.plant", formPlants.id), {
         preserveScroll: true,
         onSuccess: () => {
@@ -185,7 +186,8 @@ const plantHandle = () => {
 };
 
 const harvestHandler = ()=>{ 
-    formPlants.color = '#ffffff';
+    formPlants.color = '#ffffff'; 
+    formPlants.details.dateHarvest = new Date();
     if(formPlants.details.expected_income <= 0){
         alert("Please indicate your income.");
         return;
