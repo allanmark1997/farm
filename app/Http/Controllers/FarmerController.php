@@ -6,6 +6,7 @@ use App\Models\Farmer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class FarmerController extends Controller
@@ -46,11 +47,59 @@ class FarmerController extends Controller
             'name' => ['required', 'max:255']
         ]);
 
+        $details = $request->details;
+
+        if($request->hasfile('applicant_signature')){
+            $details['applicant_signatures'] = [];
+            foreach($request->file('photos') as $photo){
+                $imageName = 'applicant_'.Str::random(10).'.'.$photo->extension();
+                $photo->move(public_path().'/images/farmer/', $imageName); 
+                array_push($images, $imageName);
+                $details['applicant_signatures'][] = $imageName;
+            }
+        }
+        if($request->hasfile('applicant_thumbmark')){
+            $details['applicant_thumbmarks'] = [];
+            foreach($request->file('photos') as $photo){
+                $imageName = 'thumbmark_applicant_'.Str::random(10).'.'.$photo->extension();
+                $photo->move(public_path().'/images/farmer/', $imageName); 
+                array_push($images, $imageName);
+                $details['applicant_thumbmarks'][] = $imageName;
+            }
+        }
+        if($request->hasfile('brgy_captain_signature')){
+            $details['brgy_captain_signatures'] = [];
+            foreach($request->file('photos') as $photo){
+                $imageName = 'brgy_captain_'.Str::random(10).'.'.$photo->extension();
+                $photo->move(public_path().'/images/farmer/', $imageName); 
+                array_push($images, $imageName);
+                $details['brgy_captain_signatures'][] = $imageName;
+            }
+        }
+        if($request->hasfile('city_agriculture_signature')){
+            $details['brgy_captain_signatures'] = [];
+            foreach($request->file('photos') as $photo){
+                $imageName = 'city_agriculture_'.Str::random(10).'.'.$photo->extension();
+                $photo->move(public_path().'/images/farmer/', $imageName); 
+                array_push($images, $imageName);
+                $details['brgy_captain_signatures'][] = $imageName;
+            }
+        }
+        if($request->hasfile('cafc_chhairman_signature')){
+            $details['cafc_chhairman_signatures'] = [];
+            foreach($request->file('photos') as $photo){
+                $imageName = 'cafc_chhairman_'.Str::random(10).'.'.$photo->extension();
+                $photo->move(public_path().'/images/farmer/', $imageName); 
+                array_push($images, $imageName);
+                $details['cafc_chhairman_signatures'][] = $imageName;
+            }
+        }
+
         Farmer::create([
             'name' => $request->name,
             'income' => 0,
             'active' => true,
-            'details' => $request->details
+            'details' => $details
         ]);
 
         return Redirect::back();
