@@ -45,12 +45,63 @@ const getRegion = (event,cat)=>{
 }
 
 const add_farmer = useForm({
-    name: "",
+    nname: "", 
     income: 0,
     active: true,
     photo: "",
     details: {
-        parcels: [],
+        parcels:[],
+        fname: "",
+        sname:"",
+        mname:"",
+        ename:"",
+        gender:"",
+        mobile:"",
+        dateBirth:"",
+        regionBirth:"",
+        provinceBirth:"",
+        cityBirth:"",
+        baranggayBirth:"",
+        streetBirth:"",
+        lotBirth:"",
+        regionAddress:"",
+        provinceAddress:"",
+        cityAddress:"",
+        baranggayAddress:"",
+        streetAddress:"",
+        lotAddress:"",
+        status:"",
+        religion:"",
+        nameSpouse:"",
+        motherName:"",
+        houseHold:"",
+        houseHoldName:"",
+        houseHoldRelation:"",
+        householdLiving:"",
+        numberMale:"",
+        numberFemale:"",
+        formalEducational:"",
+        pwd:"",
+        fourPs:"",
+        IndigenousGoup:"",
+        IndigenousSpecify:"",
+        emergencyPerson:"",
+        emergencyContact:"",
+        uploadSignature:"",
+        uploadThumbamark:"",
+        uploadSignatureCaptain:"",
+        uploadSignatureAgriculture:"",
+        uploadSignatureCADC:"",
+        mianLivelihood:"",
+        farmActivity:"",
+        farmSpecify:"",
+        farmWork:"",
+        farmWorkSpecify:"",
+        grossFarming:"",
+        grossNonFarming:"",
+        grossParcel:"",
+        grossARB:""
+
     },
 });
 
@@ -92,12 +143,8 @@ provide("add_farmer", add_farmer);
     <AppLayout title="Farms">
         <div class="pb-4">
             <div class="mx-auto sm:px-6 lg:px-8">
-                <PrimaryButton class="my-2 bg-green-600" @click="showModal()"
-                    >Save</PrimaryButton
-                >
-                <div
-                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6"
-                >
+                <PrimaryButton class="my-2 bg-green-600" @click="showModal()">Save</PrimaryButton>
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                     <div>2x2 picture taken within 6 months</div>
                     <div>
                         <p class="text-lg text-center">
@@ -106,57 +153,20 @@ provide("add_farmer", add_farmer);
                     </div>
                     <div class="flex m-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="text"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Surname</label
-                            >
-                            <input
-                                type="text"
-                                name="text"
-                                id="Surname"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Surname"
-                                required=""
-                            />
+                            <InputLabel>Surname</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="First Name"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >First Name</label
-                            >
-                            <input
-                                type="text"
-                                name="first_name"
-                                id="first_name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="First Name"
-                                required=""
-                            />
+                            <InputLabel>First Name</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Middle Name"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Middle Name</label
-                            >
-                            <input
-                                type="text"
-                                name="middle_name"
-                                id="middle_name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Middle Name"
-                                required=""
-                            />
+                            <InputLabel>Middle Name</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                         <div class="w-1/4">
-                            <label for="Extension Name"  class="block mb-2 text-sm font-medium text-gray-900">Extension Name</label >
-                            <input type="text" name="extension_name" id="extension_name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Extension Name"
-                                required=""
-                            />
+                            <InputLabel>Extension Name</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                     </div>
 
@@ -171,34 +181,12 @@ provide("add_farmer", add_farmer);
                             </select>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Mobile Number"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Mobile Number</label
-                            >
-                            <input
-                                type="text"
-                                name="mobile_number"
-                                id="mobile_number"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Mobile Number"
-                                required=""
-                            />
+                            <InputLabel>Mobile Number</InputLabel>
+                            <TextInput type="number"/>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Date of Birth"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Date of Birth</label
-                            >
-                            <input
-                                type="date"
-                                name="date_of_birth"
-                                id="date_of_birth"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Date of Birth"
-                                required=""
-                            />
+                            <InputLabel>Date of Birth</InputLabel>
+                            <TextInput type="date"/>
                         </div>
                     </div>
                     <hr />
@@ -235,16 +223,12 @@ provide("add_farmer", add_farmer);
                             </select>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label for="Street" class="block mb-2 text-sm font-medium text-gray-900">Street</label>
-                            <input type="text" name="Street" id="Street"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Street" required="" />
+                            <InputLabel>Street</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label for="House/Lot" class="block mb-2 text-sm font-medium text-gray-900">House/Lot</label>
-                            <input type="text" name="House/Lot" id="House/Lot"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="House/Lot" required="" />
+                            <InputLabel>House/Lot</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                     </div>
                     <hr />
@@ -281,31 +265,21 @@ provide("add_farmer", add_farmer);
                             </select>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label for="Street" class="block mb-2 text-sm font-medium text-gray-900">Street</label>
-                            <input type="text" name="Street" id="Street"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Street" required="" />
+                            <InputLabel>Street</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label for="House/Lot" class="block mb-2 text-sm font-medium text-gray-900">House/Lot</label>
-                            <input type="text" name="House/Lot" id="House/Lot"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="House/Lot" required="" />
+                            <InputLabel>House/Lot</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                     </div>
                     <hr />
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Status"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Status</label
-                            >
+                            <label for="Status" class="block mb-2 text-sm font-medium text-gray-900"  >Status</label >
                             <select
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
+                                name="" id="" >
                                 <option value="0">Single</option>
                                 <option value="1">Widowed</option>
                                 <option value="2">Maried</option>
@@ -313,164 +287,63 @@ provide("add_farmer", add_farmer);
                             </select>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Religion"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Religion</label
-                            >
-                            <input
-                                type="text"
-                                name="religion"
-                                id="religion"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Religion"
-                                required=""
-                            />
+                            <InputLabel>Religion</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Name of spouse if married"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Name of spouse if married</label
-                            >
-                            <input
-                                type="text"
-                                name="spouse"
-                                id="spouse"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Name of spouse if married"
-                                required=""
-                            />
+                            <InputLabel>Name of spouse if married</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                     </div>
                     <hr />
                     <div class="flex m-2 mt-2">
                         <div class="mr-2 w-full">
-                            <label
-                                for="Mother's Maiden Name"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Mother's Maiden Name</label
-                            >
-                            <input
-                                type="text"
-                                name="mother"
-                                id="mother"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Mother's Maiden Name"
-                                required=""
-                            />
+                            <InputLabel>Mother's Maiden Name</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                     </div>
                     <hr />
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Household head?"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Household head?</label
-                            >
+                            <InputLabel>Household head?</InputLabel>
                             <select
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
+                                name="" id="" >
                                 <option value="0">Yes</option>
                                 <option value="1">No</option>
                             </select>
                         </div>
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="If no, name of household head"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >If no, name of household head</label
-                            >
-                            <input
-                                type="text"
-                                name="household_head"
-                                id="household_head"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="If no, name of household head"
-                                required=""
-                            />
+                            <InputLabel>If no, name of household head</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Relationship"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Relationship</label
-                            >
-                            <input
-                                type="text"
-                                name="relationship"
-                                id="relationship"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Relationship"
-                                required=""
-                            />
+                            <InputLabel>Relationship</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                     </div>
                     <hr />
                     <div class="flex mt-2 m-2">
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Number of living household members"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Number of living household members</label
-                            >
-                            <input
-                                type="number"
-                                name="household_total_members"
-                                id="household_total_members"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Number of living household members
-Number of living household members"
-                                required=""
-                            />
+                            <InputLabel>Number of living household members</InputLabel>
+                            <TextInput type="number"/>
                         </div>
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Number of Male"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Number of Male</label
-                            >
-                            <input
-                                type="number"
-                                name="household_male_members"
-                                id="household_male_members"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Number of Male"
-                                required=""
-                            />
+                            <InputLabel>Number of Male</InputLabel>
+                            <TextInput type="number"/>
                         </div>
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Number of Female"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Number of Female</label
-                            >
-                            <input
-                                type="number"
-                                name="household_female_members"
-                                id="household_female_members"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Number of Female"
-                                required=""
-                            />
+                            <InputLabel>Number of Female</InputLabel>
+                            <TextInput type="number"/>
                         </div>
                     </div>
                     <hr />
                     <div class="flex mt-2 m-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Highest Formal Educational"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Highest Formal Educational</label
-                            >
+                            <InputLabel>Highest Formal Educational</InputLabel >
                             <select
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
+                                name="" id="" >
                                 <option value="0">None</option>
                                 <option value="1">Elementary</option>
                                 <option value="2">High School</option>
@@ -480,31 +353,18 @@ Number of living household members"
                             </select>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Person with disability (PWD)"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Person with disability (PWD)</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
+                            <InputLabel>Person with disability (PWD)</InputLabel>
+                            <select class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                name="" id="" >
                                 <option value="0">Yes</option>
                                 <option value="1">No</option>
                             </select>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="4P's Beneficiary?"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >4P's Beneficiary?</label
-                            >
+                            <InputLabel>4P's Beneficiary?</InputLabel>
                             <select
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
+                                name="" id="" >
                                 <option value="0">Yes</option>
                                 <option value="1">No</option>
                             </select>
@@ -512,67 +372,28 @@ Number of living household members"
                     </div>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Member og Indigenous Group?"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Member og Indigenous Group?</label
-                            >
+                            <InputLabel>Member og Indigenous Group?</InputLabel>
                             <select
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
+                                name="" id="" >
                                 <option value="0">Yes</option>
                                 <option value="1">No</option>
                             </select>
                         </div>
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="If yes, specify"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >If yes, specify</label
-                            >
-                            <input
-                                type="text"
-                                name="specify_indigenous_group"
-                                id="specify_indigenous_group"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="If yes, specify"
-                                required=""
-                            />
+                            <InputLabel >If yes, specify</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                     </div>
                     <hr />
                     <div class="flex mt-2 m-2">
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Person to notify in case of emergency"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Person to notify in case of emergency</label
-                            >
-                            <input
-                                type="text"
-                                name="person_emergency"
-                                id="person_emergency"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Person to notify in case of emergency"
-                                required=""
-                            />
+                            <InputLabel>Person to notify in case of emergency</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Contact number"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Contact number</label
-                            >
-                            <input
-                                type="text"
-                                name="contact_number"
-                                id="contact_number"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Contact number"
-                                required=""
-                            />
+                            <InputLabel>Contact number</InputLabel>
+                            <TextInput type="number"/>
                         </div>
                     </div>
                     <hr />
@@ -581,16 +402,10 @@ Number of living household members"
                     </div>
                     <div class="flex mt-2 m-2">
                         <div class="w-full mr-2">
-                            <label
-                                for="Main livelihood"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Main livelihood</label
-                            >
+                            <InputLabel>Main livelihood</InputLabel>
                             <select
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
+                                name=""  id="" >
                                 <option value="0">Farmer</option>
                                 <option value="1">Farmworker/Laborer</option>
                                 <option value="2">Fisherfolk</option>
@@ -602,16 +417,10 @@ Number of living household members"
 
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Type of activity"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Type of activity</label
-                            >
+                            <InputLabel>Type of activity</InputLabel>
                             <select
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
+                                name="" id="">
                                 <option value="0">Rice</option>
                                 <option value="1">Corn</option>
                                 <option value="2">Other crops</option>
@@ -620,19 +429,8 @@ Number of living household members"
                             </select>
                         </div>
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Please specify"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Please specify</label
-                            >
-                            <input
-                                type="text"
-                                name="specify_for_farmer"
-                                id="specify_for_farmer"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Please specify"
-                                required=""
-                            />
+                            <InputLabel>Please specify</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                     </div>
                     <hr />
@@ -640,16 +438,9 @@ Number of living household members"
 
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Kind of work"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Kind of work</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
+                            <InputLabel>Kind of work</InputLabel>
+                            <select class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                name="" id="" >
                                 <option value="0">Land Preparation</option>
                                 <option value="1">
                                     Planting/Transplanting
@@ -662,19 +453,8 @@ Number of living household members"
                             </select>
                         </div>
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Please specify"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Please specify</label
-                            >
-                            <input
-                                type="text"
-                                name="specify_for_farmworkers"
-                                id="specify_for_farmworkers"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Please specify"
-                                required=""
-                            />
+                            <InputLabel>Please specify</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                     </div>
                     <hr />
@@ -689,16 +469,9 @@ Number of living household members"
 
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Type of Fishing Activity"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Type of Fishing Activity</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
+                            <InputLabel>Type of Fishing Activity</InputLabel> 
+                            <select class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                name="" id="" >
                                 <option value="0">Fish Capture</option>
                                 <option value="1">Fish Processing</option>
                                 <option value="2">Aquaculture</option>
@@ -710,19 +483,8 @@ Number of living household members"
                             </select>
                         </div>
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Please specify"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Please specify</label
-                            >
-                            <input
-                                type="text"
-                                name="specify_for_fisherfolk"
-                                id="specify_for_fisherfolk"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Please specify"
-                                required=""
-                            />
+                            <InputLabel>Please specify</InputLabel>
+                            <TextInput/>
                         </div>
                     </div>
                     <hr />
@@ -730,65 +492,25 @@ Number of living household members"
 
                     <div class="flex m-2 mt-2">
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Farming"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Farming</label
-                            >
-                            <input
-                                type="text"
-                                name="gross_income_farming"
-                                id="gross_income_farming"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Farming"
-                                required=""
-                            />
+                            <InputLabel>Farming</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Non-farming"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Non-farming</label
-                            >
-                            <input
-                                type="text"
-                                name="gross_income_non_farming"
-                                id="gross_income_non_farming"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Non-farming"
-                                required=""
-                            />
+                            <InputLabel>Non-farming</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                     </div>
                     <hr />
 
                     <div class="flex m-2 mt-2">
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Number of Parcels"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Number of Parcels</label
-                            >
-                            <input
-                                type="text"
-                                name="number_of_parcels"
-                                id="number_of_parcels"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Number of Parcels"
-                                required=""
-                            />
+                            <InputLabel>Number of Parcels</InputLabel>
+                            <TextInput type="number"/>
                         </div>
                         <div class="mr-2 w-1/2">
-                            <label
-                                for="Agrarian Reform Beneficiary (ARB)"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Agrarian Reform Beneficiary (ARB)</label
-                            >
-                            <select
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""
-                                id=""
-                            >
+                            <InputLabel>Agrarian Reform Beneficiary (ARB)</InputLabel> 
+                            <select  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                name="" id="" >
                                 <option value="0">Yes</option>
                                 <option value="1">No</option>
                             </select>
@@ -815,33 +537,12 @@ Number of living household members"
                     </p>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Date"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Date</label
-                            >
-                            <input
-                                type="date"
-                                name="date"
-                                id="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                required=""
-                            />
+                            <InputLabel>Date</InputLabel>
+                            <TextInput type="date"/>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label
-                                for="Date"
-                                class="block mb-2 text-sm font-medium text-gray-900"
-                                >Name of Applicant</label
-                            >
-                            <input
-                                type="text"
-                                name="name_of_applicant"
-                                id="name_of_applicant"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                required=""
-                                disabled
-                            />
+                            <InputLabel>Name of Applicant</InputLabel>
+                            <TextInput type="text"/>
                         </div>
                     </div>
                     <div class="flex m-2 mt-2">
