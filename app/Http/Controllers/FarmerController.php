@@ -44,68 +44,55 @@ class FarmerController extends Controller
     public function store(Request $request)
     { 
         $request->validate([
-            'name' => ['required', 'max:255']
+            'details.fname' => ['required', 'max:255']
         ]);
 
         $details = $request->details;
 
-        if($details->hasfile('uploadSignature')){
-            $details['uploadSignature'] = [];
-            foreach($details->file('photos') as $photo){
-                $imageName = 'applicant_'.Str::random(10).'.'.$photo->extension();
-                $photo->move(public_path().'/images/farmer/', $imageName); 
-                array_push($images, $imageName);
-                $details['uploadSignature'][] = $imageName;
-            }
+        if($request->hasfile('uploadSignature')){
+            $photo = $request->file('uploadSignature');
+            $imageName = 'applicant_'.Str::random(10).'.'.$photo->extension();
+            $photo->move(public_path().'/images/farmer/', $imageName); 
+            $details['uploadSignature'] = $imageName;  
         }
-        if($details->hasfile('uploadThumbamark')){
-            $details['uploadThumbamark'] = [];
-            foreach($details->file('photos') as $photo){
-                $imageName = 'thumbmark_applicant_'.Str::random(10).'.'.$photo->extension();
-                $photo->move(public_path().'/images/farmer/', $imageName); 
-                array_push($images, $imageName);
-                $details['uploadThumbamark'][] = $imageName;
-            }
+
+        if($request->hasfile('uploadThumbamark')){
+            $photo = $request->file('uploadThumbamark');
+            $imageName = 'thumbmark_applicant_'.Str::random(10).'.'.$photo->extension();
+            $photo->move(public_path().'/images/farmer/', $imageName); 
+            $details['uploadThumbamark'] = $imageName;  
         }
-        if($details->hasfile('uploadSignatureCaptain')){
-            $details['uploadSignatureCaptain'] = [];
-            foreach($details->file('photos') as $photo){
-                $imageName = 'brgy_captain_'.Str::random(10).'.'.$photo->extension();
-                $photo->move(public_path().'/images/farmer/', $imageName); 
-                array_push($images, $imageName);
-                $details['uploadSignatureCaptain'][] = $imageName;
-            }
+
+        if($request->hasfile('uploadSignatureCaptain')){
+            $photo = $request->file('uploadSignatureCaptain');
+            $imageName = 'brgy_captain_'.Str::random(10).'.'.$photo->extension();
+            $photo->move(public_path().'/images/farmer/', $imageName); 
+            $details['uploadSignatureCaptain'] = $imageName;  
         }
-        if($details->hasfile('uploadSignatureAgriculture')){
-            $details['uploadSignatureAgriculture'] = [];
-            foreach($details->file('photos') as $photo){
-                $imageName = 'city_agriculture_'.Str::random(10).'.'.$photo->extension();
-                $photo->move(public_path().'/images/farmer/', $imageName); 
-                array_push($images, $imageName);
-                $details['uploadSignatureAgriculture'][] = $imageName;
-            }
+
+        if($request->hasfile('uploadSignatureAgriculture')){
+            $photo = $request->file('uploadSignatureAgriculture');
+            $imageName = 'city_agriculture_'.Str::random(10).'.'.$photo->extension();
+            $photo->move(public_path().'/images/farmer/', $imageName); 
+            $details['uploadSignatureAgriculture'] = $imageName;  
         }
-        if($details->hasfile('uploadSignatureCADC')){
-            $details['uploadSignatureCADC'] = [];
-            foreach($details->file('photos') as $photo){
-                $imageName = 'cafc_chhairman_'.Str::random(10).'.'.$photo->extension();
-                $photo->move(public_path().'/images/farmer/', $imageName); 
-                array_push($images, $imageName);
-                $details['uploadSignatureCADC'][] = $imageName;
-            }
+
+        if($request->hasfile('uploadSignatureCADC')){
+            $photo = $request->file('uploadSignatureCADC');
+            $imageName = 'cafc_chhairman_'.Str::random(10).'.'.$photo->extension();
+            $photo->move(public_path().'/images/farmer/', $imageName); 
+            $details['uploadSignatureCADC'] = $imageName;  
         }
-        if($details->hasfile('pic2x2')){
-            $details['pic2x2'] = [];
-            foreach($details->file('photos') as $photo){
-                $imageName = 'pic2x2'.Str::random(10).'.'.$photo->extension();
-                $photo->move(public_path().'/images/farmer/', $imageName); 
-                array_push($images, $imageName);
-                $details['pic2x2'][] = $imageName;
-            }
+
+        if($request->hasfile('pic2x2')){
+            $photo = $request->file('pic2x2');
+            $imageName = 'pic2x2'.Str::random(10).'.'.$photo->extension();
+            $photo->move(public_path().'/images/farmer/', $imageName); 
+            $details['pic2x2'] = $imageName;  
         }
 
         Farmer::create([
-            'name' => $request->name,
+            'name' => $request->fname ." ".($request->mname ?? "")." ".($request->sname ?? "")." ".($request->ename ?? ""),
             'income' => 0,
             'active' => true,
             'details' => $details

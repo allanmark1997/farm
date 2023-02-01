@@ -28,11 +28,13 @@ const citiesAdd = ref([]);
 const pic2x2 = ref(null)
 
 const add_farmer = useForm({
-    name: "", 
-    income: 0,
-    active: true,  
+    uploadSignature:null,
+    uploadThumbamark:null,
+    uploadSignatureCaptain:null,
+    uploadSignatureAgriculture:null,
+    uploadSignatureCADC:null,
+    pic2x2:null,
     details: { 
-        pic2x2:null,
         fname: "",
         sname:"",
         mname:"",
@@ -81,12 +83,7 @@ const add_farmer = useForm({
         grossParcel:"",
         grossARB:"",
         dateApplicant:"",
-        nameOfApplicant:"",
-        uploadSignature:null,
-        uploadThumbamark:null,
-        uploadSignatureCaptain:null,
-        uploadSignatureAgriculture:null,
-        uploadSignatureCADC:null, 
+        nameOfApplicant:""
     },
 });
  
@@ -130,15 +127,13 @@ const saveForm = ()=>{
         onError: () => {
             //code
             loading.value = false;
+            alert("error");
         },
         onFinish: () => {
             //code
         },
     });
 }
-const addFarmParcel = () => {
-    add_farmer.details.parcels.push(description.value);
-};
 
 const openFile = (elementID) => {
     let hidden = document.getElementById(elementID);
@@ -147,21 +142,21 @@ const openFile = (elementID) => {
         console.log(e.target.files);
         if(elementID === 'pic2x2'){ 
             pic2x2.value = window.URL.createObjectURL(e.target.files[0]); 
-            add_farmer.details.pic2x2 = e.target.files[0] 
+            add_farmer.pic2x2 = e.target.files[0] 
         }if(elementID == 'uploadSignature'){
-            add_farmer.details.uploadSignature = e.target.files[0]; 
+            add_farmer.uploadSignature = e.target.files[0]; 
         }
         if(elementID == 'uploadThumbamark'){
-            add_farmer.details.uploadThumbamark = e.target.files[0]; 
+            add_farmer.uploadThumbamark = e.target.files[0]; 
         }
         if(elementID == 'uploadSignatureCaptain'){
-            add_farmer.details.uploadSignatureCaptain = e.target.files[0]; 
+            add_farmer.uploadSignatureCaptain = e.target.files[0]; 
         }
         if(elementID == 'uploadSignatureAgriculture'){
-            add_farmer.details.uploadSignatureAgriculture = e.target.files[0]; 
+            add_farmer.uploadSignatureAgriculture = e.target.files[0]; 
         }
         if(elementID == 'uploadSignatureCADC'){
-            add_farmer.details.uploadSignatureCADC = e.target.files[0]; 
+            add_farmer.uploadSignatureCADC = e.target.files[0]; 
         }
     }; 
 };
@@ -180,7 +175,7 @@ provide("add_farmer", add_farmer);
                         <input id="pic2x2" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"
                              />
                         <div @click="openFile('pic2x2')" class="cursor-pointer relative flex items-center shadow-lg bg-slate-200 p-3 h-[20vmin]">
-                            <img v-if="add_farmer.details.pic2x2" class="w-[20vmin] max-h-[20vmin] object-cover" :src="pic2x2" />
+                            <img v-if="add_farmer.pic2x2" class="w-[20vmin] max-h-[20vmin] object-cover" :src="pic2x2" />
                             <div v-else>2x2 picture taken within 6 months</div>
                         </div>
                     </div>
@@ -572,22 +567,22 @@ provide("add_farmer", add_farmer);
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
                             <InputLabel>Date</InputLabel>
-                            <TextInput v-model="add_farmer.name" type="date"/>
+                            <TextInput  v-model="add_farmer.details.dateApplicant" type="date"/>
                         </div>
                         <div class="w-1/2 mr-2">
                             <InputLabel>Name of Applicant</InputLabel>
-                            <TextInput type="text"/>
+                            <TextInput type="text" v-model="add_farmer.details.nameOfApplicant"/>
                         </div>
                     </div>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
                             <input id="uploadSignature" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"/>
-                            <div v-if="add_farmer.details.uploadSignature" class="text-green-500">Signature Uploaded</div>
+                            <div v-if="add_farmer.uploadSignature" class="text-green-500">Signature Uploaded</div>
                             <PrimaryButton class="w-full" @click="openFile('uploadSignature')">Upload Signature of applicant</PrimaryButton>
                         </div>
                         <div class="w-1/2 mr-2">
                             <input id="uploadThumbamark" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"/>
-                            <div v-if="add_farmer.details.uploadThumbamark" class="text-green-500">Thumbmark Uploaded</div>
+                            <div v-if="add_farmer.uploadThumbamark" class="text-green-500">Thumbmark Uploaded</div>
                             <PrimaryButton class="w-full" @click="openFile('uploadThumbamark')">Upload Thumbmark of applicant</PrimaryButton
                             >
                         </div>
@@ -597,20 +592,20 @@ provide("add_farmer", add_farmer);
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
                             <input id="uploadSignatureCaptain" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"/> 
-                            <div v-if="add_farmer.details.uploadSignatureCaptain" class="text-green-500">Signature Baranggay Captain Uploaded</div>
+                            <div v-if="add_farmer.uploadSignatureCaptain" class="text-green-500">Signature Baranggay Captain Uploaded</div>
                             <PrimaryButton class="w-full" @click="openFile('uploadSignatureCaptain')"
                                 >Upload Signature above printed name of Baranggay Captain</PrimaryButton>
                         </div>
                         <div class="w-1/2 mr-2">
                             <input id="uploadSignatureAgriculture" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"/> 
-                            <div v-if="add_farmer.details.uploadSignatureAgriculture" class="text-green-500">Signature City/Municipal Agriculture Office Uploaded</div>
+                            <div v-if="add_farmer.uploadSignatureAgriculture" class="text-green-500">Signature City/Municipal Agriculture Office Uploaded</div>
                             <PrimaryButton class="w-full" @click="openFile('uploadSignatureAgriculture')"
                                 >Upload Signature above printed name of City/Municipal Agriculture Office</PrimaryButton
                             >
                         </div>
                         <div class="w-1/2 mr-2">
                             <input id="uploadSignatureCADC" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"/> 
-                            <div v-if="add_farmer.details.uploadSignatureCADC" class="text-green-500">Signature CAFC/MAFC Chairman Uploaded</div>
+                            <div v-if="add_farmer.uploadSignatureCADC" class="text-green-500">Signature CAFC/MAFC Chairman Uploaded</div>
                             <PrimaryButton class="w-full" @click="openFile('uploadSignatureCADC')"
                                 >Upload Signature above printed name of CAFC/MAFC Chairman</PrimaryButton>
                         </div>
