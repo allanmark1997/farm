@@ -25,6 +25,7 @@ const cities = ref([]);
 const provincesAdd = ref([]);
 const baranggaysAdd = ref([]); 
 const citiesAdd = ref([]);
+const pic2x2 = ref(null)
 
 const add_farmer = useForm({
     name: "", 
@@ -145,21 +146,22 @@ const openFile = (elementID) => {
     hidden.onchange = (e,) => {
         console.log(e.target.files);
         if(elementID === 'pic2x2'){ 
-            add_farmer.details.pic2x2 = window.URL.createObjectURL(e.target.files[0]); 
+            pic2x2.value = window.URL.createObjectURL(e.target.files[0]); 
+            add_farmer.details.pic2x2 = e.target.files[0] 
         }if(elementID == 'uploadSignature'){
-            add_farmer.details.uploadSignature = window.URL.createObjectURL(e.target.files[0]); 
+            add_farmer.details.uploadSignature = e.target.files[0]; 
         }
         if(elementID == 'uploadThumbamark'){
-            add_farmer.details.uploadThumbamark = window.URL.createObjectURL(e.target.files[0]); 
+            add_farmer.details.uploadThumbamark = e.target.files[0]; 
         }
         if(elementID == 'uploadSignatureCaptain'){
-            add_farmer.details.uploadSignatureCaptain = window.URL.createObjectURL(e.target.files[0]); 
+            add_farmer.details.uploadSignatureCaptain = e.target.files[0]; 
         }
         if(elementID == 'uploadSignatureAgriculture'){
-            add_farmer.details.uploadSignatureAgriculture = window.URL.createObjectURL(e.target.files[0]); 
+            add_farmer.details.uploadSignatureAgriculture = e.target.files[0]; 
         }
         if(elementID == 'uploadSignatureCADC'){
-            add_farmer.details.uploadSignatureCADC = window.URL.createObjectURL(e.target.files[0]); 
+            add_farmer.details.uploadSignatureCADC = e.target.files[0]; 
         }
     }; 
 };
@@ -178,7 +180,7 @@ provide("add_farmer", add_farmer);
                         <input id="pic2x2" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"
                              />
                         <div @click="openFile('pic2x2')" class="cursor-pointer relative flex items-center shadow-lg bg-slate-200 p-3 h-[20vmin]">
-                            <img v-if="add_farmer.details.pic2x2" class="w-[20vmin] max-h-[20vmin] object-cover" :src="add_farmer.details.pic2x2" />
+                            <img v-if="add_farmer.details.pic2x2" class="w-[20vmin] max-h-[20vmin] object-cover" :src="pic2x2" />
                             <div v-else>2x2 picture taken within 6 months</div>
                         </div>
                     </div>

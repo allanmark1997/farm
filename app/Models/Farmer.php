@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Farmer extends Model
 {
     use HasFactory, SoftDeletes;
-
+    protected $casts = [
+        'details' => 'json', 
+    ];
     protected $guarded = [];
 }
