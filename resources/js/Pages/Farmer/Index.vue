@@ -16,6 +16,7 @@ import { Link, useForm } from "@inertiajs/inertia-vue3";
 import moment from "moment";
 import ToggleSwitch from "@/Components/ToggleSwitch.vue";
 import { Inertia } from "@inertiajs/inertia";
+import FarmProfile from '@/Pages/Farmer/FarmerProfile.vue';
 
 const props = defineProps(["farmers"]);
 const activate = ref([]);
@@ -39,6 +40,11 @@ const modals = reactive({
         },
     },
 });
+const showProfile = reactive({
+    show:false,
+    data:null
+});
+
 
 onMounted(() => {
     props.farmers.data.forEach((farmer) => {
@@ -50,6 +56,10 @@ onMounted(() => {
     });
 });
 
+const profile = (data)=>{
+    showProfile.show = true;
+    showProfile.data = data
+}
 // const downloadItem = (url) => {
 //     axios({
 //         method: "get",
@@ -154,37 +164,18 @@ const toggle_status = (farmer) => {
     <AppLayout title="Farmers">
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div
-                    class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 pb-12 mt-2"
-                >
-                    <div class="flex justify-between gap-1">
-                        <a
-                            class="mb-2 bg-green-600 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
-                            :href="route('farmers.add_farmer_page')"
-                            >New Farmer</a
-                        >
-                    </div>
-                    <div
-                        class="flex items-center justify-between py-4 bg-white"
-                    >
-                        <div></div>
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 pb-12 mt-2" > 
+                    <div class="flex items-center justify-between py-4 bg-white" > 
+                        <div class="flex justify-between gap-1">
+                            <a class="bg-green-600 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
+                            :href="route('farmers.add_farmer_page')" >New Farmer</a >
+                        </div>
                         <label for="table-search" class="sr-only">Search</label>
                         <div class="relative">
-                            <div
-                                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-                            >
-                                <svg
-                                    class="w-5 h-5 text-gray-500"
-                                    aria-hidden="true"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                        clip-rule="evenodd"
-                                    ></path>
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none" >
+                                <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" >
+                                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                        clip-rule="evenodd" ></path>
                                 </svg>
                             </div>
                             <input
@@ -195,12 +186,8 @@ const toggle_status = (farmer) => {
                             />
                         </div>
                     </div>
-                    <table
-                        class="w-full text-sm text-left text-gray-500 rounded-lg"
-                    >
-                        <thead
-                            class="text-xs text-gray-700 uppercase bg-green-300 rounded-lg"
-                        >
+                    <table class="w-full text-sm text-left text-gray-500 rounded-lg" >
+                        <thead class="text-xs text-gray-700 uppercase bg-green-300 rounded-lg" >
                             <tr>
                                 <th scope="col" class="px-6 py-3">Name</th>
                                 <th scope="col" class="px-6 py-3">
@@ -214,24 +201,12 @@ const toggle_status = (farmer) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr
-                                class="bg-white border-b"
-                                v-for="(farmer, index) in farmers.data"
-                                :key="index"
-                            >
-                                <th
-                                    scope="row"
-                                    class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap"
-                                >
-                                    <Link
-                                        :href="
-                                            route('farms.index', {
-                                                selected_farmer: farmer.id,
-                                            })
-                                        "
-                                    >
+                            <tr class="bg-white border-b" v-for="(farmer, index) in farmers.data" :key="index">
+                                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap" >
+                                    <!-- <Link :href=" route('farms.index', { selected_farmer: farmer.id, }) "> -->
+                                    <div @click="profile(farmer)">
                                         {{ farmer.name }}
-                                    </Link>
+                                    </div>
                                 </th>
                                 <td class="px-6 py-4">
                                     {{ farmer.income }}
@@ -329,6 +304,20 @@ const toggle_status = (farmer) => {
                     <PrimaryButton @click="saveFarmer">Submit</PrimaryButton>
                 </div>
             </template>
+        </DialogModal>
+        <DialogModal maxWidth="7xl" :show="showProfile.show">
+            <template #title>Profile</template>
+            <template #content>
+                <FarmProfile :farmer="showProfile.data"/>
+            </template>
+            <template #footer>
+                <div class="flex gap-1">
+                    <SecondaryButton @click="showProfile.show = false">Close</SecondaryButton
+                    >
+                    <!-- <PrimaryButton>Submit</PrimaryButton> -->
+                </div>
+            </template>
+
         </DialogModal>
     </AppLayout>
 </template>

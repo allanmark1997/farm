@@ -92,7 +92,7 @@ class FarmerController extends Controller
         }
 
         Farmer::create([
-            'name' => $request->fname ." ".($request->mname ?? "")." ".($request->sname ?? "")." ".($request->ename ?? ""),
+            'name' => $details['fname'] ." ".($details['mname'] ?? "")." ".($details['sname'] ?? "")." ".($details['ename'] ?? ""),
             'income' => 0,
             'active' => true,
             'details' => $details
