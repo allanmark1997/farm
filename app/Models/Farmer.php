@@ -13,4 +13,9 @@ class Farmer extends Model
         'details' => 'json', 
     ];
     protected $guarded = [];
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }
