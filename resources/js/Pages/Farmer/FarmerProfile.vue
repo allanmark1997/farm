@@ -11,106 +11,62 @@ import InputError from "@/Components/InputError.vue";
 // import formPDF from "../../../../storage/Form.pdf";
 import Icon from "@/Components/Icons.vue";
 import axios from "axios";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref,computed } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
 import moment from "moment";
 import ToggleSwitch from "@/Components/ToggleSwitch.vue";
 import { Inertia } from "@inertiajs/inertia";
+import Profile from "./Profile/Profile.vue"; 
+import Transaction from "./Profile/Transaction.vue";
 
 const props = defineProps(["farmer"]);
+const farmer = ref(props.farmer[0]);
+const currentTab = ref('Profile');
+
+const currentTabComponent = computed(()=>{
+    switch(currentTab.value){
+        case "Profile":
+            return Profile;
+        case "Transaction":
+            return Transaction;
+        case "Custom Script":
+            return Transaction;
+    }   
+});
+
+const changeTab = (name)=>{ 
+    currentTab.value = name; 
+};
+ 
+
 </script>
 <template>
-    <div> 
-        <div class="grid grid-cols-6 gap-2">
-            <div class="border-slate-100 border shadow-lg col-span-1">
-                <img :src="'/images/farmer/' + farmer.details.pic2x2" alt="" class="object-contain h-48 w-48"/>
-            </div>
-            <div class="col-span-5">
-                <div class="grid grid-cols-5 gap-2"> 
-                    <div>
-                        <div class="text-xs underline">Name</div>
-                        {{ farmer.name }}
-                    </div>
-                    <div>
-                        <div class="text-xs underline">Gender</div>
-                        {{ farmer.details.gender }}
-                    </div>
-                    <div>
-                        <div class="text-xs underline">Mobile Contact</div>
-                        {{ farmer.details.mobile }}
-                    </div>
-                    <div>
-                        <div class="text-xs underline">Date of Birth</div>
-                        {{ farmer.details.dateBirth }}
-                    </div>
-                </div>
-                <div class="border-t mt-2 pt-2">
-                    <div>Place of Birth</div>
-                    <div class="grid grid-cols-5 gap-2"> 
-                        <div class="">
-                            <div class="text-xs underline">Region</div>
-                            <div class="text-[1.8vmin]">{{ farmer.details.regionBirth.name }}</div>
-                        </div>
-                        <div>
-                            <div class="text-xs underline">Province</div>
-                            <div class="text-[1.8vmin]">{{ farmer.details.provinceBirth.name }}</div>
-                        </div>
-                        <div>
-                            <div class="text-xs underline">Municipality/City</div>
-                            <div class="text-[1.8vmin]">{{ farmer.details.cityBirth.name }}</div>
-                        </div>
-                        <div>
-                            <div class="text-xs underline">Baranggay</div>
-                            <div class="text-[1.8vmin]">{{ farmer.details.baranggayBirth.name }}</div>
-                            
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-5 gap-2 mt-2"> 
-                        <div class="col-span-2">
-                            <div class="text-xs underline">Street</div>
-                            <div class="text-[1.8vmin]">{{ farmer.details.streetBirth }}</div>
-                        </div>
-                        <div>
-                            <div class="text-xs underline ">House/Lot</div>
-                            <div class="text-[1.8vmin]">{{ farmer.details.lotBirth }}</div>
+    <AppLayout title="Farmer">
+        <div class="pb-4">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="relative overflow-x-auto sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 pb-12 mt-2" > 
+                    <div>  
+                        <div class="grid grid-cols-6 gap-2">
+                            <div class=" col-span-1">
+                                <div class="grid grid-row-6 gap-2">
+                                    <img :src="'/images/farmer/' + farmer.details.pic2x2" alt="" class="object-contain h-48 w-48 border-slate-100 border shadow-lg"/>
+                                    <PrimaryButton class="w-full" @click="changeTab('Profile')">Profile</PrimaryButton>
+                                    <PrimaryButton class="w-full" @click="changeTab('Transaction')">Transaction</PrimaryButton>
+                                    <PrimaryButton class="w-full" >Report</PrimaryButton>
+                                    <PrimaryButton class="w-full" >Print Profile</PrimaryButton> 
+                                    <PrimaryButton class="w-full" >Edit Profile</PrimaryButton>
+                                </div>
+                            </div>
+                            <div class="col-span-5 border shadow-lg p-2 rounded-md">
+                                <component v-bind:is="currentTabComponent" :farmers="farmers" ref="analysis"></component>
+                                <!-- <Profile :farmer="farmer"/> -->
+                            </div> 
                         </div> 
                     </div>
                 </div>
-                <div class="border-t mt-2 pt-2">
-                    <div>Permanent Address</div>
-                    <div class="grid grid-cols-5 gap-2"> 
-                        <div class="">
-                            <div class="text-xs underline">Region</div>
-                            <div class="text-[1.8vmin]">{{ farmer.details.regionAddress.name }}</div>
-                        </div>
-                        <div>
-                            <div class="text-xs underline">Province</div>
-                            <div class="text-[1.8vmin]">{{ farmer.details.provinceAddress.name }}</div>
-                        </div>
-                        <div>
-                            <div class="text-xs underline">Municipality/City</div>
-                            <div class="text-[1.8vmin]">{{ farmer.details.cityAddress.name }}</div>
-                        </div>
-                        <div>
-                            <div class="text-xs underline">Baranggay</div>
-                            <div class="text-[1.8vmin]">{{ farmer.details.baranggayAddress.name }}</div>
-                            
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-5 gap-2 mt-2"> 
-                        <div class="col-span-2">
-                            <div class="text-xs underline">Street</div>
-                            <div class="text-[1.8vmin]">{{ farmer.details.streetAddress }}</div>
-                        </div>
-                        <div>
-                            <div class="text-xs underline ">House/Lot</div>
-                            <div class="text-[1.8vmin]">{{ farmer.details.lotAddress }}</div>
-                        </div> 
-                    </div>
-                </div>
+
             </div>
-            
         </div>
-        
-    </div>
+    </AppLayout>        
+    
 </template>

@@ -203,35 +203,23 @@ const toggle_status = (farmer) => {
                         <tbody>
                             <tr class="bg-white border-b" v-for="(farmer, index) in farmers.data" :key="index">
                                 <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap" >
-                                    <!-- <Link :href=" route('farms.index', { selected_farmer: farmer.id, }) "> -->
-                                    <div @click="profile(farmer)">
+                                    <Link :href=" route('farmers.profile', { id: farmer.id, }) ">
+                                    <div>
                                         {{ farmer.name }}
                                     </div>
+                                    </Link>
                                 </th>
                                 <td class="px-6 py-4">
                                     {{ farmer.income }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    {{
-                                        moment(farmer.created_at).format(
-                                            "MMMM Do YYYY"
-                                        )
-                                    }}
+                                <td class="px-6 py-4"> {{ moment(farmer.created_at).format( "MMMM Do YYYY")}}
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center">
-                                        <div
-                                            :class="
-                                                farmer.active == 1
+                                        <div :class=" farmer.active == 1
                                                     ? 'h-2.5 w-2.5 rounded-full bg-green-400 mr-2'
-                                                    : 'h-2.5 w-2.5 rounded-full bg-red-400 mr-2'
-                                            "
-                                        ></div>
-                                        {{
-                                            farmer.active
-                                                ? "Active"
-                                                : "Inactive"
-                                        }}
+                                                    : 'h-2.5 w-2.5 rounded-full bg-red-400 mr-2'  " ></div>
+                                        {{ farmer.active ? "Active" : "Inactive" }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
