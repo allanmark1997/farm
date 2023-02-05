@@ -200,12 +200,8 @@ const view_filter = () => {
                             />
                         </div>
                     </div>
-                    <table
-                        class="w-full text-sm text-left text-gray-500 rounded-lg"
-                    >
-                        <thead
-                            class="text-xs text-gray-700 uppercase bg-green-300 rounded-lg"
-                        >
+                    <table class="w-full text-sm text-left text-gray-500 rounded-lg" >
+                        <thead class="text-xs text-gray-700 uppercase bg-green-300 rounded-lg" >
                             <tr>
                                 <th scope="col" class="px-6 py-3">Date</th>
                                 <th scope="col" class="px-6 py-3">
@@ -225,23 +221,10 @@ const view_filter = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr
-                                class="bg-white border-b"
-                                v-for="(
-                                    transaction, index
-                                ) in transactions.data"
-                                :key="index"
-                            >
-                                <th
-                                    scope="row"
-                                    class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap"
-                                >
+                            <tr class="bg-white border-b" v-for="(transaction, index ) in transactions.data" :key="index" >
+                                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap" >
                                     <div class="pl-3">
-                                        {{
-                                            moment(
-                                                transaction.created_at
-                                            ).format("MMMM Do YYYY")
-                                        }}
+                                        {{ moment(transaction.created_at ).format("MMMM Do YYYY") }}
                                     </div>
                                 </th>
                                 <td class="px-6 py-4">

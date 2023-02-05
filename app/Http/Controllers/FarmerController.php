@@ -132,14 +132,60 @@ class FarmerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => ['required', 'max:255']
-        ]);
         
+        $request->validate([
+            'details.fname' => ['required', 'max:255']
+        ]);
+
+        $details = $request->details;
+
+        if($request->hasfile('uploadSignature')){
+            $photo = $request->file('uploadSignature');
+            $imageName = 'applicant_'.Str::random(10).'.'.$photo->extension();
+            $photo->move(public_path().'/images/farmer/', $imageName); 
+            $details['uploadSignature'] = $imageName;  
+        }
+
+        if($request->hasfile('uploadThumbamark')){
+            $photo = $request->file('uploadThumbamark');
+            $imageName = 'thumbmark_applicant_'.Str::random(10).'.'.$photo->extension();
+            $photo->move(public_path().'/images/farmer/', $imageName); 
+            $details['uploadThumbamark'] = $imageName;  
+        }
+
+        if($request->hasfile('uploadSignatureCaptain')){
+            $photo = $request->file('uploadSignatureCaptain');
+            $imageName = 'brgy_captain_'.Str::random(10).'.'.$photo->extension();
+            $photo->move(public_path().'/images/farmer/', $imageName); 
+            $details['uploadSignatureCaptain'] = $imageName;  
+        }
+
+        if($request->hasfile('uploadSignatureAgriculture')){
+            $photo = $request->file('uploadSignatureAgriculture');
+            $imageName = 'city_agriculture_'.Str::random(10).'.'.$photo->extension();
+            $photo->move(public_path().'/images/farmer/', $imageName); 
+            $details['uploadSignatureAgriculture'] = $imageName;  
+        }
+
+        if($request->hasfile('uploadSignatureCADC')){
+            $photo = $request->file('uploadSignatureCADC');
+            $imageName = 'cafc_chhairman_'.Str::random(10).'.'.$photo->extension();
+            $photo->move(public_path().'/images/farmer/', $imageName); 
+            $details['uploadSignatureCADC'] = $imageName;  
+        }
+
+        if($request->hasfile('pic2x2')){
+            $photo = $request->file('pic2x2');
+            $imageName = 'pic2x2'.Str::random(10).'.'.$photo->extension();
+            $photo->move(public_path().'/images/farmer/', $imageName); 
+            $details['pic2x2'] = $imageName;  
+        }
+        
+         
         $farmer = Farmer::find($id);
         $farmer->update([
-            'name' => $request->name,
-            'income' => $request->income
+            'name' => $details['fname'] ." ".($details['mname'] ?? "")." ".($details['sname'] ?? "")." ".($details['ename'] ?? ""),
+            'details' => $details
         ]);
 
         return Redirect::back();
@@ -155,8 +201,10 @@ class FarmerController extends Controller
     {
         $farmer = Farmer::find($id);
         $farmer->delete();
-
-        return Redirect::back();
+        $farmers = Farmer::paginate(10);
+        return Inertia::render('Farmer/Index', [
+            'farmers' => $farmers
+        ]);
     }
 
     public function toggle_status($id)
