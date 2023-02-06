@@ -20,7 +20,8 @@ const cities = ref([]);
 const provincesAdd = ref([]);
 const baranggaysAdd = ref([]); 
 const citiesAdd = ref([]);
-const pic2x2 = ref(null)
+const pic2x2 = ref(null);
+ 
 
 const add_farmer = useForm({
     id:null,
@@ -115,13 +116,14 @@ provide("add_farmer", add_farmer);
 </script>
 
 <template> 
-    <div >
+    <div id="htmlContent">
         <div class="mx-auto sm:px-6 lg:px-8"> 
             <div class="">
                 <div class="relative flex justify-between items-center">
                     <div>
                         <PrimaryButton class="my-2 bg-green-600" @click="saveForm()">Update</PrimaryButton>
                     </div>
+                    
                     <div class="mt-2 lg:max-w-[20vmin] ">
                         <input id="pic2x2" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"
                                 />
