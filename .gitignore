@@ -4,6 +4,7 @@
 /public/storage
 /public/images/posts
 /public/images/events
+/public/images/farmer
 /storage/*.key
 /vendor
 .env
