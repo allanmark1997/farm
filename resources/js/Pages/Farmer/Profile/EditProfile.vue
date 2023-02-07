@@ -51,7 +51,7 @@ const getRegionBirth = (event,cat)=>{
     }if(cat === ADD_CATEGORY.baranggays){ 
         add_farmer.details.cityBirth = JSON.parse(event.target.value);
         baranggays.value = getBarangayByMun(JSON.parse(event.target.value).mun_code); 
-    }else{
+    }if(cat === 'bara'){ 
         add_farmer.details.baranggayBirth = JSON.parse(event.target.value);
     }
 }
@@ -66,7 +66,7 @@ const getRegionAddress = (event,cat)=>{
     }if(cat === ADD_CATEGORY.baranggays){ 
         add_farmer.details.cityAddress = JSON.parse(event.target.value);
         baranggaysAdd.value = getBarangayByMun(JSON.parse(event.target.value).mun_code); 
-    }else{
+    }if(cat === 'bara'){ 
         add_farmer.details.baranggayAddress = JSON.parse(event.target.value);
     }
 } 

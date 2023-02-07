@@ -97,7 +97,7 @@ const getRegionBirth = (event,cat)=>{
     }if(cat === ADD_CATEGORY.baranggays){ 
         add_farmer.details.cityBirth = JSON.parse(event.target.value);
         baranggays.value = getBarangayByMun(JSON.parse(event.target.value).mun_code); 
-    }else{
+    }if(cat === 'bara'){ 
         add_farmer.details.baranggayBirth = JSON.parse(event.target.value);
     }
 }
@@ -112,7 +112,7 @@ const getRegionAddress = (event,cat)=>{
     }if(cat === ADD_CATEGORY.baranggays){ 
         add_farmer.details.cityAddress = JSON.parse(event.target.value);
         baranggaysAdd.value = getBarangayByMun(JSON.parse(event.target.value).mun_code); 
-    }else{
+    }if(cat === 'bara'){ 
         add_farmer.details.baranggayAddress = JSON.parse(event.target.value);
     }
 } 
@@ -291,7 +291,7 @@ provide("add_farmer", add_farmer);
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
                             <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Baranggay</label>
-                            <select @change="getRegionAddress($event,ADD_CATEGORY.baranggays)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            <select @change="getRegionAddress($event,'bara')" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="" disabled selected>Baranggay</option>
                                 <option v-for="(baranggay,key) in baranggaysAdd" :key="key" :value="JSON.stringify(baranggay)">{{baranggay.name}}</option> 
                             </select>

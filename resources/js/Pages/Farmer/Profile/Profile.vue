@@ -27,172 +27,214 @@
                 PART I: PERSONAL INFORMATION
             </div>
             <div class="">
-                <div class="profile pb-2">
-                    <div class="grid grid-cols-3 gap-1 pb-1">
+                <div class="profile">
+                    <div class="grid grid-cols-2 gap-6 pb-1">
                         <div class="text-center"> 
-                            <div class="border-b border-black pb-1 text-[14px] ">{{ farmers?.details.sname }}</div>
+                            <div class="border-b border-black pb-1 text-[12px] ">{{ farmers?.details.sname || 'NA'}}</div>
                             <div class="text-[9px] font-bold">SURENAME</div>
                         </div>  
                         <div class="text-center"> 
-                            <div class="border-b border-black pb-1 text-[14px]">{{ farmers?.details.fname }}</div>
+                            <div class="border-b border-black pb-1 text-[12px]">{{ farmers?.details.fname || 'NA'}}</div>
                             <div class="text-[9px] font-bold">FIRST NAME</div>
-                        </div> 
-                        <div class="text-center"> 
-                            <div class="border-b border-black pb-1 text-[14px]">{{ farmers?.details.mname }}</div>
+                        </div>  
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="text-center pb-2"> 
+                            <div class="border-b border-black pb-1 text-[12px] ">{{ farmers?.details.mname || 'NA'}}</div>
                             <div class="text-[9px] font-bold">MIDDLE NAME</div>
                         </div> 
-                    </div>
-                    <div class="grid grid-cols-3 gap-1">
-                        <div class="text-center"> 
-                            <div class="border-b border-black pb-1 text-[14px]">{{ farmers?.details.sname }}</div>
-                            <div class="text-xs">SURENAME</div>
-                        </div>  
-                        <div class="col-span-2 flex gap-4 justify-center border border-black"> 
-                            <div class="text-xs font-bold flex items-center">Sex:</div>
-                            <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.gender == 'Male'" label="Male"/> </div>
-                            <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.gender == 'Female'" label="Female"/></div>
-                        </div> 
+                        <div class="flex gap-4 justify-between">
+                            <div class="text-center w-[30%] pb-2"> 
+                                <div class="border-b border-black pb-1 text-[12px] ">{{ farmers?.details.ename || 'NA' }}</div>
+                                <div class="text-[9px] font-bold">EXTENSION NAME</div>
+                            </div>  
+                            <div class="flex gap-4 justify-center border-l-2 border-t-2 border-black w-[60%] mt-3"> 
+                                <div class="text-xs font-bold flex items-center">Sex:</div>
+                                <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.gender == 'Male'" label="Male"/> </div>
+                                <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.gender == 'Female'" label="Female"/></div>
+                            </div> 
+                        </div>
                           
                     </div>
-                </div>
-                <div class="font-bold text-xs bg-black text-white pb-2 ">
-                    ADDRESS
-                </div>
-                <div class="address">
-                    <div class="grid grid-cols-3 gap-1 pb-1">
-                        <div class="text-center"> 
-                            <div class="border-b border-black pb-1 text-[14px]">{{ farmers?.details?.lotAddress || 'N/A' }}</div>
-                            <div class="text-[9px] font-bold">HOUSE/LOT/BLDG. NO.</div>
+                </div> 
+                <div class="address border-t-2 border-black">
+                    <div class="flex flex-row gap-4 pb-1 pt-2 pr-2">
+                        <div class="flex items-center justify-end col-span-[3px] w-[7%]">
+                            <div class="text-[10px] font-bold">ADDRESS</div>
+                        </div>
+                        <div class="text-center w-[29%] "> 
+                            <div class="border border-black pb-1 text-[12px]">{{ farmers?.details?.lotAddress || 'N/A' }}</div>
+                            <div class="text-[9px] font-bold pb-1">HOUSE/LOT/BLDG. NO.</div>
                         </div>  
-                        <div class="text-center"> 
-                            <div class="border-b border-black pb-1 text-[14px]">{{ farmers?.details?.streetAddress || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold">STREET/SITIO/SUBDV</div>
+                        <div class="text-center w-[29%] "> 
+                            <div class="border border-black pb-1 text-[12px]">{{ farmers?.details?.streetAddress || 'N/A'}}</div>
+                            <div class="text-[9px] font-bold pb-1">STREET/SITIO/SUBDV</div>
                         </div> 
-                        <div class="text-center"> 
-                            <div class="border-b border-black pb-1 text-[14px]">{{ farmers?.details?.baranggayAddress?.name || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold">BARANGAY</div>
+                        <div class="text-center col-span-2 w-[29%] "> 
+                            <div class="border border-black pb-1 text-[12px]">{{ farmers?.details?.baranggayAddress?.name || 'N/A'}}</div>
+                            <div class="text-[9px] font-bold pb-1">BARANGGAY</div>
                         </div> 
                     </div>
-                    <div class="grid grid-cols-3 gap-1 pb-1">
-                        <div class="text-center"> 
-                            <div class="border-b border-black pb-1 text-[14px]">{{ farmers?.details?.cityAddress?.name || 'N/A'}}</div>
+                    <div class="flex flex-row gap-4 pb-2 pr-2">
+                        <div class="w-[7%]"></div>
+                        <div class="text-center w-[29%]"> 
+                            <div class="border border-black pb-1 text-[12px]">{{ farmers?.details?.cityAddress?.name || 'N/A'}}</div>
                             <div class="text-[9px] font-bold">MUNICIPALITY/CITY</div>
                         </div>  
-                        <div class="text-center"> 
-                            <div class="border-b border-black pb-1 text-[14px]">{{ farmers?.details?.provinceAddress?.name  || 'N/A'}}</div>
+                        <div class="text-center w-[29%]"> 
+                            <div class="border border-black pb-1 text-[12px]">{{ farmers?.details?.provinceAddress?.name  || 'N/A'}}</div>
                             <div class="text-[9px] font-bold">PROVINCE</div>
                         </div> 
-                        <div class="text-center"> 
-                            <div class="border-b border-black pb-1 text-[14px]">{{ farmers?.details?.regionAddress?.name || 'N/A'}}</div>
+                        <div class="text-center w-[29%]"> 
+                            <div class="border border-black pb-1 text-[12px]">{{ farmers?.details?.regionAddress?.name || 'N/A'}}</div>
                             <div class="text-[9px] font-bold">REGION</div>
                         </div> 
                     </div>
                 </div>
-                <div class="infoContact border-t-2 border-black">
-                    <div class="font-bold text-xs bg-black text-white pb-2 ">
-                    Birth Info
-                    </div>
-                    <div class="grid grid-cols-5 gap-1 pb-2 pl-3">
-                        <div class=" ">  
-                            <div class="text-[9px] font-bold "> DATE OF BIRTH:</div>
-                            <div class="pb-1 text-[14px]">{{ farmers?.details?.dateBirth || 'N/A'}}</div>
-                        </div>  
-                        <div class="text-center col-span-4"> 
-                            <div class="pb-1 text-[12px] border-b border-black">
-                            {{farmers?.details?.lotBirth}}, {{farmers?.details?.streetBirth}},
-                            {{farmers?.details?.baranggayBirth.name}}, {{farmers?.details?.cityBirth?.name}},
-                            {{farmers?.details?.provinceAddress?.name}},{{farmers?.details?.regionAddress?.name}},
+                <div class="border-t-2 border-black">
+                    <div class="grid grid-cols-2">
+                        <div class="border-r-2 border-black">
+                            <div>
+                                <div class=" flex items-center gap-2 pl-3 pb-2"> 
+                                    <div class="text-[10px] font-bold">CONTACT NUMBER:</div>
+                                    <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.mobile || 'N/A' }}</div>
+                                </div> 
                             </div>
-                            <div class="text-[9px] font-bold ">Birth Place</div>
-                        </div>  
+                            <div class="grid grid-cols-2 border-y-2 border-black"> 
+                                <div  class="border-r-2 border-black">
+                                    <div class="text-[11px] font-bold pl-3 pb-2">DATE OF BIRTH:</div>
+                                    <div></div>
+                                </div>
+                                <div>
+                                    <div  class="pl-3">
+                                        <div class="text-[11px] font-bold">PLACE OF BIRTH:</div>
+                                        <div class="pb-1 text-[10px]">
+                                        {{farmers?.details?.lotBirth}}, {{farmers?.details?.streetBirth}},
+                                        {{farmers?.details?.baranggayBirth.name}}, {{farmers?.details?.cityBirth?.name}},
+                                        {{farmers?.details?.provinceBirth?.name}},{{farmers?.details?.regionBirth?.name}},
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="religionContainer">  
+                                <div class=" flex items-center gap-2 pl-3 pb-2 pb-1"> 
+                                    <div class="text-[10px] font-bold">RELIGION:</div>
+                                    <div class="text-[14px] border-b border-black grow mr-2">{{ farmers?.details?.religion || 'N/A' }}</div>
+                                </div> 
+                                <div class="grid grid-cols-3 items-center gap-2 pl-3 pb-2"> 
+                                    <div class="text-[10px] font-bold">CIVIL STATUS:</div>
+                                    <div class="col-span-2">
+                                        <div class="grid grid-cols-2"> 
+                                            <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.status == 'Single'" label="Single"/> </div>
+                                            <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.status == 'Married'" label="Married"/> </div>
+                                            <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.status == 'Widowed'" label="Widowed"/> </div>
+                                            <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.status == 'Separated'" label="Separated"/> </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class=" flex items-center gap-2 pl-3 pb-2"> 
+                                    <div class="text-[10px] font-bold">NAME OF SPOUSE IF MARRIED:</div>
+                                    <div class="text-[14px] border-b border-black grow mr-2">{{ farmers?.details?.nameSpouse || 'N/A' }}</div>
+                                </div>  
+                            </div>
+                            <div class="motherSection border-t-2 border-black"> 
+                                <div class=" flex items-center gap-2 pl-3 pb-2"> 
+                                    <div class="text-[10px] font-bold">MOTHER’S MAIDEN NAME:</div>
+                                    <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.motherName || 'N/A' }}</div>
+                                </div>  
+                            </div>
+                            <div class="houseHoldSection">
+                                <div class=" pl-2 pt-2 grid grid-cols-4 border-b-2 border-black">
+                                    <div class="text-[10px] font-bold col-span-2">HOUSEHOLD HEAD?</div>
+                                    <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.houseHold == 'Yes'" label="YES"/> </div> 
+                                    <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.houseHold == 'No'" label="NO"/> </div> 
+                                </div>
+                                <div class=" flex items-center gap-2 pl-3 pb-2"> 
+                                    <div class="text-[10px] font-bold">If no, name of household head:</div>
+                                    <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.houseHoldName || 'N/A' }}</div>
+                                </div>
+                                <div class=" flex items-center gap-2 pl-3 pb-2"> 
+                                    <div class="text-[10px] font-bold">Relationship:</div>
+                                    <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.houseHoldRelation || 'N/A' }}</div>
+                                </div>
+                                <div class=" flex items-center gap-2 pl-3 pb-2"> 
+                                    <div class="text-[10px] font-bold">No. of living household members:</div>
+                                    <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.householdLiving || 'N/A' }}</div>
+                                </div>
+                                <div class=" flex items-center gap-2"> 
+                                    <div class=" flex items-center gap-2 pl-3 pb-2">
+                                        <div class="text-[10px] font-bold">No. of male:</div>
+                                        <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.householdLiving || 'N/A' }}</div>
+                                    </div>
+                                    <div class=" flex items-center gap-2 pl-3 pb-2">
+                                        <div class="text-[10px] font-bold">No. of female:</div>
+                                        <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.householdLiving || 'N/A' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div>
+                            <div class="highestEduc pl-2 pt-2 border-b-2 border-black pb-2">
+                                <div class="text-[10px] font-bold">
+                                    HIGHEST FORMAL EDUCATION:
+                                </div>
+                                <div class="pl-6 grid grid-cols-3">
+                                    <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.formalEducational == 'None'" label="None"/> </div>
+                                    <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.formalEducational == 'Elementary'" label="Elementary"/> </div>
+                                    <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.formalEducational == 'High School'" label="High School"/> </div>
+                                    <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.formalEducational == 'Vocational'" label="Vocational"/> </div>
+                                    <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.formalEducational == 'College'" label="College"/> </div>
+                                    <div class="text-xs "><CheckTemplate :showCheck="farmers?.details.formalEducational == 'Post Graduate'" label="Post Graduate"/> </div> 
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class=" pl-2 pt-2 grid grid-cols-4 border-b-2 border-black">
+                                    <div class="text-[10px] font-bold col-span-2">PERSON WITH DISABILITY (PWD):</div>
+                                    <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.pwd == 'Yes'" label="YES"/> </div> 
+                                    <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.pwd == 'No'" label="NO"/> </div> 
+                                </div>
+                            </div>
+                            <div class="4ps border-b-2 border-black">
+                                <div class=" pl-2 pt-2 grid grid-cols-4 ">
+                                    <div class="text-[10px] font-bold col-span-2">4P’s Beneficiary?</div>
+                                    <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.fourPs == 'Yes'" label="YES"/> </div> 
+                                    <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.fourPs == 'No'" label="NO"/> </div> 
+                                </div>
+                                <div class=" pl-2 pt-2 grid grid-cols-4">
+                                    <div class="text-[10px] font-bold col-span-2">Member of an Indigenous Group?</div>
+                                    <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.IndigenousGoup == 'Yes'" label="YES"/> </div> 
+                                    <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.IndigenousGoup == 'No'" label="NO"/> </div> 
+                                </div> 
+                                <div class=" flex items-center gap-2 pl-3 pb-2"> 
+                                    <div class="text-[10px] font-bold">If yes, specify:</div>
+                                    <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.IndigenousSpecify || 'N/A' }}</div>
+                                </div>   
+                            </div>
+                            <div class="goverment border-b-2 border-black"> 
+                                <div class=" pl-2 pt-2 grid grid-cols-4">
+                                    <div class="text-[10px] font-bold col-span-2">With Government ID?</div>
+                                    <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.govermentID == 'Yes'" label="YES"/> </div> 
+                                    <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.govermentID == 'No'" label="NO"/> </div> 
+                                </div> 
+                                <div class=" flex items-center gap-2 pl-3 pb-2"> 
+                                    <div class="text-[10px] font-bold">Specify ID number if yes:</div>
+                                    <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.govermentIDSpecify || 'N/A' }}</div>
+                                </div>   
+                            </div>
+                            <div class="goverment border-b-2 border-black"> 
+                                <div class=" pl-2 pt-2 grid grid-cols-4">
+                                    <div class="text-[10px] font-bold col-span-2">Member of any Farmers Association/Cooperative?</div>
+                                    <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.govermentID == 'Yes'" label="YES"/> </div> 
+                                    <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.govermentID == 'No'" label="NO"/> </div> 
+                                </div> 
+                                <div class=" flex items-center gap-2 pl-3 pb-2"> 
+                                    <div class="text-[10px] font-bold">If yes, specify:</div>
+                                    <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.govermentIDSpecify || 'N/A' }}</div>
+                                </div>   
+                            </div>
+                        </div>
                     </div> 
-                    <div class="grid grid-cols-3 gap-1 pb-1 border-t-2 border-black">
-                        <div class=" flex items-center gap-2 pl-3"> 
-                            <div class="text-[9px] font-bold">CONTACT NUMBER:</div>
-                            <div class="text-text-[14px] underline">{{ farmers?.details?.mobile || 'N/A' }}</div>
-                        </div>  
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.formalEducational || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold ">HIGHEST FORMAL EDUCATION</div>
-                        </div> 
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.pwd || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold ">PERSON WITH DISABILITY (PWD)</div>
-                        </div> 
-                    </div> 
-                    <div class="grid grid-cols-4 gap-1 pb-1 border-t-2 border-black">
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.religion || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold ">RELIGION</div>
-                        </div>  
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.status || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold "> CIVIL STATUS</div>
-                        </div> 
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.nameSpouse || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold ">NAME OF SPOUSE IF MARRIED</div>
-                        </div> 
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.motherName || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold ">MOTHER’S MAIDEN NAME</div>
-                        </div> 
-                    </div> 
-                    <div class="font-bold text-xs bg-black text-white pb-2 ">
-                        Indigenous Info
-                    </div>
-                    <div class="grid grid-cols-4 gap-1 pb-1 border-t-2 border-black">
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.fourPs || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold ">4P’s Beneficiary?</div>
-                        </div>  
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.IndigenousGoup || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold "> Member of an Indigenous Group?</div>
-                        </div> 
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.IndigenousSpecify || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold "> If yes, specify:</div>
-                        </div> 
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.govermentID || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold ">With Government ID?</div>
-                        </div> 
-                    </div>
-                </div>
-                <div class="font-bold text-xs bg-black text-white pb-2 ">
-                    Household
-                </div>
-                <div class="household">
-                    <div class="grid grid-cols-3 gap-1 pb-1 border-t-2 border-black">
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.houseHold || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold ">HOUSEHOLD HEAD?</div>
-                        </div>  
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.houseHoldName || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold "> If no, name of household head:</div>
-                        </div> 
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.houseHoldRelation || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold ">Relationship</div>
-                        </div>  
-                    </div> 
-                    <div class="grid grid-cols-3 gap-1 pb-1 border-t-2 border-black">
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.householdLiving || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold ">No. of living household members:</div>
-                        </div>  
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.numberMale || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold "> No. of male:</div>
-                        </div> 
-                        <div class="text-center"> 
-                            <div class="pb-1 text-[14px] border-b border-black">{{ farmers?.details?.numberFemale || 'N/A'}}</div>
-                            <div class="text-[9px] font-bold ">No. of female:</div>
-                        </div>  
-                    </div> 
-                </div>
+                </div> 
                 <div class="font-bold text-xs bg-black text-white pb-2 ">
                     PART II: FARM PROFILE
                 </div>
@@ -324,7 +366,7 @@ import CheckTemplate from "@/Components/Check.vue"
 
  const generatePdf = () => {
         html2pdf(document.getElementById("htmlContent"), {
-            margin: 4,
+            margin: 5,
             filename: "i-was-html.pdf", 
         });
 }
