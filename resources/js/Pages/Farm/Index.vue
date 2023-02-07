@@ -397,6 +397,7 @@ const onDeleteHandler = () => {
                     <div class="col-span-3">
                         <InputLabel value="Ownership Document No: " />
                         <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                            <option value="">Select type</option>
                             <option value="1">Certificate of Land Transfer</option>
                             <option value="2">Emancipation Patent</option>
                             <option value="3">Individual Certificate of Land Ownership Award (CLOA)</option>
@@ -415,6 +416,7 @@ const onDeleteHandler = () => {
                     <div class="col-span-6">
                         <InputLabel value="Type:" />
                         <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                            <option value="">Select type</option>
                             <option value="">Registered Owner</option>
                             <option value="">Tenant</option>
                             <option value="">Lessee</option>
@@ -435,6 +437,7 @@ const onDeleteHandler = () => {
                     <div class="col-span-6">
                         <InputLabel value="Type:" />
                         <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                            <option value="">Select type</option>
                             <option value="">Rice</option>
                             <option value="">Corn</option>
                             <option value="">HVC</option>
@@ -477,6 +480,7 @@ const onDeleteHandler = () => {
                     <div class="col-span-3">
                         <InputLabel value="Farm type (NOTE: not applicable to agri-fishery):" />
                         <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                            <option value="">Select Type</option>
                             <option value="">Irrigated</option>
                             <option value="">Rainfed Upland</option>
                             <option value="">Rainfed Lowland</option>
@@ -486,6 +490,7 @@ const onDeleteHandler = () => {
                     <div class="col-span-3">
                         <InputLabel value="Type:" />
                         <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                            <option value="">Select Type</option>
                             <option value="">Yes</option>
                             <option value="">No</option>
                         </select>
