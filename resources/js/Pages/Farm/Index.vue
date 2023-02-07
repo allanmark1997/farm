@@ -287,6 +287,7 @@ const onDeleteHandler = () => {
                             </div>
                             <div class="max-h-[720px] overflow-y-auto mt-2">
                                 <template v-for="farm in farms" :key="farm">
+                                    <a @click="callChildMethod(farm)" class="cursor-pointer">
                                     <FarmCard>
                                         <template #actions>
                                             <div
@@ -343,6 +344,7 @@ const onDeleteHandler = () => {
                                             >
                                         </template>
                                     </FarmCard>
+                                    </a>
                                 </template>
                             </div>
                         </div>
