@@ -175,7 +175,7 @@ const mapCoordinate = (points) => {
 };
 
 const plantHandle = () => {
-    formPlants.details.datePlant = new Date();
+    // formPlants.details.datePlant = new Date();
     formPlants.put(route("farms.plant", formPlants.id), {
         preserveScroll: true,
         onSuccess: () => {
@@ -329,7 +329,7 @@ const onDeleteHandler = () => {
                                             <PrimaryButton
                                                 :disabled="
                                                     !farm?.map?.coordinates
-                                                        .length
+                                                        .length || farm.status == 'farming'
                                                 "
                                                 @click="showModalPlant(farm)"
                                                 >Plant</PrimaryButton
@@ -358,10 +358,10 @@ const onDeleteHandler = () => {
                 </div>
             </div>
         </div>
-        <DialogModal :show="modals.add_edit.show">
+        <DialogModal :show="modals.add_edit.show" maxWidth="7xl">
             <template #title>{{ modals.add_edit.details.title }}</template>
             <template #content>
-                <div class="grid grid-cols-6 gap-6">
+                <div class="grid grid-cols-6 gap-2">
                     <div class="col-span-6">
                         <InputLabel value="Farm Name" />
                         <TextInput
@@ -370,6 +370,123 @@ const onDeleteHandler = () => {
                             required
                             v-model="form.map.name"
                         />
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div class="col-span-6">
+                        <InputLabel value="Location (Barangay & Municipality):" />
+                        <TextInput
+                            type="text"
+                            class="mt-1 block w-full"
+                            required
+                            v-model="form.map.name"
+                        />
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div class="col-span-3">
+                        <InputLabel value="Total Farm Area (ha):" />
+                        <TextInput
+                            type="text"
+                            class="mt-1 block w-full"
+                            required
+                            v-model="form.map.name"
+                        />
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div class="col-span-3">
+                        <InputLabel value="Ownership Document No: " />
+                        <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                            <option value="1">Certificate of Land Transfer</option>
+                            <option value="2">Emancipation Patent</option>
+                            <option value="3">Individual Certificate of Land Ownership Award (CLOA)</option>
+                            <option value="4">Collective CLOA</option>
+                            <option value="5">Co-ownership CLOA</option>
+                            <option value="6">Agricultural sales patent</option>
+                            <option value="7">Homestead patent</option>
+                            <option value="8">Free Patent</option>
+                            <option value="9">Certificate of Title or Regular Title</option>
+                            <option value="10">Certificate of Ancestral Domain Title</option>
+                            <option value="11">Certificate of Ancestral Land Title</option>
+                            <option value="12">Tax Declaration</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div class="col-span-6">
+                        <InputLabel value="Type:" />
+                        <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                            <option value="">Registered Owner</option>
+                            <option value="">Tenant</option>
+                            <option value="">Lessee</option>
+                            <option value="">Others</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div class="col-span-6">
+                        <InputLabel value="Name of owner:" />
+                        <TextInput
+                            type="text"
+                            class="mt-1 block w-full"
+                            required
+                            v-model="form.map.name"
+                        />
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div class="col-span-6">
+                        <InputLabel value="Type:" />
+                        <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                            <option value="">Rice</option>
+                            <option value="">Corn</option>
+                            <option value="">HVC</option>
+                            <option value="">Livestock</option>
+                            <option value="">Poultry</option>
+                            <option value="">Agri-fishery</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div class="col-span-6">
+                        <InputLabel value="For Livestock & Poultry (specify type of animal)" />
+                        <TextInput
+                            type="text"
+                            class="mt-1 block w-full"
+                            required
+                            v-model="form.map.name"
+                        />
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div class="col-span-6">
+                        <InputLabel value="Size (ha)" />
+                        <TextInput
+                            type="text"
+                            class="mt-1 block w-full"
+                            required
+                            v-model="form.map.name"
+                        />
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div class="col-span-6">
+                        <InputLabel value="NO. OF HEAD (For Livestock and Poultry)" />
+                        <TextInput
+                            type="text"
+                            class="mt-1 block w-full"
+                            required
+                            v-model="form.map.name"
+                        />
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div class="col-span-3">
+                        <InputLabel value="Farm type (NOTE: not applicable to agri-fishery):" />
+                        <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                            <option value="">Irrigated</option>
+                            <option value="">Rainfed Upland</option>
+                            <option value="">Rainfed Lowland</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div class="col-span-3">
+                        <InputLabel value="Type:" />
+                        <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                            <option value="">Yes</option>
+                            <option value="">No</option>
+                        </select>
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
                 </div>
