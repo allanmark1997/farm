@@ -58,11 +58,16 @@ class FarmController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'barangay' => ['required', 'max:255']
+        ]);
+
         Farm::create([
             'farmer_id' => $request->selected_farmer,
             'income' => 0,
             'details' => $request->details, 
-            'map' => $request->map
+            'map' => $request->map,
+            'barangay' => $request->barangay
         ]);
 
         return Redirect::back();
@@ -99,12 +104,16 @@ class FarmController extends Controller
      */
     public function update(Request $request,$id)
     {
+        $request->validate([
+            'barangay' => ['required', 'max:255']
+        ]);
         $farm = Farm::find($id);
         $farm->update([
             // 'map_id' => $request->map_id,
             'farmer_id' => $request->farmer_id,
             'details' => $request->details,
             'map' => $request->map, 
+            'barangay' => $request->barangay, 
             'status' => 'idle',
         ]);
 

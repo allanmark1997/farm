@@ -10,6 +10,7 @@ import DialogModal from "@/Components/DialogModal.vue";
 import FarmCard from "@/Components/FarmCard.vue";
 import Icon from "@/Components/Icons.vue";
 import Map from "./Map.vue";
+import { getBarangayByMun } from 'phil-reg-prov-mun-brgy';
 import { useForm } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive, ref, onMounted } from "vue";
@@ -23,6 +24,7 @@ const props = defineProps([
 ]);
 const childred = ref(null);
 const enableEditMap = ref(false);
+const barangays = ref([]);
 
 onMounted(() => {
     if (props.farms.length) {
@@ -32,6 +34,8 @@ onMounted(() => {
             }
         });
     }
+
+    barangays.value = getBarangayByMun('101310'); 
 });
 
 const callChildMethod = (farm) => {
@@ -49,6 +53,7 @@ const form = useForm({
         coordinates: [],
         color: "#ffffff",
     },
+    barangay: '',
     details: {
         expected_income: 0,
         income: 0,
@@ -345,8 +350,13 @@ formPlants.id = farm.id;
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Location (Barangay & Municipality):" />
-                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <select v-model="form.barangay" class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'>
+                            <option value="">Select Barangay</option>
+                            <template v-for="barangay in barangays">
+                                <option :value="barangay.name">{{ barangay.name }}</option>
+                            </template>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors.barangay" />
                     </div>
                     <div class="col-span-3">
                         <InputLabel value="Total Farm Area (ha):" />
