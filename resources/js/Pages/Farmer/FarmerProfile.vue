@@ -22,7 +22,7 @@ import Harvest from "./Profile/Harvest.vue";
 import EditProfile from "./Profile/EditProfile.vue";
 
 const props = defineProps(["farmer"]);
-const farmerProfile = ref(props.farmer[0]);
+const farmerProfile = ref(props.farmer);
 const currentTab = ref('Profile');
 
 const form = useForm({
