@@ -373,19 +373,19 @@ formPlants.id = farm.id;
                             v-model="form.details.ownership_document_no"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                             name="" id="">
-                            <option value="">Select type</option>
-                            <option value="1">Certificate of Land Transfer</option>
-                            <option value="2">Emancipation Patent</option>
-                            <option value="3">Individual Certificate of Land Ownership Award (CLOA)</option>
-                            <option value="4">Collective CLOA</option>
-                            <option value="5">Co-ownership CLOA</option>
-                            <option value="6">Agricultural sales patent</option>
-                            <option value="7">Homestead patent</option>
-                            <option value="8">Free Patent</option>
-                            <option value="9">Certificate of Title or Regular Title</option>
-                            <option value="10">Certificate of Ancestral Domain Title</option>
-                            <option value="11">Certificate of Ancestral Land Title</option>
-                            <option value="12">Tax Declaration</option>
+                            <option value="" selected disabled>Select type</option>
+                            <option value="Certificate of Land Transfer">Certificate of Land Transfer</option>
+                            <option value="Emancipation Patent">Emancipation Patent</option>
+                            <option value="Individual Certificate of Land Ownership Award (CLOA)">Individual Certificate of Land Ownership Award (CLOA)</option>
+                            <option value="Collective CLOA">Collective CLOA</option>
+                            <option value="Co-ownership CLOA">Co-ownership CLOA</option>
+                            <option value="Agricultural sales patent">Agricultural sales patent</option>
+                            <option value="Homestead patent">Homestead patent</option>
+                            <option value="Free Patent">Free Patent</option>
+                            <option value="Certificate of Title or Regular Title">Certificate of Title or Regular Title</option>
+                            <option value="Certificate of Ancestral Domain Title">Certificate of Ancestral Domain Title</option>
+                            <option value="Certificate of Ancestral Land Title">Certificate of Ancestral Land Title</option>
+                            <option value="Tax Declaration">Tax Declaration</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.ownership_document_no" />
                     </div>
@@ -395,15 +395,15 @@ formPlants.id = farm.id;
                         v-model="form.details.farm_ownership"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                             name="" id="">
-                            <option value="">Select type</option>
-                            <option value="">Registered Owner</option>
-                            <option value="">Tenant</option>
-                            <option value="">Lessee</option>
-                            <option value="">Others</option>
+                            <option value="" selected disabled>Select type</option>
+                            <option value="Registered Owner">Registered Owner</option>
+                            <option value="Tenant">Tenant</option>
+                            <option value="Lessee">Lessee</option>
+                            <option value="Others">Others</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.farm_ownership" />
                     </div>
-                    <div class="col-span-6">
+                    <div class="col-span-6" v-if="form.details.farm_ownership == 'Lessee' || form.details.farm_ownership == 'Tenant' || form.details.farm_ownership == 'Others'">
                         <InputLabel value="Name of owner:" />
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_owner" />
                         <InputError class="mt-2" :message="form.errors.farm_owner" />
@@ -414,17 +414,17 @@ formPlants.id = farm.id;
                         v-model="form.details.farm_type_business"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                             name="" id="">
-                            <option value="">Select type</option>
-                            <option value="">Rice</option>
-                            <option value="">Corn</option>
-                            <option value="">HVC</option>
-                            <option value="">Livestock</option>
-                            <option value="">Poultry</option>
-                            <option value="">Agri-fishery</option>
+                            <option value="" disabled selected>Select type</option>
+                            <option value="Rice">Rice</option>
+                            <option value="Corn">Corn</option>
+                            <option value="HVC">HVC</option>
+                            <option value="Livestock">Livestock</option>
+                            <option value="Poultry">Poultry</option>
+                            <option value="Agri-fishery">Agri-fishery</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.farm_type_business" />
                     </div>
-                    <div class="col-span-6">
+                    <div class="col-span-6" v-if="form.details.farm_type_business == 'Livestock' || form.details.farm_type_business == 'Poultry'">
                         <InputLabel value="For Livestock & Poultry (specify type of animal)" />
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.specified_animal" />
                         <InputError class="mt-2" :message="form.errors.specified_animal" />
@@ -434,21 +434,21 @@ formPlants.id = farm.id;
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_size" />
                         <InputError class="mt-2" :message="form.errors.farm_size" />
                     </div>
-                    <div class="col-span-2">
+                    <div class="col-span-2" v-if="form.details.farm_type_business == 'Livestock' || form.details.farm_type_business == 'Poultry'">
                         <InputLabel value="NO. OF HEAD (For Livestock and Poultry)" />
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.number_of_head_animal" />
                         <InputError class="mt-2" :message="form.errors.number_of_head_animal" />
                     </div>
-                    <div class="col-span-2">
+                    <div class="col-span-2" v-if="form.details.farm_type_business != 'Agri-fishery' && form.details.farm_type_business != ''">
                         <InputLabel value="Farm type (NOTE: not applicable to agri-fishery):" />
                         <select
                         v-model="form.details.farm_type"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                             name="" id="">
-                            <option value="">Select Type</option>
-                            <option value="">Irrigated</option>
-                            <option value="">Rainfed Upland</option>
-                            <option value="">Rainfed Lowland</option>
+                            <option value="" selected disabled>Select Type</option>
+                            <option value="Irrigated">Irrigated</option>
+                            <option value="Rainfed Upland">Rainfed Upland</option>
+                            <option value="Rainfed Lowland">Rainfed Lowland</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.farm_type" />
                     </div>
@@ -458,9 +458,9 @@ formPlants.id = farm.id;
                         v-model="form.details.organic_practitioner"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                             name="" id="">
-                            <option value="">Select Type</option>
-                            <option value="">Yes</option>
-                            <option value="">No</option>
+                            <option value="" selected disabled>Select Type</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.organic_practitioner" />
                     </div>
