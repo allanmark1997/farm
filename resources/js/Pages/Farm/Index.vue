@@ -185,10 +185,10 @@ const plantHandle = () => {
     });
 };
 
-const harvestHandler = ()=>{ 
-    formPlants.color = '#ffffff'; 
+const harvestHandler = () => {
+    formPlants.color = '#ffffff';
     formPlants.details.dateHarvest = new Date();
-    if(formPlants.details.expected_income <= 0){
+    if (formPlants.details.expected_income <= 0) {
         alert("Please indicate your income.");
         return;
     }
@@ -201,9 +201,9 @@ const harvestHandler = ()=>{
     });
 }
 
-const showHarvest = (farm) =>{
+const showHarvest = (farm) => {
     formPlants.id = farm.id;
-    formPlants.details = 
+    formPlants.details =
         Object.assign({
             expected_income: 0,
             income: 0,
@@ -211,8 +211,8 @@ const showHarvest = (farm) =>{
                 seedling: "",
                 fertilizer: [],
             },
-    });
-    modals.harvest_plant.show = true; 
+        });
+    modals.harvest_plant.show = true;
 }
 
 
@@ -253,108 +253,82 @@ const onDeleteHandler = () => {
 </script>
 
 <template>
-    <AppLayout title="Farms"> 
+    <AppLayout title="Farms">
         <div class="pb-4">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-2"> 
-                    <div class="grid grid-cols-8 gap-1 p-6 relative"> 
-                        <div class="top-8 right-8 absolute border p-2 bg-white z-50 rounded-md" @click="enableEditMap = enableEditMap == false ? true : false ">
-                            <button>Edit Map</button></div>
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-2">
+                    <div class="grid grid-cols-8 gap-1 p-6 relative">
+                        <div class="top-8 right-8 absolute border p-2 bg-white z-50 rounded-md"
+                            @click="enableEditMap = enableEditMap == false ? true : false">
+                            <button>Edit Map</button>
+                        </div>
                         <div class="col-span-2">
                             <InputLabel value="Farms" />
                             <div class="flex gap-1">
-                                <SelectInput
-                                    class="block w-full"
-                                    v-model="form.selected_farmer"
-                                    @change="selectFarmer()"
-                                >
+                                <SelectInput class="block w-full" v-model="form.selected_farmer"
+                                    @change="selectFarmer()">
                                     <option value="all">All</option>
-                                    <template
-                                        v-for="farmer in farmers"
-                                        :key="farmer"
-                                    >
+                                    <template v-for="farmer in farmers" :key="farmer">
                                         <option :value="farmer.id">
                                             {{ farmer.name }}
                                         </option>
                                     </template>
                                 </SelectInput>
-                                <PrimaryButton
-                                    class="w-36"
-                                    @click="showModal()"
-                                    :disabled="form.selected_farmer == 'all'"
-                                    ><span>Add Farm</span></PrimaryButton
-                                >
+                                <PrimaryButton class="w-36" @click="showModal()"
+                                    :disabled="form.selected_farmer == 'all'"><span>Add Farm</span></PrimaryButton>
                             </div>
                             <div class="max-h-[720px] overflow-y-auto mt-2">
                                 <template v-for="farm in farms" :key="farm">
                                     <a @click="callChildMethod(farm)" class="cursor-pointer">
-                                    <FarmCard>
-                                        <template #actions>
-                                            <div
-                                                class="cursor-pointer"
-                                                @click="
-                                                    modals.deleteFarm.show = true;
-                                                    formPlants.id = farm.id;
-                                                "
-                                            >
-                                                <Icon icon="delete" />
-                                            </div>
-                                            <!-- <div class="cursor-pointer">
+                                        <FarmCard>
+                                            <template #actions>
+                                                <div class="cursor-pointer" @click="
+    modals.deleteFarm.show = true;
+formPlants.id = farm.id;
+                                                ">
+                                                    <Icon icon="delete" />
+                                                </div>
+                                                <!-- <div class="cursor-pointer">
                                                 <Icon icon="edit" />
                                             </div> -->
-                                            <button @click="callChildMethod(farm)">
-                                                <Icon icon="eye" />
-                                            </button>
-                                        </template>
-                                        <template #content>
-                                            <div>
-                                                Name: {{ farm.map?.name }}
-                                            </div>
-                                            <div>
-                                                Owner: {{ farm.farmer?.name }}
-                                            </div>
-                                            <div>Income: {{ farm.income }}</div>
-                                            <div>Color:</div></template
-                                        >
-                                        <template #footer>
-                                            <!-- <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm)">View</PrimaryButton> -->
-                                            <PrimaryButton :disabled="!enableEditMap"
-                                                @click="handleMap(farm)">{{`${
-                                                        farm?.map?.coordinates
-                                                            .length
-                                                            ? "Remap"
-                                                            : "Map"
+                                                <button @click="callChildMethod(farm)">
+                                                    <Icon icon="eye" />
+                                                </button>
+                                            </template>
+                                            <template #content>
+                                                <div>
+                                                    Name: {{ farm.map?.name }}
+                                                </div>
+                                                <div>
+                                                    Owner: {{ farm.farmer?.name }}
+                                                </div>
+                                                <div>Income: {{ farm.income }}</div>
+                                                <div>Color:</div>
+                                            </template>
+                                            <template #footer>
+                                                <!-- <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm)">View</PrimaryButton> -->
+                                                <PrimaryButton :disabled="!enableEditMap" @click="handleMap(farm)">{{`${farm?.map?.coordinates
+                                                        .length
+                                                        ? "Remap"
+                                                        : "Map"
                                                     }`
-                                                }}</PrimaryButton
-                                            >
-                                            <PrimaryButton
-                                                :disabled="
+                                                }}</PrimaryButton>
+                                                <PrimaryButton :disabled="
                                                     !farm?.map?.coordinates
                                                         .length || farm.status == 'farming'
-                                                "
-                                                @click="showModalPlant(farm)"
-                                                >Plant</PrimaryButton
-                                            >
-                                            <PrimaryButton
-                                                @click="showHarvest(farm)"
-                                                :disabled="
+                                                " @click="showModalPlant(farm)">Plant</PrimaryButton>
+                                                <PrimaryButton @click="showHarvest(farm)" :disabled="
                                                     farm.status == 'idle'
-                                                "
-                                                >Harvest</PrimaryButton
-                                            >
-                                        </template>
-                                    </FarmCard>
+                                                ">Harvest</PrimaryButton>
+                                            </template>
+                                        </FarmCard>
                                     </a>
                                 </template>
                             </div>
                         </div>
                         <div class="col-span-6">
-                            <Map
-                                :mapCoordinate="mapCoordinate"
-                                ref="childred"
-                                :inventories="inventories"
-                                :enableEditMap="enableEditMap"
-                            />
+                            <Map :mapCoordinate="mapCoordinate" ref="childred" :inventories="inventories"
+                                :enableEditMap="enableEditMap" />
                         </div>
                     </div>
                 </div>
@@ -366,37 +340,24 @@ const onDeleteHandler = () => {
                 <div class="grid grid-cols-6 gap-2">
                     <div class="col-span-6">
                         <InputLabel value="Farm Name" />
-                        <TextInput
-                            type="text"
-                            class="mt-1 block w-full"
-                            required
-                            v-model="form.map.name"
-                        />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Location (Barangay & Municipality):" />
-                        <TextInput
-                            type="text"
-                            class="mt-1 block w-full"
-                            required
-                            v-model="form.map.name"
-                        />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
                     <div class="col-span-3">
                         <InputLabel value="Total Farm Area (ha):" />
-                        <TextInput
-                            type="text"
-                            class="mt-1 block w-full"
-                            required
-                            v-model="form.map.name"
-                        />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
                     <div class="col-span-3">
                         <InputLabel value="Ownership Document No: " />
-                        <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                        <select
+                            class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                            name="" id="">
                             <option value="">Select type</option>
                             <option value="1">Certificate of Land Transfer</option>
                             <option value="2">Emancipation Patent</option>
@@ -415,7 +376,9 @@ const onDeleteHandler = () => {
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Type:" />
-                        <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                        <select
+                            class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                            name="" id="">
                             <option value="">Select type</option>
                             <option value="">Registered Owner</option>
                             <option value="">Tenant</option>
@@ -426,17 +389,14 @@ const onDeleteHandler = () => {
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Name of owner:" />
-                        <TextInput
-                            type="text"
-                            class="mt-1 block w-full"
-                            required
-                            v-model="form.map.name"
-                        />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Type:" />
-                        <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                        <select
+                            class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                            name="" id="">
                             <option value="">Select type</option>
                             <option value="">Rice</option>
                             <option value="">Corn</option>
@@ -449,37 +409,24 @@ const onDeleteHandler = () => {
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="For Livestock & Poultry (specify type of animal)" />
-                        <TextInput
-                            type="text"
-                            class="mt-1 block w-full"
-                            required
-                            v-model="form.map.name"
-                        />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Size (ha)" />
-                        <TextInput
-                            type="text"
-                            class="mt-1 block w-full"
-                            required
-                            v-model="form.map.name"
-                        />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="NO. OF HEAD (For Livestock and Poultry)" />
-                        <TextInput
-                            type="text"
-                            class="mt-1 block w-full"
-                            required
-                            v-model="form.map.name"
-                        />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
                     <div class="col-span-3">
                         <InputLabel value="Farm type (NOTE: not applicable to agri-fishery):" />
-                        <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                        <select
+                            class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                            name="" id="">
                             <option value="">Select Type</option>
                             <option value="">Irrigated</option>
                             <option value="">Rainfed Upland</option>
@@ -489,7 +436,9 @@ const onDeleteHandler = () => {
                     </div>
                     <div class="col-span-3">
                         <InputLabel value="Type:" />
-                        <select class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5' name="" id="">
+                        <select
+                            class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                            name="" id="">
                             <option value="">Select Type</option>
                             <option value="">Yes</option>
                             <option value="">No</option>
@@ -500,9 +449,7 @@ const onDeleteHandler = () => {
             </template>
             <template #footer>
                 <div class="flex gap-1">
-                    <SecondaryButton @click="modals.add_edit.show = false"
-                        >Cancel</SecondaryButton
-                    >
+                    <SecondaryButton @click="modals.add_edit.show = false">Cancel</SecondaryButton>
                     <PrimaryButton @click="saveFarm">Submit</PrimaryButton>
                 </div>
             </template>
@@ -513,21 +460,15 @@ const onDeleteHandler = () => {
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6">
                         <InputLabel value="Income" />
-                        <TextInput
-                            type="number"
-                            class="mt-1 block w-full"
-                            required
-                            v-model="formPlants.details.expected_income"
-                        />
+                        <TextInput type="number" class="mt-1 block w-full" required
+                            v-model="formPlants.details.expected_income" />
                         <InputError class="mt-2" :message="formPlants.details.errors" />
                     </div>
                 </div>
             </template>
             <template #footer>
                 <div class="flex gap-1">
-                    <SecondaryButton @click="modals.harvest_plant.show = false"
-                        >Cancel</SecondaryButton
-                    >
+                    <SecondaryButton @click="modals.harvest_plant.show = false">Cancel</SecondaryButton>
                     <PrimaryButton @click="harvestHandler">Continue</PrimaryButton>
                 </div>
             </template>
@@ -541,17 +482,10 @@ const onDeleteHandler = () => {
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <InputLabel value="Seedling" />
-                                <SelectInput
-                                    class="block w-full"
-                                    @change="onchangeColor($event)"
-                                    v-model="
-                                        formPlants.details.inventories.seedling
-                                    "
-                                >
-                                    <template
-                                        v-for="seedling in inventories.seedling"
-                                        :key="seedling"
-                                    >
+                                <SelectInput class="block w-full" @change="onchangeColor($event)" v-model="
+                                    formPlants.details.inventories.seedling
+                                ">
+                                    <template v-for="seedling in inventories.seedling" :key="seedling">
                                         <option :value="seedling.name">
                                             {{ seedling.name }}
                                         </option>
@@ -560,26 +494,16 @@ const onDeleteHandler = () => {
                             </div>
                             <div>
                                 <InputLabel value="Expected Income " />
-                                <TextInput
-                                    type="text"
-                                    class="block w-full"
-                                    required
-                                    v-model="formPlants.details.expected_income"
-                                />
+                                <TextInput type="text" class="block w-full" required
+                                    v-model="formPlants.details.expected_income" />
                             </div>
                         </div>
                         <div class="mt-4 pt-3 border-t-2">
                             <div class="grid grid-cols-7 gap-2">
                                 <div class="col-span-3">
                                     <InputLabel value="Fertilizer" />
-                                    <SelectInput
-                                        class="block w-full"
-                                        v-model="fertilizerVar.name"
-                                    >
-                                        <template
-                                            v-for="fertilizer in inventories.fertilizer"
-                                            :key="fertilizer"
-                                        >
+                                    <SelectInput class="block w-full" v-model="fertilizerVar.name">
+                                        <template v-for="fertilizer in inventories.fertilizer" :key="fertilizer">
                                             <option :value="fertilizer.name">
                                                 {{ fertilizer.name }}
                                             </option>
@@ -588,42 +512,27 @@ const onDeleteHandler = () => {
                                 </div>
                                 <div class="col-span-3">
                                     <InputLabel value="Unit" />
-                                    <TextInput
-                                        type="text"
-                                        class="block w-full"
-                                        required
-                                        v-model="fertilizerVar.unit"
-                                    />
+                                    <TextInput type="text" class="block w-full" required v-model="fertilizerVar.unit" />
                                 </div>
                                 <div class="mt-6">
-                                    <PrimaryButton
-                                        @click="
-                                            formPlants.details.inventories.fertilizer.push(
-                                                JSON.parse(
-                                                    JSON.stringify(
-                                                        fertilizerVar
-                                                    )
+                                    <PrimaryButton @click="
+                                        formPlants.details.inventories.fertilizer.push(
+                                            JSON.parse(
+                                                JSON.stringify(
+                                                    fertilizerVar
                                                 )
                                             )
-                                        "
-                                        >Add</PrimaryButton
-                                    >
+                                        )
+                                    ">Add</PrimaryButton>
                                 </div>
                             </div>
                             <div class="mt-2 border rounded-md p-2">
                                 Lists:
-                                <div
-                                    v-for="(fertilizer, index) in formPlants
-                                        .details.inventories.fertilizer"
-                                    class="grid grid-cols-3"
-                                    :key="index"
-                                >
+                                <div v-for="(fertilizer, index) in formPlants
+                                .details.inventories.fertilizer" class="grid grid-cols-3" :key="index">
                                     <div>{{ fertilizer.name }}</div>
                                     <div>{{ fertilizer.unit }}</div>
-                                    <div
-                                        class="text-red-500 cursor-pointer"
-                                        @click="removeFilterizer(index)"
-                                    >
+                                    <div class="text-red-500 cursor-pointer" @click="removeFilterizer(index)">
                                         Remove
                                     </div>
                                 </div>
@@ -634,9 +543,7 @@ const onDeleteHandler = () => {
             </template>
             <template #footer>
                 <div class="flex gap-1">
-                    <SecondaryButton @click="modals.add_plant.show = false"
-                        >Cancel</SecondaryButton
-                    >
+                    <SecondaryButton @click="modals.add_plant.show = false">Cancel</SecondaryButton>
                     <PrimaryButton @click="plantHandle">Save</PrimaryButton>
                 </div>
             </template>
@@ -652,12 +559,8 @@ const onDeleteHandler = () => {
             </template>
             <template #footer>
                 <div class="flex gap-1">
-                    <SecondaryButton @click="modals.deleteFarm.show = false"
-                        >Cancel</SecondaryButton
-                    >
-                    <PrimaryButton @click="onDeleteHandler"
-                        >Continue</PrimaryButton
-                    >
+                    <SecondaryButton @click="modals.deleteFarm.show = false">Cancel</SecondaryButton>
+                    <PrimaryButton @click="onDeleteHandler">Continue</PrimaryButton>
                 </div>
             </template>
         </DialogModal>
