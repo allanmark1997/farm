@@ -55,12 +55,16 @@ const form = useForm({
     },
     barangay: '',
     details: {
-        expected_income: 0,
-        income: 0,
-        inventories: {
-            seedling: "",
-            fertilizer: [],
-        },
+        total_farm_area:'',
+        ownership_document_no:'',
+        farm_ownership:'',
+        farm_owner:'',
+        farm_type_business:'',
+        specified_animal:'',
+        farm_size:'',
+        number_of_head_animal:'',
+        farm_type:'',
+        organic_practitioner:''
     },
 });
 const formPlants = useForm({
@@ -360,12 +364,13 @@ formPlants.id = farm.id;
                     </div>
                     <div class="col-span-3">
                         <InputLabel value="Total Farm Area (ha):" />
-                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.total_farm_area" />
+                        <InputError class="mt-2" :message="form.errors.total_farm_area" />
                     </div>
                     <div class="col-span-3">
                         <InputLabel value="Ownership Document No: " />
                         <select
+                            v-model="form.details.ownership_document_no"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                             name="" id="">
                             <option value="">Select type</option>
@@ -382,11 +387,12 @@ formPlants.id = farm.id;
                             <option value="11">Certificate of Ancestral Land Title</option>
                             <option value="12">Tax Declaration</option>
                         </select>
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <InputError class="mt-2" :message="form.errors.ownership_document_no" />
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Type:" />
                         <select
+                        v-model="form.details.farm_ownership"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                             name="" id="">
                             <option value="">Select type</option>
@@ -395,16 +401,17 @@ formPlants.id = farm.id;
                             <option value="">Lessee</option>
                             <option value="">Others</option>
                         </select>
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <InputError class="mt-2" :message="form.errors.farm_ownership" />
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Name of owner:" />
-                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_owner" />
+                        <InputError class="mt-2" :message="form.errors.farm_owner" />
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Type:" />
                         <select
+                        v-model="form.details.farm_type_business"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                             name="" id="">
                             <option value="">Select type</option>
@@ -415,26 +422,27 @@ formPlants.id = farm.id;
                             <option value="">Poultry</option>
                             <option value="">Agri-fishery</option>
                         </select>
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <InputError class="mt-2" :message="form.errors.farm_type_business" />
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="For Livestock & Poultry (specify type of animal)" />
-                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.specified_animal" />
+                        <InputError class="mt-2" :message="form.errors.specified_animal" />
                     </div>
-                    <div class="col-span-6">
+                    <div class="col-span-1">
                         <InputLabel value="Size (ha)" />
-                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_size" />
+                        <InputError class="mt-2" :message="form.errors.farm_size" />
                     </div>
-                    <div class="col-span-6">
+                    <div class="col-span-2">
                         <InputLabel value="NO. OF HEAD (For Livestock and Poultry)" />
-                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.number_of_head_animal" />
+                        <InputError class="mt-2" :message="form.errors.number_of_head_animal" />
                     </div>
-                    <div class="col-span-3">
+                    <div class="col-span-2">
                         <InputLabel value="Farm type (NOTE: not applicable to agri-fishery):" />
                         <select
+                        v-model="form.details.farm_type"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                             name="" id="">
                             <option value="">Select Type</option>
@@ -442,18 +450,19 @@ formPlants.id = farm.id;
                             <option value="">Rainfed Upland</option>
                             <option value="">Rainfed Lowland</option>
                         </select>
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <InputError class="mt-2" :message="form.errors.farm_type" />
                     </div>
-                    <div class="col-span-3">
-                        <InputLabel value="Type:" />
+                    <div class="col-span-1">
+                        <InputLabel value="ORGANIC PRACTITIONER(Yes/No):" />
                         <select
+                        v-model="form.details.organic_practitioner"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                             name="" id="">
                             <option value="">Select Type</option>
                             <option value="">Yes</option>
                             <option value="">No</option>
                         </select>
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <InputError class="mt-2" :message="form.errors.organic_practitioner" />
                     </div>
                 </div>
             </template>
