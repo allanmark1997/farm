@@ -20,4 +20,6 @@ class Farm extends Model
     public function farmer(){
         return $this->belongsTo(Farmer::class);
     }
+
+
 }

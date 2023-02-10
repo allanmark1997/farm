@@ -18,4 +18,8 @@ class Farmer extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public function parcels(){
+        return $this->hasMany(Farm::class);
+    }
 }

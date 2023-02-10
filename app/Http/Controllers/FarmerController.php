@@ -218,7 +218,7 @@ class FarmerController extends Controller
     }
 
     public function profile(Request $request){
-        $farmer = Farmer::with('transactions')->where('id',$request->id)->get();
+        $farmer = Farmer::with('transactions')->with('parcels')->where('id',$request->id)->get();
         return Inertia::render('Farmer/FarmerProfile', [
             'farmer' => $farmer
         ]);
