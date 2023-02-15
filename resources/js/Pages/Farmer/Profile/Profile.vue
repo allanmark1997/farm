@@ -23,7 +23,7 @@
                     :src="'/images/farmer/' + farmers.details.pic2x2" />
                 </div>
             </div>
-            <div class="font-bold text-xs bg-black text-white pb-2">
+            <div class="font-bold text-[8px] bg-black text-white pb-2 pl-2">
                 PART I: PERSONAL INFORMATION
             </div>
             <div class="">
@@ -105,7 +105,7 @@
                                     <div class="grid grid-cols-8 border border-black mx-2 text-center">
                                         <div class="border-r border-black pb-1 text-[11px]" v-for="(birth,index) in newBirthDay" :key="index">{{birth}}</div>  
                                     </div>
-                                    <div class="grid grid-cols-8 mx-2 text-center pb-1">
+                                    <div class="grid grid-cols-8 mx-2 text-center pb-1 -mt-1">
                                         <div class="text-[10px]" v-for="(formate,index) in birthFormat" :key="index">{{ formate }}</div> 
                                     </div> 
                                 </div>
@@ -136,7 +136,7 @@
                                         </div>
                                     </div>
                                 </div> 
-                                <div class=" flex items-center gap-2 pl-3 pb-2"> 
+                                <div class=" flex items-center gap-2 pl-3 pb-2 -mt-1"> 
                                     <div class="text-[10px] font-bold">NAME OF SPOUSE IF MARRIED:</div>
                                     <div class="text-[14px] border-b border-black grow mr-2 pb-2">{{ farmers?.details?.nameSpouse || 'N/A' }}</div>
                                 </div>  
@@ -153,11 +153,11 @@
                                     <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.houseHold == 'Yes'" label="YES"/> </div> 
                                     <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.houseHold == 'No'" label="NO"/> </div> 
                                 </div>
-                                <div class=" flex items-center gap-2 pl-3 pb-2 -mt-1"> 
+                                <div class=" flex items-center gap-2 pl-3 pb-2 -mt-2"> 
                                     <div class="text-[10px] font-bold">If no, name of household head:</div>
                                     <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.houseHoldName || 'N/A' }}</div>
                                 </div>
-                                <div class=" flex items-center gap-2 pl-3 pb-2 -mt-1"> 
+                                <div class=" flex items-center gap-2 pl-3 pb-2 -mt-2"> 
                                     <div class="text-[10px] font-bold">Relationship:</div>
                                     <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.houseHoldRelation || 'N/A' }}</div>
                                 </div>
@@ -199,7 +199,7 @@
                                 </div>
                             </div>
                             <div class="4ps border-b-2 border-black">
-                                <div class=" pl-2 pt-2 grid grid-cols-4 ">
+                                <div class=" pl-2 pt-2 grid grid-cols-4 -mt-1">
                                     <div class="text-[10px] font-bold col-span-2">4P’s Beneficiary?</div>
                                     <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.fourPs == 'Yes'" label="YES"/> </div> 
                                     <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.fourPs == 'No'" label="NO"/> </div> 
@@ -215,7 +215,7 @@
                                 </div>   
                             </div>
                             <div class="goverment border-b-2 border-black"> 
-                                <div class=" pl-2 pt-2 grid grid-cols-4">
+                                <div class=" pl-2 pt-2 grid grid-cols-4 -mt-1">
                                     <div class="text-[10px] font-bold col-span-2">With Government ID?</div>
                                     <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.govermentID == 'Yes'" label="YES"/> </div> 
                                     <div class="text-xs pb-2"><CheckTemplate :showCheck="farmers?.details.govermentID == 'No'" label="NO"/> </div> 
@@ -237,17 +237,17 @@
                                 </div>   
                             </div>
                             <div class=" flex items-center gap-2 pl-3 pb-2 pt-1"> 
-                                <div class="text-[12px] font-bold">PERSON TO NOTIFY IN <br/> CASE OF EMERGENCY:</div>
+                                <div class="text-[11px] font-bold">PERSON TO NOTIFY IN <br/> CASE OF EMERGENCY:</div>
                                 <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.emergencyPerson || 'N/A' }}</div>
                             </div> 
                             <div class=" flex items-center gap-2 pl-3 pb-2 -mt-1"> 
-                                <div class="text-[12px] font-bold">CONTACT NUMBER:</div>
+                                <div class="text-[11px] font-bold">CONTACT NUMBER:</div>
                                 <div class="text-[14px] border-b border-black grow mr-2 pb-1">{{ farmers?.details?.emergencyContact || 'N/A' }}</div>
                             </div> 
                         </div>
                     </div> 
                 </div> 
-                <div class="font-bold text-xs bg-black text-white pb-2 -mt-1">
+                <div class="font-bold text-[8px] bg-black text-white pb-2 pl-2">
                     PART II: FARM PROFILE
                 </div>
                 <div class="farmNaNila -mt-1">
@@ -265,9 +265,9 @@
                             <div class="pb-1 text-[11px] font-bold"><CheckTemplate :showCheck="farmers?.details?.mianLivelihood == 'Fisherfolk'" label="FISHERFOLK"/></div>
                         </div> 
                     </div> 
-                    <div class="grid grid-cols-3 gap-1 pb-1 border-y-2 border-black justify-center text-[12px]">
+                    <div class="grid grid-cols-3 gap-1 pb-1 border-y-2 border-black justify-center text-[11px]">
                         <div class="border-r-2 border-black"> 
-                            <div class="pb-1 font-bold italic underline text-center">For farmers:</div>
+                            <div class="pb-1 font-bold italic underline text-center text-[10px]">For farmers:</div>
                             <div class=" pl-2 pb-1 font-bold"> Type of Farming Activity </div>
                             <div  class=" pl-2 pb-1 grid grid-flow-row">
                                 <div class=""><CheckTemplate :showCheck="farmers?.details?.mianLivelihood == 'Rice'" label="Rice"/> </div> 
@@ -283,7 +283,7 @@
                             </div>
                         </div>  
                         <div class="">  
-                            <div class="pb-1 text-center font-bold italic underline">For farmworkers:</div>
+                            <div class="pb-1 text-center font-bold italic underline text-[10px]">For farmworkers:</div>
                             <div class="pb-1 pl-1 font-bold"> Kind of Work </div>
                             <div  class=" pl-2 pb-1">
                                 <div class=""><CheckTemplate :showCheck="farmers?.details?.farmWork == 'Land Preparation'" label="Land Preparation"/> </div> 
@@ -306,22 +306,22 @@
                                 <div class="pb-1 pl-2 font-bold">Type of Fishing Activity</div>
                                 <div class="grid grid-cols-2">
                                     <div class="ml-4">
-                                        <div class="text-xs"><CheckTemplate :showCheck="farmers?.details?.fishWork == 'Fish Capture'"
+                                        <div class=""><CheckTemplate :showCheck="farmers?.details?.fishWork == 'Fish Capture'"
                                              label="Fish Capture"/></div>
-                                        <div class="text-xs"><CheckTemplate :showCheck="farmers?.details?.fishWork == 'Aquaculture'"
+                                        <div class=""><CheckTemplate :showCheck="farmers?.details?.fishWork == 'Aquaculture'"
                                         label="Aquaculture"/></div>
                                     </div>
                                     <div>
-                                        <div class="text-xs"><CheckTemplate :showCheck="farmers?.details?.fishWork == 'Fish Processing'"
+                                        <div class=""><CheckTemplate :showCheck="farmers?.details?.fishWork == 'Fish Processing'"
                                              label="Fish Processing"/></div>
                                         <div class="text-xs"><CheckTemplate :showCheck="farmers?.details?.fishWork == 'Fish Vending'"
                                         label="Fish Vending"/></div>
                                     </div> 
                                 </div>
                                 <div class="ml-4">
-                                    <div class="text-xs"><CheckTemplate :showCheck="farmers?.details?.fishWork == 'Gleaning'"
+                                    <div class=""><CheckTemplate :showCheck="farmers?.details?.fishWork == 'Gleaning'"
                                             label="Gleaning"/></div>
-                                    <div class="text-xs"><CheckTemplate :showCheck="farmers?.details?.fishWork == 'Aquaculture'"
+                                    <div class="t"><CheckTemplate :showCheck="farmers?.details?.fishWork == 'Aquaculture'"
                                     label="Others, please specify:"/></div>
                                 </div>
                             </div>
@@ -349,7 +349,7 @@
                 </div>
             </div> 
         </div>   
-        <div class="cutHere border-b border-black h-2 border-dashed mb-2"></div>
+        <div class="cutHere border-b border-black h-4 border-dashed mb-4"></div>
         <div class="border-2 border-black">
             <div class="text-center font-bold text-[16px] pb-3">
                 <div>Registry System for Basic Sectors in Agriculture (RSBSA)</div>
@@ -382,12 +382,15 @@
                 </div> 
             </div>
         </div>
-        <div class="text-center font-bold -mt-1 text-[14px]">THIS FORM IS NOT FOR SALE</div>
+        <div class="text-center font-bold text-[14px] mt-2 mb-2">THIS FORM IS NOT FOR SALE</div>
+        <br/> 
+        <Parcel :parcel="farmers.parce"/>
     </div>
 </template>
 <script setup>
 import html2pdf from "html2pdf.js";
 import CheckTemplate from "@/Components/Check.vue";
+import Parcel from "./Parcel.vue";
 import { ref } from "vue";
  const props = defineProps({
     farmers: {
