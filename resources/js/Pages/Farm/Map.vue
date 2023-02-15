@@ -97,7 +97,10 @@ const drawMap = (map,details,owner,status) =>{
     iconSize:     [38, 95], // size of the icon
     
 }); 
-    
+    if(!details){
+        return;
+    }    
+
     let {fertilizer, seedling} = details;
     let tagName = '<div>'+
         '<div class="font-bold">Owner: '+ owner +'</div>' + 

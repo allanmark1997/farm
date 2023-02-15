@@ -41,7 +41,7 @@ onMounted(() => {
 const callChildMethod = (farm) => {
     childred.value.drawMap(
         farm.map,
-        farm.details.inventories,
+        farm.details?.inventories,
         farm.farmer?.name,
         farm.status
     );
