@@ -62,10 +62,12 @@ class FarmController extends Controller
             'barangay' => ['required', 'max:255']
         ]);
 
+        $details = $request->details;
+        $details['inventories'] = ['seedling' => null, 'fertilizers' => []];
         Farm::create([
             'farmer_id' => $request->selected_farmer,
             'income' => 0,
-            'details' => $request->details, 
+            'details' => $details, 
             'map' => $request->map,
             'barangay' => $request->barangay
         ]);
@@ -148,7 +150,7 @@ class FarmController extends Controller
         
         $farm->update([
             'status' => 'farming',
-            'details' => $request->details, //['expected_income' => 100, 'income' => 0, 'inventories'=> ['seedling' => 'Corn', 'fertilizers' => ['fert1', 'fert2']]]
+            'details->inventories' => $request->details['inventories'], //['expected_income' => 100, 'income' => 0, 'inventories'=> ['seedling' => 'Corn', 'fertilizers' => ['fert1', 'fert2']]]
             'map->color' => $request->color
         ]);
 
@@ -168,12 +170,12 @@ class FarmController extends Controller
         $farm = Farm::find($id);
         $farm->update([
             'status' => 'idle',
-            'details' => $request->details, //update the income
+            'details->income' => $request->details['income'], //update the income
             'map->color' => $request->color //default color
         ]);
         $farmer = $farm->farmer;
         $farmer->update([
-            'income' => $farmer->income + $request->details['expected_income']
+            'income' => $farmer->income + $request->details['income']
         ]);
 
         Transaction::create([

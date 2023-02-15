@@ -59,7 +59,6 @@ class TransactionController extends Controller
             'type' => $request->type,
             'details' => $request->details
         ]);
-
         return Redirect::back();
     }
 

@@ -212,15 +212,16 @@ const harvestHandler = () => {
 
 const showHarvest = (farm) => {
     formPlants.id = farm.id;
-    formPlants.details =
-        Object.assign({
-            expected_income: 0,
-            income: 0,
-            inventories: {
-                seedling: "",
-                fertilizer: [],
-            },
-        });
+    formPlants.reset('details');
+    // formPlants.details =
+    //     Object.assign({
+    //         expected_income: 0,
+    //         income: 0,
+    //         inventories: {
+    //             seedling: "",
+    //             fertilizer: [],
+    //         },
+    //     });
     modals.harvest_plant.show = true;
 }
 
