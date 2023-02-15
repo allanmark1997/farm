@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Farm;
 use App\Models\Farmer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -219,8 +220,28 @@ class FarmerController extends Controller
 
     public function profile(Request $request){
         $farmer = Farmer::with('transactions')->with('parcels')->where('id',$request->id)->first();
+        $parcels = [];
+        foreach ($farmer->parcels as $parcel) {
+            $key = $parcel->barangay.'_'.$parcel->details['ownership_document_no'].'_'.$parcel->details['farm_ownership'].'_'.$parcel->details['farm_owner'];
+            if (!isset($parcels[$key])) {
+                $parcels[$key] = [
+                    'description' => [
+                        'total_farm_area' => 0,
+                        'barangay' => $parcel->barangay,
+                        'ownership_document_no' => $parcel->details['ownership_document_no'],
+                        'farm_ownership' => $parcel->details['farm_ownership'],
+                        'farm_owner' => $parcel->details['farm_owner'],
+                    ],
+                    'farms' => []
+                ];
+            }
+            $parcels[$key]['farms'][] = $parcel;
+            $parcels[$key]['description']['total_farm_area'] += $parcel->details['farm_size'];
+        }
+        $parcels = collect($parcels)->values()->all(); //update the keys
         return Inertia::render('Farmer/FarmerProfile', [
-            'farmer' => $farmer
+            'farmer' => $farmer,
+            'parcels' => $parcels
         ]);
     }
 
