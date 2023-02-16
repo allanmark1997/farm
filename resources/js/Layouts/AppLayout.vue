@@ -65,7 +65,7 @@ const logout = () => {
                                     :href="route('timeline.index')"
                                     :active="route().current('timeline.index')"
                                 >
-                                    Timeline
+                                    Dashboard
                                 </NavLink>
                                 <NavLink
                                     :href="route('event.index')"

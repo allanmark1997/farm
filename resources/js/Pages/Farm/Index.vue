@@ -26,17 +26,7 @@ const childred = ref(null);
 const enableEditMap = ref(false);
 const barangays = ref([]);
 
-onMounted(() => {
-    if (props.farms.length) {
-        props.farms.map((item) => {
-            if (item.map.coordinates.length) {
-                callChildMethod(item);
-            }
-        });
-    }
 
-    barangays.value = getBarangayByMun('101310'); 
-});
 
 const callChildMethod = (farm) => {
     childred.value.drawMap(
@@ -53,9 +43,8 @@ const form = useForm({
         coordinates: [],
         color: "#ffffff",
     },
-    barangay: '',
+    barangay: "",
     details: {
-        total_farm_area:'',
         ownership_document_no:'',
         farm_ownership:'',
         farm_owner:'',
@@ -114,6 +103,22 @@ const modals = reactive({
 const fertilizerVar = ref({
     name: "",
     unit: "",
+});
+
+onMounted(() => {
+    if (props.farms.length) {
+        props.farms.map((item) => {
+            if (item.map.coordinates.length) {
+                callChildMethod(item);
+            }
+        });
+    }
+
+    barangays.value = getBarangayByMun('101310'); 
+
+    if(props.selected_farmer != "all"){
+        form.details.farm_owner = props.farmers.find(farmer=>farmer.id == props.selected_farmer).name
+    }
 });
 
 const selectFarmer = () => {
@@ -289,7 +294,7 @@ const onDeleteHandler = () => {
                             </div>
                             <div class="max-h-[720px] overflow-y-auto mt-2">
                                 <template v-for="farm in farms" :key="farm">
-                                    <a @click="callChildMethod(farm)" class="cursor-pointer">
+                                    <a >
                                         <FarmCard>
                                             <template #actions>
                                                 <div class="cursor-pointer" @click="
@@ -363,12 +368,7 @@ formPlants.id = farm.id;
                         </select>
                         <InputError class="mt-2" :message="form.errors.barangay" />
                     </div>
-                    <div class="col-span-3">
-                        <InputLabel value="Total Farm Area (ha):" />
-                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.total_farm_area" />
-                        <InputError class="mt-2" :message="form.errors.total_farm_area" />
-                    </div>
-                    <div class="col-span-3">
+                    <div class="col-span-2">
                         <InputLabel value="Ownership Document No: " />
                         <select
                             v-model="form.details.ownership_document_no"
@@ -390,7 +390,7 @@ formPlants.id = farm.id;
                         </select>
                         <InputError class="mt-2" :message="form.errors.ownership_document_no" />
                     </div>
-                    <div class="col-span-6">
+                    <div class="col-span-2">
                         <InputLabel value="Type:" />
                         <select
                         v-model="form.details.farm_ownership"
@@ -404,12 +404,12 @@ formPlants.id = farm.id;
                         </select>
                         <InputError class="mt-2" :message="form.errors.farm_ownership" />
                     </div>
-                    <div class="col-span-6" v-if="form.details.farm_ownership == 'Lessee' || form.details.farm_ownership == 'Tenant' || form.details.farm_ownership == 'Others'">
+                    <div class="col-span-2" v-if="form.details.farm_ownership == 'Lessee' || form.details.farm_ownership == 'Tenant' || form.details.farm_ownership == 'Others'">
                         <InputLabel value="Name of owner:" />
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_owner" />
                         <InputError class="mt-2" :message="form.errors.farm_owner" />
                     </div>
-                    <div class="col-span-6">
+                    <div class="col-span-2">
                         <InputLabel value="Type:" />
                         <select
                         v-model="form.details.farm_type_business"
@@ -425,7 +425,7 @@ formPlants.id = farm.id;
                         </select>
                         <InputError class="mt-2" :message="form.errors.farm_type_business" />
                     </div>
-                    <div class="col-span-6" v-if="form.details.farm_type_business == 'Livestock' || form.details.farm_type_business == 'Poultry'">
+                    <div class="col-span-3" v-if="form.details.farm_type_business == 'Livestock' || form.details.farm_type_business == 'Poultry'">
                         <InputLabel value="For Livestock & Poultry (specify type of animal)" />
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.specified_animal" />
                         <InputError class="mt-2" :message="form.errors.specified_animal" />
