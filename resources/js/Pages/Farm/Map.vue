@@ -97,57 +97,55 @@ const drawMap = (map,details,owner,status) =>{
     iconSize:     [38, 95], // size of the icon
     
 }); 
-    if(!details){
-        return;
-    }    
-
-    let {fertilizer, seedling} = details;
-    let tagName = '<div>'+
-        '<div class="font-bold">Owner: '+ owner +'</div>' + 
-        '<div class="font-bold">Name: '+ map.name +'</div>'+ 
-        '<div class="font-bold">Status: '+ `${status === "idle" ? "Ready for planting" : "Crops are growing"}` +'</div>'+ 
-    '</div>'
-    let fertilizerHtml = fertilizer.map(item => 
-    '<div class="grid grid-cols-8 gap-2 border p-2">'+
-        '<div class="col-span-4">'+ item.name +'</div>' + 
-        '<div class="col-span-4">'+ item.unit +'</div>'+ 
-    '</div>').join(""); 
-    var polygon = leaflet.polygon(map.coordinates, { color:map.color}).addTo(mymap);
-        var center = polygon.getBounds().getCenter();
-        var marker = leaflet.marker(center,{icon: greenIcon}).bindPopup(`
-            <div class="border rounded-md p-2 w-64 shadow-md"> 
-                <div class="font-bold my-2">Plant: ${seedling || 'No Plant'}</div>
-                <div class="grid grid-cols-8 gap-2 border p-2">
-                    <div class="col-span-4">Name</div>
-                    <div class="col-span-4">Quantity</div>
-                </div>
-                ${fertilizerHtml}
-                <div>  
-                </div>
-            </div>`,{maxWidth: 300});
-        var polygonAndItsCenter = leaflet.layerGroup([polygon, marker]);
-        polygonAndItsCenter.addTo(mymap); 
-        mymap.fitBounds(polygon.getBounds());
-        
-        mymap.on('zoomend' , function (e) {
-            var geo = polygon.getCenter(); 
-                if (mymap.getZoom()>16.5)
-                {
-                    marker.setLatLng(geo);
-                    marker.addTo(mymap);
-                }else {
-                    marker.remove();
-                }
-        }); 
-        polygon.on('mouseover', function (e) { 
-            polygon.bindTooltip(tagName, {direction: "center" }).openTooltip();
-        });
-        if(!props.enableEditMap){
-            return;
-        } 
-        polygon.on('click', function(e) { 
-            mymap.removeLayer(polygon); 
-        });
+    if(details){
+        let {fertilizer, seedling} = details;
+        let tagName = '<div>'+
+            '<div class="font-bold">Owner: '+ owner +'</div>' + 
+            '<div class="font-bold">Name: '+ map.name +'</div>'+ 
+            '<div class="font-bold">Status: '+ `${status === "idle" ? "Ready for planting" : "Crops are growing"}` +'</div>'+ 
+        '</div>'
+        let fertilizerHtml = fertilizer?.map(item => 
+        '<div class="grid grid-cols-8 gap-2 border p-2">'+
+            '<div class="col-span-4">'+ item.name +'</div>' + 
+            '<div class="col-span-4">'+ item.unit +'</div>'+ 
+        '</div>').join(""); 
+        var polygon = leaflet.polygon(map.coordinates, { color:map.color}).addTo(mymap);
+            var center = polygon.getBounds().getCenter();
+            var marker = leaflet.marker(center,{icon: greenIcon}).bindPopup(`
+                <div class="border rounded-md p-2 w-64 shadow-md"> 
+                    <div class="font-bold my-2">Plant: ${seedling || 'No Plant'}</div>
+                    <div class="grid grid-cols-8 gap-2 border p-2">
+                        <div class="col-span-4">Name</div>
+                        <div class="col-span-4">Quantity</div>
+                    </div>
+                    ${fertilizerHtml}
+                    <div>  
+                    </div>
+                </div>`,{maxWidth: 300});
+            var polygonAndItsCenter = leaflet.layerGroup([polygon, marker]);
+            polygonAndItsCenter.addTo(mymap); 
+            mymap.fitBounds(polygon.getBounds());
+            
+            mymap.on('zoomend' , function (e) {
+                var geo = polygon.getCenter(); 
+                    if (mymap.getZoom()>16.5)
+                    {
+                        marker.setLatLng(geo);
+                        marker.addTo(mymap);
+                    }else {
+                        marker.remove();
+                    }
+            }); 
+            polygon.on('mouseover', function (e) { 
+                polygon.bindTooltip(tagName, {direction: "center" }).openTooltip();
+            });
+            if(!props.enableEditMap){
+                return;
+            } 
+            polygon.on('click', function(e) { 
+                mymap.removeLayer(polygon); 
+            });
+    }     
 }
 defineExpose({ drawMap,clearMarker});
 </script>
