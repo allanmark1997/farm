@@ -1,5 +1,5 @@
 <template> 
-    <button @click="generatePdf()">Print</button>
+    <!-- <button @click="generatePdf()">Print</button> -->
     <div id="htmlContent">   
         <div class="border-2 border-black" >
             <div class="grid grid-cols-5">
@@ -382,29 +382,65 @@
                 </div> 
             </div>
         </div>
-        <div class="text-center font-bold text-[14px] mt-2 mb-2">THIS FORM IS NOT FOR SALE</div>
+        <div class="text-center font-bold text-[12px] mt-2 mb-2">THIS FORM IS NOT FOR SALE</div>
         <br/> 
-        <Parcel :parcel="farmers.parce"/>
+        <div  v-if="arrangeParcels"> 
+            <Parcel v-for="(parcel,index) in arrangeParcels" :key="index" :parcel="parcel"/>  
+        </div>
     </div>
 </template>
 <script setup>
 import html2pdf from "html2pdf.js";
 import CheckTemplate from "@/Components/Check.vue";
 import Parcel from "./Parcel.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue"; 
  const props = defineProps({
     farmers: {
         type:Object,
         default: {},
     },
+    parcels: {
+        type:Object,
+        default: {},
+    },
  });
 
-const newBirthDay = ref([]);
-const date = props.farmers?.details?.dateBirth;
-const [year, month, day] = date.split("-");
-const newDate = `${month}${day}${year}`;
-newBirthDay.value =  newDate;
-const birthFormat = ref("MMDDYYYY");
+const newBirthDay = ref([]); 
+const birthFormat = ref("MMDDYYYY"); 
+const arrangeParcels = ref([]);
+const {crops,sizes,noOfHeads,farmTypes,organics} = {
+    crops:[1,2,3,4,5],
+    sizes:[1,2,3,4,5],
+    noOfHeads:[1,2,3,4,5],
+    farmTypes:[1,2,3,4,5],
+    organics:[1,2,3,4,5] 
+}
+
+const arrangeBday  = ()=>{
+    const date = props.farmers?.details?.dateBirth;
+    const [year, month, day] = date.split("-");
+    const newDate = `${month}${day}${year}`;
+    newBirthDay.value =  newDate; 
+}
+const arrangeParcel = ()=>{
+    console.log(props.parcels);
+    const testarray = [{id:1},{id:1},{id:1},{id:1},{id:1},{id:1},{id:1}]
+    const groupLength = 3;
+    arrangeParcels.value = props.parcels.reduce((acc,item,index)=>{
+        const groupParcel = Math.floor(index / groupLength);
+        if(!acc[groupParcel]){ acc[groupParcel] = [];}
+        acc[groupParcel].push({...item,crops,sizes,noOfHeads,farmTypes,organics});
+        return acc;
+    },[]);
+    console.log(arrangeParcels.value); 
+}
+
+onMounted(()=>{ 
+    console.log(props.parcels);
+    arrangeBday();
+    arrangeParcel();
+    
+})
 
  const generatePdf = () => {
         html2pdf(document.getElementById("htmlContent"), {
@@ -413,5 +449,6 @@ const birthFormat = ref("MMDDYYYY");
             jsPDF:{ format: 'legal',}
         });
 }
+defineExpose({generatePdf})
 
 </script>

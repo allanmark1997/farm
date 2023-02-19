@@ -21,9 +21,10 @@ import TransactionPlant from "./Profile/Plant.vue";
 import Harvest from "./Profile/Harvest.vue";
 import EditProfile from "./Profile/EditProfile.vue";
 
-const props = defineProps(["farmer"]);
+const props = defineProps(["farmer","parcels"]);
 const farmerProfile = ref(props.farmer);
 const currentTab = ref('Profile');
+const children = ref(null);
 
 const form = useForm({
         id: "",
@@ -66,7 +67,9 @@ const  deleteProfile = ()=>{
         },
     });
 }
- 
+const printForm=()=>{
+    children.value.generatePdf();
+}
 
 </script>
 <template>
@@ -83,12 +86,12 @@ const  deleteProfile = ()=>{
                                     <PrimaryButton class="w-full" @click="changeTab('TransactionPlant')">Plant</PrimaryButton>
                                     <PrimaryButton class="w-full" @click="changeTab('Harvest')">Harvest</PrimaryButton>
                                     <PrimaryButton class="w-full" @click="changeTab('EditProfile')">Edit Profile</PrimaryButton>
-                                   <PrimaryButton class="w-full" >Print Profile</PrimaryButton> 
+                                   <PrimaryButton class="w-full" @click="printForm()">Print Profile</PrimaryButton> 
                                     <PrimaryButton class="w-full" @click="deleteProfile">Delete</PrimaryButton>
                                 </div>
                             </div>
                             <div class="col-span-5 border shadow-lg p-2 rounded-md">
-                                <component v-bind:is="currentTabComponent" :farmers="farmerProfile" ref="analysis"></component>
+                                <component v-bind:is="currentTabComponent" :farmers="farmerProfile" ref="children" :parcels="parcels"></component>
                                 <!-- <Profile :farmer="farmer"/> -->
                             </div> 
                         </div> 

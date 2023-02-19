@@ -22,14 +22,14 @@ const props = defineProps([
     "inventories",
     "categories",
 ]);
-const childred = ref(null);
+const children = ref(null);
 const enableEditMap = ref(false);
 const barangays = ref([]);
 
 
 
 const callChildMethod = (farm) => {
-    childred.value.drawMap(
+    children.value.drawMap(
         farm.map,
         farm.details?.inventories,
         farm.farmer?.name,
@@ -172,7 +172,7 @@ const handleMap = (farm) => {
         preserveScroll: true,
         onSuccess: () => {
             window.location.reload();
-            childred.value.clearMarker();
+            children.value.clearMarker();
             callChildMethod(form);
         },
         onError: () => {
@@ -342,7 +342,7 @@ formPlants.id = farm.id;
                             </div>
                         </div>
                         <div class="col-span-6">
-                            <Map :mapCoordinate="mapCoordinate" ref="childred" :inventories="inventories"
+                            <Map :mapCoordinate="mapCoordinate" ref="children" :inventories="inventories"
                                 :enableEditMap="enableEditMap" />
                         </div>
                     </div>
