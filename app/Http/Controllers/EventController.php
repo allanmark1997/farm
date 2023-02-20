@@ -45,7 +45,7 @@ class EventController extends Controller
     {
         $request->validate([
             'title' => ['required', 'max:255'],
-            'content' => ['required', 'max:255']
+            'content' => ['required']
         ]);
 
         $images = array();
