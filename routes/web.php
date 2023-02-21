@@ -112,4 +112,9 @@ Route::middleware([
         Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('delete');
         Route::put('/toggle_status/{id}', [UserController::class, 'toggle_status'])->name('toggle_status');
     });
+
+    Route::prefix('analysis')->name('analysis.')->group(function () {
+        Route::get('/', [FarmController::class, 'index_analysis'])->name('index_analysis');
+        Route::post('/store', [FarmController::class, 'download'])->name('download');
+    });
 });

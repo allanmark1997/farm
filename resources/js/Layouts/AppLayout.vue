@@ -109,6 +109,14 @@ const logout = () => {
                                     Transactions
                                 </NavLink>
                                 <NavLink
+                                    :href="route('analysis.index_analysis')"
+                                    :active="
+                                        route().current('analysis.index_analysis')
+                                    "
+                                >
+                                    Reports
+                                </NavLink>
+                                <NavLink
                                     v-if="$page.props.user.is_admin"
                                     :href="route('users.index')"
                                     :active="route().current('users.index')"
@@ -438,6 +446,12 @@ const logout = () => {
                             :active="route().current('transactions.index')"
                         >
                             transactions
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('analysis.index_analysis')"
+                            :active="route().current('analysis.index_analysis')"
+                        >
+                            analysis
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             v-if="$page.props.user.is_admin"

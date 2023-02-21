@@ -187,4 +187,13 @@ class FarmController extends Controller
         ]);
         return Redirect::back();
     }
+
+
+    public function index_analysis(Request $request)
+    {
+        $transaction = Transaction::get();
+        return Inertia::render('Analysis/Index',[
+            'transaction' => $transaction,
+        ]);
+    }
 }
