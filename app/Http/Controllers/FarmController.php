@@ -63,7 +63,7 @@ class FarmController extends Controller
         ]);
 
         $details = $request->details;
-        $details['inventories'] = ['seedling' => null, 'fertilizers' => []];
+        $details['inventories'] = ['seedling' => null, 'fertilizer' => []];
         Farm::create([
             'farmer_id' => $request->selected_farmer,
             'income' => 0,
@@ -157,7 +157,7 @@ class FarmController extends Controller
             'farm_id' => $farm->id,
             'user_id' => Auth::user()->id,
             'type' => 'plant',
-            'details' => $request->details['inventories']
+            'details->inventories' => $request->details['inventories']
         ]);
 
         return Redirect::back();
@@ -166,22 +166,26 @@ class FarmController extends Controller
     public function harvest(Request $request, $id)
     {
         $farm = Farm::find($id);
+        $inventories = $farm->details['inventories'];
         $farm->update([
             'status' => 'idle',
             'details->income' => $request->details['income'], //update the income
+            'details->inventories' => ['seedling' => null, 'fertilizer' => []],
             'map->color' => $request->color //default color
         ]);
         $farmer = $farm->farmer;
+        
         $farmer->update([
             'income' => $farmer->income + $request->details['income']
         ]);
-
+        $details = $request->details;
+        $details['inventories'] = $inventories;
         Transaction::create([
             'farmer_id' => $farm->farmer->id,
             'farm_id' => $farm->id,
             'user_id' => Auth::user()->id,
             'type' => 'harvest',
-            'details' => $request->details //update the income
+            'details' => $details //update the income
         ]);
         return Redirect::back();
     }
@@ -189,9 +193,29 @@ class FarmController extends Controller
 
     public function index_analysis(Request $request)
     {
-        $transaction = Transaction::get();
+        $transactions = [];//Transaction::all();
+        $farms = Farm::all();
+        foreach ($farms->groupBy('barangay') as $barangay => $farms) {
+            $transactions[$barangay] = [
+                'seeds' => 0,
+                'fertilizers' => 0
+            ];
+            foreach ($farms as $farm) {
+                //count how many seeds
+                $transactions[$barangay]['seeds'] += 1;
+                $harvests = Transaction::where(['farm_id' => $farm->id, 'type' => 'harvest'])->get();
+                foreach ($harvests as $harvest) {
+                    //count just how many fertilizers
+                    $transactions[$barangay]['fertilizers'] += count($harvest->details['inventories']['fertilizer']);
+                    /* foreach ($harvest->details['inventories']['fertilizer'] as $fertilizer) {
+                        $transactions[$barangay]['fertilizers'] += 1;
+                    } */
+                }
+            }
+        }
+        
         return Inertia::render('Analysis/Index',[
-            'transaction' => $transaction,
+            'transactions' => $transactions,
         ]);
     }
 }

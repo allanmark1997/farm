@@ -14,7 +14,7 @@ import { onMounted, reactive, ref } from "vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 
-const props = defineProps(["transaction"]);
+const props = defineProps(["transactions"]);
 
 
 </script>

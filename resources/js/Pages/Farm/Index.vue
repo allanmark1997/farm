@@ -102,6 +102,7 @@ const modals = reactive({
 
 const fertilizerVar = ref({
     name: "",
+    quantity: 0,
     unit: "",
 });
 
@@ -530,7 +531,11 @@ formPlants.id = farm.id;
                                         </template>
                                     </SelectInput>
                                 </div>
-                                <div class="col-span-3">
+                                <div class="col-span-2">
+                                    <InputLabel value="Quantity" />
+                                    <TextInput type="number" class="block w-full" required v-model="fertilizerVar.quantity" />
+                                </div>
+                                <div class="col-span-2">
                                     <InputLabel value="Unit" />
                                     <TextInput type="text" class="block w-full" required v-model="fertilizerVar.unit" />
                                 </div>
@@ -551,7 +556,7 @@ formPlants.id = farm.id;
                                 <div v-for="(fertilizer, index) in formPlants
                                 .details.inventories.fertilizer" class="grid grid-cols-3" :key="index">
                                     <div>{{ fertilizer.name }}</div>
-                                    <div>{{ fertilizer.unit }}</div>
+                                    <div>{{ fertilizer.quantity + fertilizer.unit }}</div>
                                     <div class="text-red-500 cursor-pointer" @click="removeFilterizer(index)">
                                         Remove
                                     </div>
