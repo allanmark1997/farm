@@ -159,7 +159,7 @@ class FarmController extends Controller
             'farm_id' => $farm->id,
             'user_id' => Auth::user()->id,
             'type' => 'plant',
-            'details' => $request->details
+            'details' => $request->details['inventories']
         ]);
 
         return Redirect::back();
