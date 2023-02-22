@@ -106,10 +106,8 @@ class FarmController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $request->validate([
-            'barangay' => ['required', 'max:255']
-        ]);
         $farm = Farm::find($id);
+        
         $farm->update([
             // 'map_id' => $request->map_id,
             // 'farmer_id' => $request->farmer_id,
