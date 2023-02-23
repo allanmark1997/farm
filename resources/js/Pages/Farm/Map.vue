@@ -107,7 +107,7 @@ const drawMap = (map,details,owner,status) =>{
         let fertilizerHtml = fertilizer?.map(item => 
         '<div class="grid grid-cols-8 gap-2 border p-2">'+
             '<div class="col-span-4">'+ item.name +'</div>' + 
-            '<div class="col-span-4">'+ item.unit +'</div>'+ 
+            '<div class="col-span-4">'+ item.quantity +'</div>'+ 
         '</div>').join(""); 
         var polygon = leaflet.polygon(map.coordinates, { color:map.color}).addTo(mymap);
             var center = polygon.getBounds().getCenter();

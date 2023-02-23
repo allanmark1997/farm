@@ -64,6 +64,7 @@ class FarmController extends Controller
 
         $details = $request->details;
         $details['inventories'] = ['seedling' => null, 'seedling_quantity'=> 0, 'fertilizer' => []];
+        $details['expected_income'] = 0;
         Farm::create([
             'farmer_id' => $request->selected_farmer,
             'income' => 0,
@@ -144,12 +145,14 @@ class FarmController extends Controller
 
     public function plant(Request $request, $id)
     {
+        // dd($request->color);
         $farm = Farm::find($id);
         
         $farm->update([
             'status' => 'farming',
             'details->inventories' => $request->details['inventories'], //['expected_income' => 100, 'income' => 0, 'inventories'=> ['seedling' => 'Corn', 'fertilizers' => ['fert1', 'fert2']]]
-            'map->color' => $request->color
+            'map->color' => $request->color,
+            'details->expected_income' => $request->details['expected_income'],
         ]);
 
         Transaction::create([
@@ -165,14 +168,15 @@ class FarmController extends Controller
 
     public function harvest(Request $request, $id)
     {
-        // dd($request->details['income']);
+        // dd($request->details);
         $farm = Farm::find($id);
         $inventories = $farm->details['inventories'];
-        $income = $farm->details['income'] + $request->details['income'];
+        $income = $farm->income + $request->details['income'];
         $farm->update([
             'status' => 'idle',
             'income' => $income,
             'details->income' => $income, //update the income
+            'details->expected_income' => 0, //update the income
             'details->inventories' => ['seedling' => null, 'seedling_quantity'=>0, 'fertilizer' => []],
             'map->color' => $request->color //default color
         ]);
@@ -183,6 +187,7 @@ class FarmController extends Controller
         ]);
         $details = $request->details;
         $details['inventories'] = $inventories;
+        // dd($details);
         Transaction::create([
             'farmer_id' => $farm->farmer->id,
             'farm_id' => $farm->id,

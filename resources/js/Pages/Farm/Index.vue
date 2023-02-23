@@ -135,17 +135,19 @@ const showModal = () => {
 
 const showModalPlant = (farm) => {
     console.log(farm);
+    formPlants.reset();
     formPlants.id = farm.id;
-    // formPlants.details =
-    //     farm.details ||
-    //     Object.assign({
-    //         expected_income: 0,
-    //         income: 0,
-    //         inventories: {
-    //             seedling: "",
-    //             fertilizer: [],
-    //         },
-    //     });
+    
+    /* formPlants.details =
+        farm.details ||
+        Object.assign({
+            expected_income: 0,
+            income: 0,
+            inventories: {
+                seedling: "",
+                fertilizer: [],
+            },
+        }); */
     modals.add_plant.show = true;
 };
 
@@ -153,7 +155,7 @@ const saveFarm = () => {
     form.post(route("farms.store"), {
         preserveScroll: true,
         onSuccess: () => {
-            alert("Added farm");
+            // alert("Added farm");
             form.reset("name");
             modals.add_edit.show = false;
         },
@@ -195,7 +197,7 @@ const plantHandle = () => {
     formPlants.put(route("farms.plant", formPlants.id), {
         preserveScroll: true,
         onSuccess: () => {
-            alert("update plant");
+            // alert("update plant");
             window.location.reload();
         },
     });
@@ -211,7 +213,7 @@ const harvestHandler = () => {
     formPlants.put(route("farms.harvest", formPlants.id), {
         preserveScroll: true,
         onSuccess: () => {
-            alert("harvest plant");
+            // alert("harvest plant");
             window.location.reload();
         }
     });
@@ -219,7 +221,11 @@ const harvestHandler = () => {
 
 const showHarvest = (farm) => {
     formPlants.id = farm.id;
-    formPlants.reset('details');
+    // alert(formPlants.details.expected_income)
+
+    formPlants.details.expected_income = farm.details.expected_income
+    // alert(farm.details.expected_income)
+
     // formPlants.details =
     //     Object.assign({
     //         expected_income: 0,
@@ -254,7 +260,7 @@ const onDeleteHandler = () => {
     formPlants.delete(route("farms.delete", formPlants.id), {
         preserveScroll: true,
         onSuccess: () => {
-            alert("Deleted");
+            // alert("Deleted");
             modals.deleteFarm.show = false;
             window.location.reload();
         },
