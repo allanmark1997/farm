@@ -192,6 +192,7 @@ class FarmController extends Controller
         // dd($details);
         Transaction::create([
             'farmer_id' => $farm->farmer->id,
+            'harvest_at' => $request->harvest_at,
             'farm_id' => $farm->id,
             'user_id' => Auth::user()->id,
             'type' => 'harvest',

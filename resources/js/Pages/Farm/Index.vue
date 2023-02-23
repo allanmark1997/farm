@@ -495,10 +495,10 @@ formPlants.id = farm.id;
                         <InputError class="mt-2" :message="formPlants.details.income.errors" />
                     </div>
                     <div class="col-span-3">
-                        <InputLabel value="Income" />
+                        <InputLabel value="Harvested Date" />
                         <TextInput type="date" class="mt-1 block w-full" required
                             v-model="formPlants.harvest_at" />
-                        <InputError class="mt-2" :message="formPlants.error.harvest_at" />
+                        <InputError class="mt-2" :message="formPlants.harvest_at" />
                     </div>
                 </div>
             </template>
