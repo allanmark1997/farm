@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ChartExport;
 use App\Models\Category;
 use App\Models\Farm;
 use App\Models\Farmer;
@@ -201,7 +202,23 @@ class FarmController extends Controller
 
     public function index_analysis(Request $request)
     {
-        $transactions = [];//Transaction::all();
+        return Inertia::render('Analysis/Index',[
+            'transactions' => $this->reports_data(),
+        ]);
+    }
+
+    public function download_report(Request $request) {
+        $transactions = $this->reports_data();
+        $results = [];
+        $results[] = ['Barangay', 'Seeds', 'Fertilizers'];
+        foreach ($transactions as $barangay => $transaction) {
+            $results[] = [$barangay, $transaction['seeds'], $transaction['fertilizers']];
+        }
+        return (new ChartExport([$results], ['Reports']))->download("Results.xlsx");
+    }
+
+    public function reports_data() {
+        $transactions = [];
         $farms = Farm::all();
         foreach ($farms->groupBy('barangay') as $barangay => $farms) {
             $transactions[$barangay] = [
@@ -210,24 +227,20 @@ class FarmController extends Controller
             ];
             foreach ($farms as $farm) {
                 
-                $harvests = Transaction::where(['farm_id' => $farm->id, 'type' => 'plant'])->get();
-                foreach ($harvests as $harvest) {
+                $plants = Transaction::where(['farm_id' => $farm->id, 'type' => 'plant'])->get();
+                foreach ($plants as $plant) {
                     //count how many seeds
-                    $transactions[$barangay]['seeds'] += $harvest->details['inventories']['seedling_quantity'];
+                    $transactions[$barangay]['seeds'] += $plant->details['inventories']['seedling_quantity'];
                     //count just how many fertilizers
                      
-                    foreach($harvest->details['inventories']['fertilizer'] as $fertilizer)
+                    foreach($plant->details['inventories']['fertilizer'] as $fertilizer)
                     {
                         $transactions[$barangay]['fertilizers'] += $fertilizer['quantity'];
                     }
-                /* foreach ($harvest->details['inventories']['fertilizer'] as $fertilizer) {
-                        $transactions[$barangay]['fertilizers'] += 1;
-                    } */
                 }
             }
         }
-        return Inertia::render('Analysis/Index',[
-            'transactions' => $transactions,
-        ]);
+
+        return $transactions;
     }
 }
