@@ -321,14 +321,30 @@ formPlants.id = farm.id;
                                                 </button>
                                             </template>
                                             <template #content>
-                                                <div>
-                                                    Name: {{ farm.map?.name }}
+                                                <div class="grid grid-cols-4 gap-2 text-sm">
+                                                    <div class=" col-span-2 grid grid-cols-4 gap-1">
+                                                        <div class="col-span-4">
+                                                            Name: {{ farm.map?.name }}
+                                                        </div>
+                                                        <div class="col-span-4">
+                                                            Owner: {{ farm.farmer?.name }}
+                                                        </div>
+                                                        <div class="col-span-4">Income: {{ farm.income }}</div>
+                                                        <div class="col-span-4">Color: {{ farm.map?.color }}</div>
+                                                        <div class="col-span-4">Organic Practitioner? {{ farm.details.organic_practitioner }}</div>
+                                                    </div>
+                                                    <div class=" col-span-2 grid grid-cols-4 gap-1">
+                                                        <div class="col-span-4">
+                                                            Barangay: {{ farm.barangay }}
+                                                        </div>
+                                                        <div class="col-span-4">
+                                                            Farm Size: {{ farm.details.farm_size }}
+                                                        </div>
+                                                        <div class="col-span-4">Farm Type: {{ farm.details.farm_type }}</div>
+                                                        <div class="col-span-4">Farm business type: {{ farm.details.farm_type_business }}</div>
+                                                        <div class="col-span-4">Farm ownership document: {{ farm.details.ownership_document_no }}</div>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    Owner: {{ farm.farmer?.name }}
-                                                </div>
-                                                <div>Income: {{ farm.income }}</div>
-                                                <div>Color:</div>
                                             </template>
                                             <template #footer>
                                                 <!-- <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm)">View</PrimaryButton> -->
