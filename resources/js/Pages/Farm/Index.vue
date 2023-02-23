@@ -63,6 +63,7 @@ const formPlants = useForm({
         income: 0,
         inventories: {
             seedling: "",
+            seedling_quantity:1,
             fertilizer: [],
         },
     },
@@ -135,16 +136,16 @@ const showModal = () => {
 const showModalPlant = (farm) => {
     console.log(farm);
     formPlants.id = farm.id;
-    formPlants.details =
-        farm.details ||
-        Object.assign({
-            expected_income: 0,
-            income: 0,
-            inventories: {
-                seedling: "",
-                fertilizer: [],
-            },
-        });
+    // formPlants.details =
+    //     farm.details ||
+    //     Object.assign({
+    //         expected_income: 0,
+    //         income: 0,
+    //         inventories: {
+    //             seedling: "",
+    //             fertilizer: [],
+    //         },
+    //     });
     modals.add_plant.show = true;
 };
 
@@ -203,7 +204,7 @@ const plantHandle = () => {
 const harvestHandler = () => {
     formPlants.color = '#ffffff';
     formPlants.details.dateHarvest = new Date();
-    if (formPlants.details.expected_income <= 0) {
+    if (formPlants.details.income <= 0) {
         alert("Please indicate your income.");
         return;
     }
@@ -482,8 +483,8 @@ formPlants.id = farm.id;
                     <div class="col-span-6">
                         <InputLabel value="Income" />
                         <TextInput type="number" class="mt-1 block w-full" required
-                            v-model="formPlants.details.expected_income" />
-                        <InputError class="mt-2" :message="formPlants.details.errors" />
+                            v-model="formPlants.details.income" />
+                        <InputError class="mt-2" :message="formPlants.details.income.errors" />
                     </div>
                 </div>
             </template>
@@ -500,7 +501,7 @@ formPlants.id = farm.id;
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6">
                         <hr class="my-4" />
-                        <div class="grid grid-cols-2 gap-2">
+                        <div class="grid grid-cols-3 gap-2">
                             <div>
                                 <InputLabel value="Seedling" />
                                 <SelectInput class="block w-full" @change="onchangeColor($event)" v-model="
@@ -514,8 +515,13 @@ formPlants.id = farm.id;
                                 </SelectInput>
                             </div>
                             <div>
+                                <InputLabel value="Quantity" />
+                                <TextInput type="number" class="block w-full" required
+                                    v-model="formPlants.details.inventories.seedling_quantity" />
+                            </div>
+                            <div>
                                 <InputLabel value="Expected Income " />
-                                <TextInput type="text" class="block w-full" required
+                                <TextInput type="number" class="block w-full" required
                                     v-model="formPlants.details.expected_income" />
                             </div>
                         </div>
@@ -535,10 +541,10 @@ formPlants.id = farm.id;
                                     <InputLabel value="Quantity" />
                                     <TextInput type="number" class="block w-full" required v-model="fertilizerVar.quantity" />
                                 </div>
-                                <div class="col-span-2">
+                                <!-- <div class="col-span-2">
                                     <InputLabel value="Unit" />
                                     <TextInput type="text" class="block w-full" required v-model="fertilizerVar.unit" />
-                                </div>
+                                </div> -->
                                 <div class="mt-6">
                                     <PrimaryButton @click="
                                         formPlants.details.inventories.fertilizer.push(
@@ -556,7 +562,8 @@ formPlants.id = farm.id;
                                 <div v-for="(fertilizer, index) in formPlants
                                 .details.inventories.fertilizer" class="grid grid-cols-3" :key="index">
                                     <div>{{ fertilizer.name }}</div>
-                                    <div>{{ fertilizer.quantity + fertilizer.unit }}</div>
+                                    <!-- <div>{{ fertilizer.quantity + fertilizer.unit }}</div> -->
+                                    <div>{{ fertilizer.quantity }}</div>
                                     <div class="text-red-500 cursor-pointer" @click="removeFilterizer(index)">
                                         Remove
                                     </div>

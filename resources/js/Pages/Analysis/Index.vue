@@ -43,28 +43,26 @@ const props = defineProps(["transactions"]);
                         <tbody>
                             <tr
                                 class="bg-white border-b"
-                                
+                                v-for="(report, barangay ) in transactions" :key="barangay"
                             >
                                 <th
                                     scope="row"
                                     class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap"
                                 >
                                     <div class="pl-3">
-                                        <div class="text-base font-semibold">
-                                          
-                                        </div>
                                         <div class="font-normal text-gray-500">
-                                          
+                                          {{ barangay }}
                                         </div>
                                     </div>
                                 </th>
                                 <td class="px-6 py-4">
-                                    
+                                    <div class="flex items-center">
+                                       {{ report.seeds }}
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center">
-                                       
-                                       
+                                       {{ report.fertilizers }}
                                     </div>
                                 </td>
                             </tr>

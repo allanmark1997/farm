@@ -211,6 +211,7 @@ const view_filter = () => {
                                 <th scope="col" class="px-6 py-3">Farm</th>
                                 <th scope="col" class="px-6 py-3">Income</th>
                                 <th scope="col" class="px-6 py-3">Seedlings</th>
+                                <th scope="col" class="px-6 py-3">Seedlings Quantity</th>
                                 <th scope="col" class="px-6 py-3">
                                     Fertilizers
                                 </th>
@@ -249,9 +250,18 @@ const view_filter = () => {
                                 <td class="px-6 py-4">
                                     {{
                                         transaction.details.inventories
-                                            .seedlings
+                                            .seedling
                                             ? transaction.details.inventories
-                                                  .seedlings
+                                                  .seedling
+                                            : "None"
+                                    }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{
+                                        transaction.details.inventories
+                                            .seedling
+                                            ? transaction.details.inventories
+                                                  .seedling_quantity
                                             : "None"
                                     }}
                                 </td>
@@ -270,7 +280,7 @@ const view_filter = () => {
                                             :key="key"
                                         >
                                             <p>Name: {{ fertilizer.name }}</p>
-                                            <p>Unit: {{ fertilizer.unit }}</p>
+                                            <p>Quantity: {{ fertilizer.quantity }}</p>
                                             <p></p>
                                         </template>
                                     </template>
