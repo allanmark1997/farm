@@ -225,7 +225,7 @@ const view_filter = () => {
                             <tr class="bg-white border-b" v-for="(transaction, index ) in transactions.data" :key="index" >
                                 <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap" >
                                     <div class="pl-3">
-                                        {{ moment(transaction.created_at ).format("MMMM Do YYYY") }}
+                                        {{ transaction.plant_at ? moment(transaction.plant_at ).format("MMMM Do YYYY"):moment(transaction.harvest_at ).format("MMMM Do YYYY") }}
                                     </div>
                                 </th>
                                 <td class="px-6 py-4">

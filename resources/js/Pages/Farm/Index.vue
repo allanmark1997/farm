@@ -58,6 +58,8 @@ const form = useForm({
 });
 const formPlants = useForm({
     id: null,
+    plant_at:'',
+    harvest_at:'',
     details: {
         expected_income: 0,
         income: 0,
@@ -205,7 +207,7 @@ const plantHandle = () => {
 
 const harvestHandler = () => {
     formPlants.color = '#ffffff';
-    formPlants.details.dateHarvest = new Date();
+    // formPlants.details.dateHarvest = new Date();
     if (formPlants.details.income <= 0) {
         alert("Please indicate your income.");
         return;
@@ -486,11 +488,17 @@ formPlants.id = farm.id;
             <template #title>{{ modals.harvest_plant.details.title }}</template>
             <template #content>
                 <div class="grid grid-cols-6 gap-6">
-                    <div class="col-span-6">
+                    <div class="col-span-3">
                         <InputLabel value="Income" />
                         <TextInput type="number" class="mt-1 block w-full" required
                             v-model="formPlants.details.income" />
                         <InputError class="mt-2" :message="formPlants.details.income.errors" />
+                    </div>
+                    <div class="col-span-3">
+                        <InputLabel value="Income" />
+                        <TextInput type="date" class="mt-1 block w-full" required
+                            v-model="formPlants.harvest_at" />
+                        <InputError class="mt-2" :message="formPlants.error.harvest_at" />
                     </div>
                 </div>
             </template>
@@ -529,6 +537,11 @@ formPlants.id = farm.id;
                                 <InputLabel value="Expected Income " />
                                 <TextInput type="number" class="block w-full" required
                                     v-model="formPlants.details.expected_income" />
+                            </div>
+                            <div>
+                                <InputLabel value="Planting date" />
+                                <TextInput type="date" class="block w-full" required
+                                    v-model="formPlants.plant_at" />
                             </div>
                         </div>
                         <div class="mt-4 pt-3 border-t-2">

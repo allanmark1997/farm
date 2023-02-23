@@ -157,6 +157,7 @@ class FarmController extends Controller
 
         Transaction::create([
             'farmer_id' => $farm->farmer->id,
+            'plant_at' => $request->plant_at,
             'farm_id' => $farm->id,
             'user_id' => Auth::user()->id,
             'type' => 'plant',
