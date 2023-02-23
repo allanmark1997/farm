@@ -115,6 +115,6 @@ Route::middleware([
 
     Route::prefix('analysis')->name('analysis.')->group(function () {
         Route::get('/', [FarmController::class, 'index_analysis'])->name('index_analysis');
-        Route::post('/store', [FarmController::class, 'download'])->name('download');
+        Route::post('/download', [FarmController::class, 'download'])->name('download');
     });
 });
