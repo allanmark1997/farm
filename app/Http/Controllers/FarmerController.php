@@ -236,7 +236,7 @@ class FarmerController extends Controller
                 ];
             }
             $parcels[$key]['farms'][] = $parcel;
-            $parcels[$key]['description']['total_farm_area'] += $parcel->details['farm_size'];
+            $parcels[$key]['description']['total_farm_area'] += floatval($parcel->details['farm_size']);
         }
         $parcels = collect($parcels)->values()->all(); //update the keys
         return Inertia::render('Farmer/FarmerProfile', [
