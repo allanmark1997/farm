@@ -20,7 +20,7 @@
                             <th class="w-[35%] text-[10px] border-r-2 border-black">FARM LAND DESCRIPTION</th>
                             <th class="w-[20%] text-[10px] border-r-2 border-black px-2 pb-1">
                                 <div class="font-black">
-                                    CROP/COMMODITY  <br><span class="inline italic text-[9px] font-normal">(Rice/Corn/HVC/<br/>Livestock/Poultry/<br/>Agri-fishery) </span><br/>
+                                    CROP/COMMODITY  <br><span class="inline italic text-[9px] font-normal">(Rice/Corn/HVC/Livestock/Poultry/<br/>Agri-fishery) </span><br/>
                                     For Livestock & Poultry<br/><span class="inline italic text[9px] font-normal pb-1">(specify type of animal)</span>
                                 </div>
                             </th>
