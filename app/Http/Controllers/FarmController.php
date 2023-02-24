@@ -170,7 +170,6 @@ class FarmController extends Controller
 
     public function harvest(Request $request, $id)
     {
-        // dd($request->details);
         $farm = Farm::find($id);
         $inventories = $farm->details['inventories'];
         $income = $farm->income + $request->details['income'];
@@ -189,9 +188,15 @@ class FarmController extends Controller
         ]);
         $details = $request->details;
         $details['inventories'] = $inventories;
-        // dd($details);
+        $plant = Transaction::where(['farm_id' => $farm->id, 'harvest_at' => null])->first();
+        $plant->update([
+            'harvest_at' => $request->harvest_at,
+            'details' => $details //sync details
+        ]);
+        //harvest transaction
         Transaction::create([
             'farmer_id' => $farm->farmer->id,
+            'plant_at' => $plant->plant_at,
             'harvest_at' => $request->harvest_at,
             'farm_id' => $farm->id,
             'user_id' => Auth::user()->id,

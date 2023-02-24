@@ -98,7 +98,7 @@ const view_filter = () => {
                     <div
                         class="flex items-center justify-between py-4 bg-white"
                     >
-                        <div>
+                        <!-- <div>
                             <select
                                 class="mt-1 border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm w-full"
                                 v-model="filter_view"
@@ -108,7 +108,7 @@ const view_filter = () => {
                                 <option value="plant">Planting</option>
                                 <option value="harvest">Harvest</option>
                             </select>
-                        </div>
+                        </div> -->
                         <label for="table-search" class="sr-only">Search</label>
                         <div class="relative">
                             <div
@@ -140,51 +140,42 @@ const view_filter = () => {
                     <table class="w-full text-sm text-left text-gray-500 rounded-lg" >
                         <thead class="text-xs text-gray-700 uppercase bg-green-300 rounded-lg" >
                             <tr>
-                                <th scope="col" class="px-6 py-3">Date</th>
-                                <th scope="col" class="px-6 py-3">
-                                    Processed by
-                                </th>
-                                <th scope="col" class="px-6 py-3">Farmer</th>
-                                <th scope="col" class="px-6 py-3">Farm</th>
-                                <th scope="col" class="px-6 py-3">Income</th>
-                                <th scope="col" class="px-6 py-3">Seedlings</th>
-                                <th scope="col" class="px-6 py-3">Seedlings Quantity</th>
-                                <th scope="col" class="px-6 py-3">
-                                    Fertilizers
-                                </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 align-text-top">Farmer</th>
+                                <th scope="col" class="px-6 py-3 align-text-top">Farm</th>
+                                <th scope="col" class="px-6 py-3 align-text-top">
                                     Expected Income
                                 </th>
-                                <th scope="col" class="px-6 py-3">Type</th>
+                                <th scope="col" class="px-6 py-3 align-text-top">Income</th>
+                                <th scope="col" class="px-6 py-3 align-text-top">Seedlings</th>
+                                <th scope="col" class="px-6 py-3 align-text-top">
+                                    Fertilizers
+                                </th>
+                                <th scope="col" class="px-6 py-3 align-text-top">Plant Date</th>
+                                <th scope="col" class="px-6 py-3 align-text-top">Harvest Date</th>
+                                <th scope="col" class="px-6 py-3 align-text-top">Farming Duration</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="bg-white border-b" v-for="(transaction, index ) in transactions.data" :key="index" >
-                                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap" >
-                                    <div class="pl-3">
-                                        {{ transaction.plant_at ? moment(transaction.plant_at ).format("MMMM Do YYYY"):moment(transaction.harvest_at ).format("MMMM Do YYYY") }}
-                                    </div>
-                                </th>
-                                <td class="px-6 py-4">
-                                    {{ transaction.user?.name }}
-                                </td>
-                                <td class="px-6 py-4">
+                                <th class="px-6 py-4 text-gray-900 align-text-top">
                                     {{
                                         transaction.farmer?.name ||
                                         "Inactive Farmer"
                                     }}
-                                </td>
-                                <td class="px-6 py-4">
+                                </th>
+                                <td scope="row" class="flex items-center px-6 py-4" >
                                     {{
-                                        transaction.farm?.map?.name ||
+                                        transaction.farm?.map.name ||
                                         "Inactive Farm"
                                     }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    <span class="mr-1">&#8369;</span
-                                    >{{ transaction.details.income }}
+                                <td class="px-6 py-4 align-text-top">
+                                    <span class="mr-1">&#8369;</span>{{ transaction.details.expected_income }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 align-text-top">
+                                    <span class="mr-1">&#8369;</span>{{ transaction.details.income }}
+                                </td>
+                                <td class="px-6 py-4 align-text-top">
                                     {{
                                         transaction.details.inventories
                                             .seedling
@@ -193,7 +184,7 @@ const view_filter = () => {
                                             : "None"
                                     }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 align-text-top">
                                     {{
                                         transaction.details.inventories
                                             .seedling
@@ -202,35 +193,14 @@ const view_filter = () => {
                                             : "None"
                                     }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    <template
-                                        v-if="
-                                            transaction.details.inventories
-                                                .fertilizer != 0
-                                        "
-                                    >
-                                        <template
-                                            v-for="(
-                                                fertilizer, key
-                                            ) in transaction.details.inventories
-                                                .fertilizer"
-                                            :key="key"
-                                        >
-                                            <p>Name: {{ fertilizer.name }}</p>
-                                            <p>Quantity: {{ fertilizer.quantity }}</p>
-                                            <p></p>
-                                        </template>
-                                    </template>
-                                    <template v-else>
-                                        <p>None</p>
-                                    </template>
+                                <td class="px-6 py-4 align-text-top whitespace-nowrap">
+                                    {{ moment(transaction.plant_at).format("MMM. Do, YYYY") }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    <span class="mr-1">&#8369;</span
-                                    >{{ transaction.details.expected_income }}
+                                <td class="px-6 py-4 align-text-top whitespace-nowrap">
+                                    {{ transaction.harvest_at != null ? moment(transaction.harvest_at).format("MMM. Do, YYYY") : '-' }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    {{ transaction.type }}
+                                <td class="px-6 py-4 align-text-top whitespace-nowrap">
+                                    {{ transaction.harvest_at != null ? moment(transaction.plant_at).diff(moment(transaction.harvest_at), 'days') : '-' }}
                                 </td>
                             </tr>
                         </tbody>

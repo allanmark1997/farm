@@ -21,9 +21,7 @@ class TransactionController extends Controller
             $query->whereHas('farmer', function (Builder $query) use ($request) {
                 $query->where('name', 'like', "%$request->search%");
             });
-        })->when($request->filter_view != null && $request->filter_view != '' && $request->filter_view != 'all', function($query) use ($request) {
-            $query->where('type', $request->filter_view);
-        })->paginate(10); 
+        })->where('type', 'plant')->paginate(10); 
         return Inertia::render('Transaction/Index',[
             'transactions' => $transactions,
             'search' => $request->search ?? '',
