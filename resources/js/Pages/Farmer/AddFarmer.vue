@@ -168,8 +168,7 @@ provide("add_farmer", add_farmer);
     <AppLayout title="Farms">
         <div class="pb-4">
             <div class="mx-auto sm:px-6 lg:px-8">
-                <PrimaryButton class="my-2 bg-green-600" @click="saveForm()">Save</PrimaryButton>
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2">
                     <div class="relative flex justify-end items-center">
                         <div class="mt-2 lg:max-w-[20vmin] ">
                         <input id="pic2x2" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"
@@ -600,7 +599,7 @@ provide("add_farmer", add_farmer);
                         <div class="w-1/2 mr-2">
                             <input id="uploadSignatureAgriculture" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"/> 
                             <div v-if="add_farmer.uploadSignatureAgriculture" class="text-green-500">Signature City/Municipal Agriculture Office Uploaded</div>
-                            <PrimaryButton class="w-full" @click="openFile('uploadSignatureAgriculture')"
+                            <PrimaryButton class="w-full text-sm" @click="openFile('uploadSignatureAgriculture')"
                                 >Upload Signature above printed name of City/Municipal Agriculture Office</PrimaryButton
                             >
                         </div>
@@ -626,6 +625,7 @@ provide("add_farmer", add_farmer);
                         if you think it is wrong. To do so, please contact
                         (Contact Person and Contact Details).
                     </p>
+                    <PrimaryButton class="my-2 bg-green-600 float-right" @click="saveForm()">ENROLL FARMER</PrimaryButton>
                 </div>
             </div>
         </div>
