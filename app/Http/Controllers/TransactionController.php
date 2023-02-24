@@ -17,9 +17,11 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $transactions = Transaction::orderBy('id','DESC')->with('farmer')->with('farm')->with('user')->when($request->search != null && $request->search!= '', function ($query) use ($request) {
+        $transactions = Transaction::where('type', 'plant')->orderBy('id','DESC')->with('farmer')->with('farm')->with('user')->when($request->search != null && $request->search!= '', function ($query) use ($request) {
             $query->whereHas('farmer', function (Builder $query) use ($request) {
                 $query->where('name', 'like', "%$request->search%");
+            })->orWhereHas('farm', function (Builder $query) use ($request){
+                $query->where('map->name', 'like', "%$request->search%");
             });
         })->where('type', 'plant')->paginate(10); 
         return Inertia::render('Transaction/Index',[
