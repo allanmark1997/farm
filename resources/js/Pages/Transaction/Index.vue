@@ -85,6 +85,10 @@ const view_filter = () => {
         }
     );
 };
+
+const formatNumber = (num) => {
+    return parseFloat(num).toFixed(2)
+  }
 </script>
 
 <template>
@@ -170,10 +174,10 @@ const view_filter = () => {
                                     }}
                                 </td>
                                 <td class="px-6 py-4 align-text-top">
-                                    <span class="mr-1">&#8369;</span>{{ transaction.details.expected_income }}
+                                    <span class="mr-1">&#8369;</span>{{ formatNumber(transaction.details.expected_income) }}
                                 </td>
                                 <td class="px-6 py-4 align-text-top">
-                                    <span class="mr-1">&#8369;</span>{{ transaction.details.income }}
+                                    <span class="mr-1">&#8369;</span>{{ formatNumber(transaction.details.income) }}
                                 </td>
                                 <td class="px-6 py-4 align-text-top">
                                     {{
@@ -200,7 +204,7 @@ const view_filter = () => {
                                     {{ transaction.harvest_at != null ? moment(transaction.harvest_at).format("MMM. Do, YYYY") : '-' }}
                                 </td>
                                 <td class="px-6 py-4 align-text-top whitespace-nowrap">
-                                    {{ transaction.harvest_at != null ? moment(transaction.plant_at).diff(moment(transaction.harvest_at), 'days') : '-' }}
+                                    {{ transaction.harvest_at != null ? moment(transaction.harvest_at).diff(moment(transaction.plant_at), 'days')+' days' : '-' }}
                                 </td>
                             </tr>
                         </tbody>
