@@ -72,7 +72,7 @@ const SendResume = () => {
                 v-if="$page.props.user"
                 :href="route('timeline.index')"
                 class="text-sm text-blue-700 underline"
-                >Timeline</Link
+                >Dashboard</Link
             >
 
             <template v-else>
@@ -118,12 +118,12 @@ const SendResume = () => {
                 >
                     "THE LGU OF LANTAPAN SHALL PROVIDE ATMOSPHERE ENSURING
                     SUSTAINABLE QUALITY HIGH VALUED CROPS PRODUCTION BY
-                    ENHANCING MARKETTING ACCESS AND ADOPTING ATRRACTIVE
+                    ENHANCING MARKETING ACCESS AND ADOPTING ATRRACTIVE
                     INVESTMENT POLICIES THAT ESTABLISHES A DYNAMIC PARTNERSHIP
                     WITH MULTI-STAKEHOLDERS AND FACILITATE ADEQUATE DELIVERY OF
                     BASIC SERVICES."
                     <br />
-                    - Mission
+                    - Mision
                 </div>
                 <div
                     class="mt-6 col-span-4 text-center italic font-bold font-mono"
