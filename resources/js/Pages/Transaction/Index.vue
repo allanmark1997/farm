@@ -91,70 +91,7 @@ const view_filter = () => {
     <AppLayout title="Transactions">
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <!-- <div
-                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2"
-                >
-                    <div class="flex gap-1">
-                        <TextInput
-                            v-model="search"
-                            placeholder="Search"
-                            type="text"
-                            class="text-xs mb-2"
-                        />
-                    </div>
-                    <TableList>
-                        <template #header>
-                            <th
-                                class="p-2 border border-l"
-                                v-for="header in [
-                                    'Date',
-                                    'Processed By',
-                                    'Farmer',
-                                    'Farm',
-                                    'Type',
-                                ]"
-                            >
-                                {{ header }}
-                            </th>
-                        </template>
-                        <template #body>
-                            <tr
-                                class="text-md border-b border-l border-r border-gray-100 text-slate-500 hover:bg-slate-50"
-                                v-for="(
-                                    transaction, index
-                                ) in transactions.data"
-                                :key="index"
-                            >
-                                <td class="p-2">
-                                    {{
-                                        moment(transaction.created_at).format(
-                                            "MMMM Do YYYY"
-                                        )
-                                    }}
-                                </td>
-                                <td class="p-2">
-                                    {{ transaction.user?.name }}
-                                </td>
-                                <td class="p-2">
-                                    {{
-                                        transaction.farmer?.name ||
-                                        "Inactive Farmer"
-                                    }}
-                                </td>
-                                <td class="p-2">
-                                    {{
-                                        transaction.farm?.name ||
-                                        "Inactive Farm"
-                                    }}
-                                </td>
-                                <td class="p-2 uppercase">
-                                    {{ transaction.type }}
-                                </td>
-                            </tr>
-                        </template>
-                    </TableList>
-                    <Pagination :links="transactions.links"></Pagination>
-                </div> -->
+                
                 <div
                     class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 pb-12 mt-2"
                 >
@@ -196,7 +133,7 @@ const view_filter = () => {
                                 v-model="search"
                                 id="table-search-farmers"
                                 class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 m-1"
-                                placeholder="Search for users"
+                                placeholder="Search for transactions"
                             />
                         </div>
                     </div>

@@ -324,25 +324,25 @@ formPlants.id = farm.id;
                                                 <div class="grid grid-cols-4 gap-2 text-sm">
                                                     <div class=" col-span-2 grid grid-cols-4 gap-1">
                                                         <div class="col-span-4">
-                                                            Name: {{ farm.map?.name }}
+                                                            <strong>Name: </strong> {{ farm.map?.name }}
                                                         </div>
                                                         <div class="col-span-4">
-                                                            Owner: {{ farm.farmer?.name }}
+                                                           <strong>Owner:</strong> {{ farm.farmer?.name }}
                                                         </div>
-                                                        <div class="col-span-4">Income: {{ farm.income }}</div>
-                                                        <div class="col-span-4">Color: {{ farm.map?.color }}</div>
-                                                        <div class="col-span-4">Organic Practitioner? {{ farm.details.organic_practitioner }}</div>
+                                                        <div class="col-span-4"><strong>Income:</strong> {{ farm.income }}</div>
+                                                        <div class="col-span-4"><strong>Color:</strong> {{ farm.map?.color }}</div>
+                                                        <div class="col-span-4"><strong>Organic Practitioner?</strong> {{ farm.details.organic_practitioner }}</div>
                                                     </div>
                                                     <div class=" col-span-2 grid grid-cols-4 gap-1">
                                                         <div class="col-span-4">
-                                                            Barangay: {{ farm.barangay }}
+                                                           <strong>Barangay:</strong> {{ farm.barangay }}
                                                         </div>
                                                         <div class="col-span-4">
-                                                            Farm Size: {{ farm.details.farm_size }}
+                                                           <strong>Farm Size:</strong> {{ farm.details.farm_size }}
                                                         </div>
-                                                        <div class="col-span-4">Farm Type: {{ farm.details.farm_type }}</div>
-                                                        <div class="col-span-4">Farm business type: {{ farm.details.farm_type_business }}</div>
-                                                        <div class="col-span-4">Farm ownership document: {{ farm.details.ownership_document_no }}</div>
+                                                        <div class="col-span-4"><strong>Farm Type:</strong> {{ farm.details.farm_type }}</div>
+                                                        <div class="col-span-4"><strong>Farm business type:</strong> {{ farm.details.farm_type_business }}</div>
+                                                        <div class="col-span-4"><strong>Farm ownership document:</strong> {{ farm.details.ownership_document_no }}</div>
                                                     </div>
                                                 </div>
                                             </template>
