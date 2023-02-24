@@ -113,77 +113,6 @@ const saveInventory = () => {
     <AppLayout title="Inventory">
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <!-- <div
-                        class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2"
-                    >
-                        <div class="flex justify-between gap-1">
-                            <PrimaryButton class="mb-2" @click="showModal('add')"
-                                >Add Inventory</PrimaryButton
-                            >
-                        </div>
-                        <TableList>
-                            <template #header>
-                                <th
-                                    class="p-2 border border-l"
-                                    v-for="header in ['Name', 'Color', 'Category']"
-                                    :key="header"
-                                >
-                                    {{ header }}
-                                </th>
-                            </template>
-                            <template #body>
-                                <tr
-                                    class="text-md border-b border-l border-r border-gray-100 text-slate-500 hover:bg-slate-50"
-                                    v-for="(inventory, index) in inventories.data"
-                                    :key="index"
-                                >
-                                    <td class="p-2">
-                                        {{ inventory.name }}
-                                    </td>
-                                    <td class="p-2">
-                                        <div
-                                            class="p-2 rounded-md"
-                                            :style="{
-                                                backgroundColor:
-                                                    inventory.details.color,
-                                            }"
-                                        ></div>
-                                    </td>
-                                    <td class="p-2">
-                                        <div class="flex justify-between">
-                                            <span>{{
-                                                inventory.category.name
-                                            }}</span>
-                                            <div
-                                                class="flex flex-row-reverse gap-3"
-                                            >
-                                                <div
-                                                    class="cursor-pointer"
-                                                    @click="
-                                                        showModal(
-                                                            'delete',
-                                                            inventory
-                                                        )
-                                                    "
-                                                >
-                                                    <Icon icon="delete" />
-                                                </div>
-                                                <div
-                                                    class="cursor-pointer"
-                                                    @click="
-                                                        showModal('edit', inventory)
-                                                    "
-                                                >
-                                                    <Icon icon="edit" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </template>
-                        </TableList>
-                        <Pagination :links="inventories.links"></Pagination>
-                    </div> -->
                 <div
                     class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 pb-12 mt-2">
                     <div class="flex justify-between gap-1">
@@ -212,8 +141,7 @@ const saveInventory = () => {
                             <tr>
                                 <th scope="col" class="px-6 py-3">Name</th>
                                 <th scope="col" class="px-6 py-3">Color</th>
-                                <th scope="col" class="px-6 py-3">Category</th>
-                                <th scope="col" class="px-6 py-3">Action</th>
+                                <th scope="col" class="px-6 py-3 flex justify-between"><p>Category</p><p>Action</p></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -231,10 +159,8 @@ const saveInventory = () => {
                                             inventory.details.color,
                                     }"></div>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 flex justify-between">
                                     <span>{{ inventory.category.name }}</span>
-                                </td>
-                                <td class="px-6 py-4">
                                     <div class="flex flex-row-reverse gap-3">
                                         <div class="cursor-pointer" @click="
                                             showModal('delete', inventory)
