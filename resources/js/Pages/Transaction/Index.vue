@@ -97,7 +97,7 @@ const formatNumber = (num) => {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 
                 <div
-                    class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 pb-12 mt-2"
+                    class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-2 pb-12 mt-2"
                 >
                     <div
                         class="flex items-center justify-between py-4 bg-white"
@@ -150,6 +150,7 @@ const formatNumber = (num) => {
                                     Expected Income
                                 </th>
                                 <th scope="col" class="px-6 py-3 align-text-top">Income</th>
+                                <th scope="col" class="px-6 py-3 align-text-top">Expectation difference</th>
                                 <th scope="col" class="px-6 py-3 align-text-top">Seedlings</th>
                                 <th scope="col" class="px-6 py-3 align-text-top">
                                     Fertilizers
@@ -178,6 +179,9 @@ const formatNumber = (num) => {
                                 </td>
                                 <td class="px-6 py-4 align-text-top">
                                     <span class="mr-1">&#8369;</span>{{ formatNumber(transaction.details.income) }}
+                                </td>
+                                <td class="px-6 py-4 align-text-top">
+                                    <span class="mr-1">&#8369;</span>{{ formatNumber(transaction.details.income - transaction.details.expected_income) }}
                                 </td>
                                 <td class="px-6 py-4 align-text-top">
                                     {{
