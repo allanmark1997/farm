@@ -158,6 +158,15 @@ const saveFarmer = () => {
 const toggle_status = (farmer) => {
     Inertia.put(route("farmers.toggle_status", { id: farmer.id }));
 };
+
+const formatNumber = (num) => {
+    return parseFloat(num).toFixed(2)
+  }
+
+const formatter = new Intl.NumberFormat('en-PH', {
+style: 'currency',
+currency: 'PHP'
+});
 </script>
 
 <template>
@@ -210,7 +219,7 @@ const toggle_status = (farmer) => {
                                     </Link>
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ farmer.income }}
+                                    {{ formatter.format(formatNumber(farmer.income)) }}
                                 </td>
                                 <td class="px-6 py-4"> {{ moment(farmer.created_at).format( "MMMM Do YYYY")}}
                                 </td>
