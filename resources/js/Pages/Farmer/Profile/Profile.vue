@@ -423,8 +423,15 @@ const arrangeBday  = ()=>{
     newBirthDay.value =  newDate; 
 }
 const arrangeParcel = ()=>{
-    console.log(props.parcels);
-    const testarray = [{id:1},{id:1},{id:1},{id:1},{id:1},{id:1},{id:1}]
+    console.log(props.parcels); 
+    const setGroup  = Math.floor(props.parcels.length % 3);
+    let i = setGroup;
+    if(props.parcels.length != 3){
+        while(i < 3 ){
+            props.parcels.push({});
+            i++;
+        }
+    } 
     const groupLength = 3;
     arrangeParcels.value = props.parcels.reduce((acc,item,index)=>{
         const groupParcel = Math.floor(index / groupLength);

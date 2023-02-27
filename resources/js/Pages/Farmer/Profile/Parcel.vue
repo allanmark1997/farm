@@ -35,18 +35,18 @@
                         <td class="border-b border-black">
                             <div class="flex flex-col justify-start h-full ml-2 text-[10px]">
                                 <div class="">Location (Barangay & Municipality)</div>
-                                <div class="border-b w-full box-border border-black h-3">{{ item.description.barangay }}</div>
+                                <div class="border-b w-full box-border border-black h-3">{{ item.description?.barangay || '' }}</div>
                                 <div class="">
-                                    Total Farm Areas:<span class="inline-block w-[full] border-b border-black w-12">{{ item.description.total_farm_area }}</span>ha
+                                    Total Farm Areas:<span class="inline-block w-[full] border-b border-black w-12">{{ item.description?.total_farm_area }}</span>ha
                                 </div>
-                                <div class="font-bold">*Ownership Document No <span class="inline-block w-[full] border-b border-black w-[58%] text-[8px]">{{ item.description.ownership_document_no }}</span></div>
+                                <div class="font-bold">*Ownership Document No <span class="inline-block w-[full] border-b border-black w-[58%] text-[8px]">{{ item.description?.ownership_document_no }}</span></div>
                                 <div class="flex"> 
-                                        <div class="pb-2 grow"><CheckTemplate maxWidth="md" :sizeCheck="md" :showCheck="item.description.farm_ownership == 'Registered Owner'" label="Registered Owner"/> </div> 
-                                        <div class=" pb-2 grow"><CheckTemplate maxWidth="md" :sizeCheck="md" :showCheck="item.description.farm_ownership == 'Others'" label="Others"/></div>  
+                                        <div class="pb-2 grow"><CheckTemplate maxWidth="md" :sizeCheck="md" :showCheck="item.description?.farm_ownership == 'Registered Owner'" label="Registered Owner"/> </div> 
+                                        <div class=" pb-2 grow"><CheckTemplate maxWidth="md" :sizeCheck="md" :showCheck="item.description?.farm_ownership == 'Others'" label="Others"/></div>  
                                 </div>
-                                <div class="pb-2 "><CheckTemplate maxWidth="md" :sizeCheck="md" :showCheck="item.description.farm_ownership == 'Tenant'" label="Tenant"/></div>  
+                                <div class="pb-2 "><CheckTemplate maxWidth="md" :sizeCheck="md" :showCheck="item.description?.farm_ownership == 'Tenant'" label="Tenant"/></div>  
                                 <div class=" ml-6 -mt-2">(Name of Land Owner: <span class="inline-block w-[full] border-b border-black w-[50%]"></span>)</div>
-                                <div class="pb-2 "><CheckTemplate maxWidth="md" :sizeCheck="md" :showCheck="item.description.farm_ownership == 'Lessee'" label="Lessee"/></div>  
+                                <div class="pb-2 "><CheckTemplate maxWidth="md" :sizeCheck="md" :showCheck="item.description?.farm_ownership == 'Lessee'" label="Lessee"/></div>  
                                 <div class="ml-6 -mt-2">(Name of Land Owner: <span class="inline-block w-[full] border-b border-black w-[50%]"></span>)</div>
                             </div>
                         </td> 
