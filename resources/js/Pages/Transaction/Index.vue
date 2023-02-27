@@ -89,6 +89,11 @@ const view_filter = () => {
 const formatNumber = (num) => {
     return parseFloat(num).toFixed(2)
   }
+
+const formatter = new Intl.NumberFormat('en-PH', {
+style: 'currency',
+currency: 'PHP'
+});
 </script>
 
 <template>
@@ -175,13 +180,13 @@ const formatNumber = (num) => {
                                     }}
                                 </td>
                                 <td class="px-6 py-4 align-text-top">
-                                    <span class="mr-1">&#8369;</span>{{ formatNumber(transaction.details.expected_income) }}
+                                    {{ formatter.format(formatNumber(transaction.details.expected_income)) }}
                                 </td>
                                 <td class="px-6 py-4 align-text-top">
-                                    <span class="mr-1">&#8369;</span>{{ formatNumber(transaction.details.income) }}
+                                    {{ formatter.format(formatNumber(transaction.details.income)) }}
                                 </td>
                                 <td class="px-6 py-4 align-text-top">
-                                    <span class="mr-1">&#8369;</span>{{ formatNumber(transaction.details.income - transaction.details.expected_income) }}
+                                    {{ formatter.format(formatNumber(transaction.details.income - transaction.details.expected_income)) }}
                                 </td>
                                 <td class="px-6 py-4 align-text-top">
                                     {{
