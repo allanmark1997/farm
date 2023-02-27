@@ -275,6 +275,15 @@ const onDeleteHandler = () => {
         },
     });
 };
+
+const formatNumber = (num) => {
+    return parseFloat(num).toFixed(2)
+  }
+
+const formatter = new Intl.NumberFormat('en-PH', {
+style: 'currency',
+currency: 'PHP'
+});
 </script>
 
 <template>
@@ -329,7 +338,7 @@ formPlants.id = farm.id;
                                                         <div class="col-span-4">
                                                            <strong>Owner:</strong> {{ farm.farmer?.name }}
                                                         </div>
-                                                        <div class="col-span-4"><strong>Income:</strong> {{ farm.income }}</div>
+                                                        <div class="col-span-4"><strong>Income:</strong> {{ formatter.format(formatNumber(farm.income)) }}</div>
                                                         <div class="col-span-4"><strong>Color:</strong> {{ farm.map?.color }}</div>
                                                         <div class="col-span-4"><strong>Organic Practitioner?</strong> {{ farm.details.organic_practitioner }}</div>
                                                     </div>
