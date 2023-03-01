@@ -292,6 +292,8 @@ const formatter = new Intl.NumberFormat('en-PH', {
     style: 'currency',
     currency: 'PHP'
 });
+
+
 </script>
 
 <template>
