@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class FarmController extends Controller
 {
@@ -26,7 +28,9 @@ class FarmController extends Controller
         $farms = Farm::with('farmer')->when($request->selected_farmer != null && $request->selected_farmer != 'all', function ($query) use ($request) {
             $query->where(['farmer_id' => $request->selected_farmer]);
         })->get();
-        $farmers = Farmer::where(['active'=> true])->get();
+        $farmers = Farmer::when($request->search_farmer != null && $request->search_farmer != '', function ($query) use ($request) {
+                $query->where('name', 'like', "%$request->search_farmer%");
+        })->where(['active'=> true])->get();
         $categories = Category::all();
         $inventories = [
             'seedling' => Inventory::with('category')->where('category_id', 1)->get(),
@@ -35,7 +39,8 @@ class FarmController extends Controller
         return Inertia::render('Farm/Index',[
             'farms' => $farms,
             'farmers' => $farmers,
-            'selected_farmer' => $request->selected_farmer ?? 'all',
+            'selected_farmer' => $request->selected_farmer ?? '',
+            'search_farmer' => $request->search_farmer ?? '',
             'categories' => $categories,
             'inventories' => $inventories
         ]);
