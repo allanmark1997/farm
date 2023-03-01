@@ -62,8 +62,8 @@ const logout = () => {
                                     Dashboard
                                 </NavLink> -->
                                 <NavLink
-                                    :href="route('timeline.index')"
-                                    :active="route().current('timeline.index')"
+                                    :href="route('profile.show')"
+                                    :active="route().current('profile.show')"
                                 >
                                     Dashboard
                                 </NavLink>
@@ -406,8 +406,8 @@ const logout = () => {
                             Dashboard
                         </ResponsiveNavLink> -->
                         <ResponsiveNavLink
-                            :href="route('timeline.index')"
-                            :active="route().current('timeline.index')"
+                            :href="route('profile.show')"
+                            :active="route().current('profile.show')"
                         >
                             timeline
                         </ResponsiveNavLink>
