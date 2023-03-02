@@ -215,12 +215,14 @@ class FarmController extends Controller
     public function index_analysis(Request $request)
     {
         return Inertia::render('Analysis/Index',[
-            'transactions' => $this->reports_data(),
+            'transactions' => $this->reports_data($request->date_from, $request->date_to),
+            'date_from' => $request->date_from ?? '',
+            'date_to' => $request->date_to ?? ''
         ]);
     }
 
     public function download_report(Request $request) {
-        $transactions = $this->reports_data();
+        $transactions = $this->reports_data($request->date_from, $request->date_to);
         $results = [];
         $results[] = ['Barangay', 'Seeds', 'Fertilizers'];
         foreach ($transactions as $barangay => $transaction) {
@@ -229,7 +231,7 @@ class FarmController extends Controller
         return (new ChartExport([$results], ['Reports']))->download("Results.xlsx");
     }
 
-    public function reports_data() {
+    public function reports_data($from, $to) {
         $transactions = [];
         $farms = Farm::all();
         foreach ($farms->groupBy('barangay') as $barangay => $farms) {
@@ -239,7 +241,10 @@ class FarmController extends Controller
             ];
             foreach ($farms as $farm) {
                 
-                $plants = Transaction::where(['farm_id' => $farm->id, 'type' => 'plant'])->get();
+                $plants = Transaction::where(['farm_id' => $farm->id, 'type' => 'plant'])->when($from != null && $from != '' && $to != null && $to != '', function ($query) use ($from, $to) {
+                    $query->whereBetween('plant_at', [$from, $to]);
+                })->get();
+                
                 foreach ($plants as $plant) {
                     //count how many seeds
                     $transactions[$barangay]['seeds'] += $plant->details['inventories']['seedling_quantity'];
