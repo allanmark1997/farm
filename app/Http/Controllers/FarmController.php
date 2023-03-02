@@ -65,14 +65,14 @@ class FarmController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'barangay' => ['required', 'max:255'],
-            'name' => ['required', 'max:255'],
-            'farm_owner' => ['required', 'max:255'],
-            'farm_ownership' => ['required', 'max:255'],
-            'farm_type_business' => ['required', 'max:255'],
-            'farm_size' => ['required', 'max:255'],
-            'ownership_document_no' => ['required', 'max:255'],
-            'organic_practitioner' => ['required', 'max:255'],
+            'barangay' => ['required'],
+            'name' => ['required'],
+            'farm_owner' => ['required'],
+            'farm_ownership' => ['required'],
+            'farm_type_business' => ['required'],
+            'farm_size' => ['required', 'integer'],
+            'ownership_document_no' => ['required'],
+            'organic_practitioner' => ['required'],
         ]);
 
         $details = $request->details;
@@ -83,7 +83,18 @@ class FarmController extends Controller
             'income' => 0,
             'details' => $details, 
             'map' => $request->map,
-            'barangay' => $request->barangay
+            'barangay' => $request->barangay,
+            //comment sa nako
+            // 'details->ownership_document_no' => $request->details->ownership_document_no, 
+            // 'details->farm_ownership' => $request->details->farm_ownership, 
+            // 'details->farm_owner' => $request->details->farm_owner, 
+            // 'details->farm_type_business' => $request->details->farm_type_business, 
+            // 'details->specified_animal' => $request->details->specified_animal, 
+            // 'details->farm_size' => $request->details->farm_size, 
+            // 'details->number_of_head_animal' => $request->details->number_of_head_animal, 
+            // 'details->farm_type' => $request->details->farm_type, 
+            // 'details->organic_practitioner' => $request->details->organic_practitioner, 
+            
         ]);
 
         return Redirect::back();
@@ -158,7 +169,13 @@ class FarmController extends Controller
 
     public function plant(Request $request, $id)
     {
-        // dd($request->color);
+
+        $request->validate([
+            'seedlings' => ['required', 'integer'],
+            'seedling_quantity' => ['required', 'integer'],
+            'expected_income' => ['required', 'integer'],
+            'plant_at' => ['required'],
+        ]);
         $farm = Farm::find($id);
         
         $farm->update([

@@ -589,20 +589,28 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                         </option>
                                     </template>
                                 </SelectInput>
+                                <InputError class="mt-2" :message="formPlants.errors.seedlings" />
+
                             </div>
                             <div>
                                 <InputLabel value="Quantity" />
                                 <TextInput type="number" class="block w-full" required
                                     v-model="formPlants.details.inventories.seedling_quantity" />
+                                <InputError class="mt-2" :message="formPlants.errors.seedling_quantity" />
+
                             </div>
                             <div>
                                 <InputLabel value="Expected Income " />
                                 <TextInput type="number" class="block w-full" required
                                     v-model="formPlants.details.expected_income" />
+                                <InputError class="mt-2" :message="formPlants.errors.expected_income" />
+
                             </div>
                             <div>
                                 <InputLabel value="Planting date" />
                                 <TextInput type="date" class="block w-full" required v-model="formPlants.plant_at" />
+                                <InputError class="mt-2" :message="formPlants.errors.plant_at" />
+
                             </div>
                         </div>
                         <div class="mt-4 pt-3 border-t-2">
