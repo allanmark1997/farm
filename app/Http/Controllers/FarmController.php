@@ -42,7 +42,7 @@ class FarmController extends Controller
             'selected_farmer' => $request->selected_farmer ?? '',
             'search_farmer' => $request->search_farmer ?? '',
             'categories' => $categories,
-            'inventories' => $inventories
+            'inventories' => $inventories,
         ]);
     }
 
@@ -65,7 +65,14 @@ class FarmController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'barangay' => ['required', 'max:255']
+            'barangay' => ['required', 'max:255'],
+            'name' => ['required', 'max:255'],
+            'farm_owner' => ['required', 'max:255'],
+            'farm_ownership' => ['required', 'max:255'],
+            'farm_type_business' => ['required', 'max:255'],
+            'farm_size' => ['required', 'max:255'],
+            'ownership_document_no' => ['required', 'max:255'],
+            'organic_practitioner' => ['required', 'max:255'],
         ]);
 
         $details = $request->details;

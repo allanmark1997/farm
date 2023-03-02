@@ -365,7 +365,10 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                                             <strong>Name: </strong> {{ farm.map?.name }}
                                                         </div>
                                                         <div class="col-span-4">
-                                                            <strong>Owner:</strong> {{ farm.farmer?.name }}
+                                                            <strong>Farmer registered:</strong> {{ farm.farmer?.name }}
+                                                        </div>
+                                                        <div class="col-span-4">
+                                                            <strong>Farm Owner:</strong> {{ farm.details.farm_owner }}
                                                         </div>
                                                         <div class="col-span-4"><strong>Income:</strong> {{
                                                             formatter.format(formatNumber(farm.income)) }}</div>
@@ -450,7 +453,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                             <option value="Emancipation Patent">Emancipation Patent</option>
                             <option value="Individual Certificate of Land Ownership Award (CLOA)">Individual Certificate of
                                 Land Ownership Award (CLOA)</option>
-                            <option value="Collective CLOA">Collective CLOA</option>
+                            <option value="Collective CLOA">Collective CLOA</option>Name of owner:
                             <option value="Co-ownership CLOA">Co-ownership CLOA</option>
                             <option value="Agricultural sales patent">Agricultural sales patent</option>
                             <option value="Homestead patent">Homestead patent</option>
@@ -477,10 +480,9 @@ const formatter = new Intl.NumberFormat('en-PH', {
                         </select>
                         <InputError class="mt-2" :message="form.errors.farm_ownership" />
                     </div>
-                    <div class="col-span-2"
-                        v-if="form.details.farm_ownership == 'Lessee' || form.details.farm_ownership == 'Tenant' || form.details.farm_ownership == 'Others'">
+                    <div class="col-span-2">
                         <InputLabel value="Name of owner:" />
-                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_owner" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_owner" :disabled="form.details.farm_ownership == ''"/>
                         <InputError class="mt-2" :message="form.errors.farm_owner" />
                     </div>
                     <div class="col-span-2">
@@ -498,10 +500,9 @@ const formatter = new Intl.NumberFormat('en-PH', {
                         </select>
                         <InputError class="mt-2" :message="form.errors.farm_type_business" />
                     </div>
-                    <div class="col-span-3"
-                        v-if="form.details.farm_type_business == 'Livestock' || form.details.farm_type_business == 'Poultry'">
+                    <div class="col-span-3">
                         <InputLabel value="For Livestock & Poultry (specify type of animal)" />
-                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.specified_animal" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.specified_animal" :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Rice' || form.details.farm_type_business == 'Corn' || form.details.farm_type_business == 'HVC' || form.details.farm_type_business == 'Agri-fishery'" />
                         <InputError class="mt-2" :message="form.errors.specified_animal" />
                     </div>
                     <div class="col-span-1">
@@ -509,19 +510,17 @@ const formatter = new Intl.NumberFormat('en-PH', {
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_size" />
                         <InputError class="mt-2" :message="form.errors.farm_size" />
                     </div>
-                    <div class="col-span-2"
-                        v-if="form.details.farm_type_business == 'Livestock' || form.details.farm_type_business == 'Poultry'">
+                    <div class="col-span-2">
                         <InputLabel value="NO. OF HEAD (For Livestock and Poultry)" />
                         <TextInput type="text" class="mt-1 block w-full" required
-                            v-model="form.details.number_of_head_animal" />
+                            v-model="form.details.number_of_head_animal"  :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Rice' || form.details.farm_type_business == 'Corn' || form.details.farm_type_business == 'HVC' || form.details.farm_type_business == 'Agri-fishery'"/>
                         <InputError class="mt-2" :message="form.errors.number_of_head_animal" />
                     </div>
-                    <div class="col-span-2"
-                        v-if="form.details.farm_type_business != 'Agri-fishery' && form.details.farm_type_business != ''">
+                    <div class="col-span-2">
                         <InputLabel value="Farm type (NOTE: not applicable to agri-fishery):" />
                         <select v-model="form.details.farm_type"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
-                            name="" id="">
+                            name="" id="" :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Agri-fishery'">
                             <option value="" selected disabled>Select Type</option>
                             <option value="Irrigated">Irrigated</option>
                             <option value="Rainfed Upland">Rainfed Upland</option>
@@ -529,7 +528,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                         </select>
                         <InputError class="mt-2" :message="form.errors.farm_type" />
                     </div>
-                    <div class="col-span-1">
+                    <div class="col-span-2">
                         <InputLabel value="ORGANIC PRACTITIONER(Yes/No):" />
                         <select v-model="form.details.organic_practitioner"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
