@@ -70,7 +70,7 @@ const SendResume = () => {
         >
             <Link
                 v-if="$page.props.user"
-                :href="route('timeline.index')"
+                :href="route('profile.show')"
                 class="text-sm text-blue-700 underline"
                 >Dashboard</Link
             >
