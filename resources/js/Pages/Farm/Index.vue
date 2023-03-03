@@ -430,7 +430,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                     <div class="col-span-6">
                         <InputLabel value="Farm Name" />
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <!-- <InputError class="mt-2" :message="form.errors.['map.name']" /> -->
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Location (Barangay & Municipality):" />

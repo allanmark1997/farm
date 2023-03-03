@@ -66,13 +66,13 @@ class FarmController extends Controller
     {
         $request->validate([
             'barangay' => ['required'],
-            'name' => ['required'],
-            'farm_owner' => ['required'],
-            'farm_ownership' => ['required'],
-            'farm_type_business' => ['required'],
-            'farm_size' => ['required', 'integer'],
-            'ownership_document_no' => ['required'],
-            'organic_practitioner' => ['required'],
+            // 'map\.name' => ['required'],
+            // 'details.farm_owner' => ['required'],
+            // 'details.farm_ownership' => ['required'],
+            // 'details.farm_type_business' => ['required'],
+            // 'details.farm_size' => ['required', 'integer'],
+            // 'details.ownership_document_no' => ['required'],
+            // 'details.organic_practitioner' => ['required'],
         ]);
 
         $details = $request->details;
@@ -170,12 +170,12 @@ class FarmController extends Controller
     public function plant(Request $request, $id)
     {
 
-        $request->validate([
-            'seedlings' => ['required', 'integer'],
-            'seedling_quantity' => ['required', 'integer'],
-            'expected_income' => ['required', 'integer'],
-            'plant_at' => ['required'],
-        ]);
+        // $request->validate([
+        //     'seedlings' => ['required', 'integer'],
+        //     'seedling_quantity' => ['required', 'integer'],
+        //     'expected_income' => ['required', 'integer'],
+        //     'plant_at' => ['required'],
+        // ]);
         $farm = Farm::find($id);
         
         $farm->update([
