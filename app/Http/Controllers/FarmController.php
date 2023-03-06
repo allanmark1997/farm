@@ -70,7 +70,7 @@ class FarmController extends Controller
             'details.farm_owner' => ['required'],
             'details.farm_ownership' => ['required'],
             'details.farm_type_business' => ['required'],
-            'details.farm_size' => ['required', 'integer'],
+            'details.farm_size' => ['required'],
             'details.ownership_document_no' => ['required'],
             'details.organic_practitioner' => ['required'],
         ]);

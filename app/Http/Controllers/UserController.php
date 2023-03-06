@@ -17,14 +17,17 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (Auth::user()->is_admin == false) {
             return Redirect::route('farmers.index');
         }
-        $users = User::paginate(10);
+        $users = User::when($request->search == null || $request->seach == '', function($query) use($request){
+            $query -> where("name", "like", "%$request->search%");
+        })->paginate(10);
         return Inertia::render('User/Index',[
-            'users' => $users
+            'users' => $users,
+            'search' => $request->search ?? '',
         ]);
     }
 
