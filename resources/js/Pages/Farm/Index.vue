@@ -430,7 +430,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                     <div class="col-span-6">
                         <InputLabel value="Farm Name" />
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
-                        <!-- <InputError class="mt-2" :message="form.errors.['map.name']" /> -->
+                        <InputError class="mt-2" :message="form.errors['map.name']" />
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Location (Barangay & Municipality):" />
@@ -465,7 +465,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                             <option value="Certificate of Ancestral Land Title">Certificate of Ancestral Land Title</option>
                             <option value="Tax Declaration">Tax Declaration</option>
                         </select>
-                        <InputError class="mt-2" :message="form.errors.ownership_document_no" />
+                        <InputError class="mt-2" :message="form.errors['details.ownership_document_no']" />
                     </div>
                     <div class="col-span-2">
                         <InputLabel value="Type:" />
@@ -478,12 +478,12 @@ const formatter = new Intl.NumberFormat('en-PH', {
                             <option value="Lessee">Lessee</option>
                             <option value="Others">Others</option>
                         </select>
-                        <InputError class="mt-2" :message="form.errors.farm_ownership" />
+                        <InputError class="mt-2" :message="form.errors['details.farm_ownership']" />
                     </div>
                     <div class="col-span-2">
                         <InputLabel value="Name of owner:" />
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_owner" :disabled="form.details.farm_ownership == ''"/>
-                        <InputError class="mt-2" :message="form.errors.farm_owner" />
+                        <InputError class="mt-2" :message="form.errors['details.farm_owner']" />
                     </div>
                     <div class="col-span-2">
                         <InputLabel value="Type:" />
@@ -498,17 +498,17 @@ const formatter = new Intl.NumberFormat('en-PH', {
                             <option value="Poultry">Poultry</option>
                             <option value="Agri-fishery">Agri-fishery</option>
                         </select>
-                        <InputError class="mt-2" :message="form.errors.farm_type_business" />
+                        <InputError class="mt-2" :message="form.errors['details.farm_type_business']" />
                     </div>
                     <div class="col-span-3">
                         <InputLabel value="For Livestock & Poultry (specify type of animal)" />
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.specified_animal" :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Rice' || form.details.farm_type_business == 'Corn' || form.details.farm_type_business == 'HVC' || form.details.farm_type_business == 'Agri-fishery'" />
-                        <InputError class="mt-2" :message="form.errors.specified_animal" />
+                        <!-- <InputError class="mt-2" :message="form.errors['details.specified_animal']" /> -->
                     </div>
                     <div class="col-span-1">
                         <InputLabel value="Size (ha)" />
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_size" />
-                        <InputError class="mt-2" :message="form.errors.farm_size" />
+                        <InputError class="mt-2" :message="form.errors['details.farm_size']" />
                     </div>
                     <div class="col-span-2">
                         <InputLabel value="NO. OF HEAD (For Livestock and Poultry)" />
@@ -537,7 +537,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
-                        <InputError class="mt-2" :message="form.errors.organic_practitioner" />
+                        <InputError class="mt-2" :message="form.errors['details.organic_practitioner']" />
                     </div>
                 </div>
             </template>
@@ -560,7 +560,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                     <div class="col-span-3">
                         <InputLabel value="Harvested Date" />
                         <TextInput type="date" class="mt-1 block w-full" required v-model="formPlants.harvest_at" />
-                        <InputError class="mt-2" :message="formPlants.harvest_at" />
+                        <InputError class="mt-2" :message="formPlants.errors.harvest_at" />
                     </div>
                 </div>
             </template>
@@ -589,21 +589,21 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                         </option>
                                     </template>
                                 </SelectInput>
-                                <InputError class="mt-2" :message="formPlants.errors.seedlings" />
+                                <InputError class="mt-2" :message="formPlants.errors['details.inventories.seedling']" />
 
                             </div>
                             <div>
                                 <InputLabel value="Quantity" />
                                 <TextInput type="number" class="block w-full" required
                                     v-model="formPlants.details.inventories.seedling_quantity" />
-                                <InputError class="mt-2" :message="formPlants.errors.seedling_quantity" />
+                                <InputError class="mt-2" :message="formPlants.errors['details.inventories.seedling_quantity']" />
 
                             </div>
                             <div>
                                 <InputLabel value="Expected Income " />
                                 <TextInput type="number" class="block w-full" required
                                     v-model="formPlants.details.expected_income" />
-                                <InputError class="mt-2" :message="formPlants.errors.expected_income" />
+                                    <InputError class="mt-2" :message="formPlants.errors['details.expected_income']" />
 
                             </div>
                             <div>

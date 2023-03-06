@@ -66,13 +66,13 @@ class FarmController extends Controller
     {
         $request->validate([
             'barangay' => ['required'],
-            // 'map\.name' => ['required'],
-            // 'details.farm_owner' => ['required'],
-            // 'details.farm_ownership' => ['required'],
-            // 'details.farm_type_business' => ['required'],
-            // 'details.farm_size' => ['required', 'integer'],
-            // 'details.ownership_document_no' => ['required'],
-            // 'details.organic_practitioner' => ['required'],
+            'map.name' => ['required'],
+            'details.farm_owner' => ['required'],
+            'details.farm_ownership' => ['required'],
+            'details.farm_type_business' => ['required'],
+            'details.farm_size' => ['required', 'integer'],
+            'details.ownership_document_no' => ['required'],
+            'details.organic_practitioner' => ['required'],
         ]);
 
         $details = $request->details;
@@ -83,18 +83,7 @@ class FarmController extends Controller
             'income' => 0,
             'details' => $details, 
             'map' => $request->map,
-            'barangay' => $request->barangay,
-            //comment sa nako
-            // 'details->ownership_document_no' => $request->details->ownership_document_no, 
-            // 'details->farm_ownership' => $request->details->farm_ownership, 
-            // 'details->farm_owner' => $request->details->farm_owner, 
-            // 'details->farm_type_business' => $request->details->farm_type_business, 
-            // 'details->specified_animal' => $request->details->specified_animal, 
-            // 'details->farm_size' => $request->details->farm_size, 
-            // 'details->number_of_head_animal' => $request->details->number_of_head_animal, 
-            // 'details->farm_type' => $request->details->farm_type, 
-            // 'details->organic_practitioner' => $request->details->organic_practitioner, 
-            
+            'barangay' => $request->barangay
         ]);
 
         return Redirect::back();
@@ -170,12 +159,12 @@ class FarmController extends Controller
     public function plant(Request $request, $id)
     {
 
-        // $request->validate([
-        //     'seedlings' => ['required', 'integer'],
-        //     'seedling_quantity' => ['required', 'integer'],
-        //     'expected_income' => ['required', 'integer'],
-        //     'plant_at' => ['required'],
-        // ]);
+        $request->validate([
+            'details.inventories.seedling' => ['required'],
+            'details.inventories.seedling_quantity' => ['required'],
+            'details.expected_income' => ['required'],
+            'plant_at' => ['required'],
+        ]);
         $farm = Farm::find($id);
         
         $farm->update([
@@ -199,6 +188,9 @@ class FarmController extends Controller
 
     public function harvest(Request $request, $id)
     {
+        $request->validate([
+            'harvest_at' => ['required']
+        ]);
         $farm = Farm::find($id);
         $inventories = $farm->details['inventories'];
         $income = $farm->income + $request->details['income'];

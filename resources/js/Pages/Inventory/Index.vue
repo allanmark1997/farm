@@ -115,12 +115,10 @@ const saveInventory = () => {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div
                     class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 pb-12 mt-2">
-                    <div class="flex justify-between gap-1">
+                    
+                    <div class="flex items-center justify-between py-4 bg-white">
                         <a class="bg-green-600 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition cursor-pointer"
                             @click="showModal('add')">Add Inventory</a>
-                    </div>
-                    <div class="flex items-center justify-between py-4 bg-white">
-                        <div></div>
                         <label for="table-search" class="sr-only">Search</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -133,7 +131,7 @@ const saveInventory = () => {
                             </div>
                             <input type="text" id="table-search-users"
                                 class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 m-1"
-                                placeholder="Search for users" />
+                                placeholder="Search item" />
                         </div>
                     </div>
                     <table class="w-full text-sm text-left text-gray-500 rounded-lg">

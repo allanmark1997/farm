@@ -415,7 +415,8 @@ const arrangeBday  = ()=>{
     const newDate = `${month}${day}${year}`;
     newBirthDay.value =  newDate; 
 }
-const arrngeFiveSet = (farmList)=>{ 
+const arrngeFiveSet = (farmList)=>{  
+    console.log(farmList); 
     const setGroup  = Math.floor(farmList.length % 5);
     let i = setGroup;
     if(farmList.length != 5){
@@ -427,7 +428,6 @@ const arrngeFiveSet = (farmList)=>{
     return farmList;
 }
 const arrangeParcel = ()=>{
-    console.log(props.parcels); 
     const setGroup  = Math.floor(props.parcels.length % 3);
     let i = setGroup;
     if(props.parcels.length != 3){
@@ -436,6 +436,7 @@ const arrangeParcel = ()=>{
             i++;
         }
     } 
+    console.log(arrangeParcels.value); 
     const groupLength = 3;
     arrangeParcels.value = props.parcels.reduce((acc,item,index)=>{
         const groupParcel = Math.floor(index / groupLength);
