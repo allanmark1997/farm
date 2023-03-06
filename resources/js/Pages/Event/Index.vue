@@ -122,7 +122,7 @@ const saveEvent = () => {
                 onError: () => {
                     //code
                     alert(
-                        "System notice that your content is beyond the limit, please post 255 characters only."
+                        "System notice an error, please fill out all fields"
                     );
                     loading.value = false;
                 },
