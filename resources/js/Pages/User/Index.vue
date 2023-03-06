@@ -14,14 +14,14 @@ import { onMounted, reactive, ref } from "vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 
-const props = defineProps(["users"]);
+const props = defineProps(["users", 'search']);
 
 const form = useForm({
     name: "",
     email: "",
     password: "",
     password_confirmation: "",
-    search: ''
+    search: props.search
 });
 
 const activate = ref([]);

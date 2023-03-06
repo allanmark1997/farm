@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
-
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class EventController extends Controller
 {
@@ -16,12 +16,15 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $events = Event::paginate(10);
+        $events = Event::when($request->search != null || $request->seach != '', function($query) use($request){
+            $query -> where("title", "like", "%$request->search%");
+        })->paginate(10);
 
         return Inertia::render('Event/Index', [
-            'events' => $events
+            'events' => $events,
+            'search' => $request->search ?? '',
         ]);
     }
 

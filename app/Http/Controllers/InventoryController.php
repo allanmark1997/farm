@@ -17,11 +17,14 @@ class InventoryController extends Controller
      */
     public function index(Request $request)
     {
-        $inventories = Inventory::with('category')->paginate(10);
+        $inventories = Inventory::with('category')->when($request->search != null || $request->search != '', function ($query) use($request) {
+            $query -> where('name', 'like', "%$request->search%");
+        })->paginate(10);
         $categories = Category::all();
         return Inertia::render('Inventory/Index',[
             'categories' => $categories,
-            'inventories' => $inventories
+            'inventories' => $inventories,
+            'search' => $request->search ?? '',
         ]);
     }
 

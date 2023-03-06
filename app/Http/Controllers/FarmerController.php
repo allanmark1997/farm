@@ -17,12 +17,16 @@ class FarmerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $farmers = Farmer::paginate(10);
+        $farmers = Farmer::when($request->search != null || $request->seach != '', function($query) use($request){
+            $query -> where("name", "like", "%$request->search%");
+        })->paginate(10);
 
         return Inertia::render('Farmer/Index', [
-            'farmers' => $farmers
+            'farmers' => $farmers,
+            'search' => $request->search ?? '',
+
         ]);
     }
 

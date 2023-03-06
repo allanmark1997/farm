@@ -22,7 +22,7 @@ class UserController extends Controller
         if (Auth::user()->is_admin == false) {
             return Redirect::route('farmers.index');
         }
-        $users = User::when($request->search == null || $request->seach == '', function($query) use($request){
+        $users = User::when($request->search != null || $request->seach != '', function($query) use($request){
             $query -> where("name", "like", "%$request->search%");
         })->paginate(10);
         return Inertia::render('User/Index',[
