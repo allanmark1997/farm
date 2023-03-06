@@ -382,7 +382,7 @@
                 </div> 
             </div>
         </div>
-        <div class="text-center font-bold text-[12px] mt-2 mb-2">THIS FORM IS NOT FOR SALE</div>
+        <div class="text-center font-bold text-[12px] mt-2 mb-4">THIS FORM IS NOT FOR SALE</div>
         <br/> 
         <div  v-if="arrangeParcels"> 
             <Parcel v-for="(parcel,index) in arrangeParcels" :key="index" :parcel="parcel"/>  
@@ -408,19 +408,23 @@ import { ref, onMounted } from "vue";
 const newBirthDay = ref([]); 
 const birthFormat = ref("MMDDYYYY"); 
 const arrangeParcels = ref([]);
-const {crops,sizes,noOfHeads,farmTypes,organics} = {
-    crops:[1,2,3,4,5],
-    sizes:[1,2,3,4,5],
-    noOfHeads:[1,2,3,4,5],
-    farmTypes:[1,2,3,4,5],
-    organics:[1,2,3,4,5] 
-}
 
 const arrangeBday  = ()=>{
     const date = props.farmers?.details?.dateBirth;
     const [year, month, day] = date.split("-");
     const newDate = `${month}${day}${year}`;
     newBirthDay.value =  newDate; 
+}
+const arrngeFiveSet = (farmList)=>{ 
+    const setGroup  = Math.floor(farmList.length % 5);
+    let i = setGroup;
+    if(farmList.length != 5){
+        while(i < 5 ){
+            farmList.push({});
+            i++;
+        }
+    }
+    return farmList;
 }
 const arrangeParcel = ()=>{
     console.log(props.parcels); 
@@ -436,7 +440,8 @@ const arrangeParcel = ()=>{
     arrangeParcels.value = props.parcels.reduce((acc,item,index)=>{
         const groupParcel = Math.floor(index / groupLength);
         if(!acc[groupParcel]){ acc[groupParcel] = [];}
-        acc[groupParcel].push({...item,crops,sizes,noOfHeads,farmTypes,organics});
+        acc[groupParcel].push({...item,crops:arrngeFiveSet(item.farms),sizes:arrngeFiveSet(item.farms),
+            noOfHeads:arrngeFiveSet(item.farms),farmTypes:arrngeFiveSet(item.farms),organics:arrngeFiveSet(item.farms)});
         return acc;
     },[]);
     console.log(arrangeParcels.value); 

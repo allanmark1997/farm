@@ -52,27 +52,27 @@
                         </td> 
                         <td class="border-b border-black">
                             <div class="flex flex-col p-0 h-[175px]">
-                                <div class="h-6 border-b border-black grow lastCell" v-for="(crop, c) in item.crops" :key="c"></div> 
+                                <div class="h-6 border-b border-black grow lastCell" v-for="(crop, c) in item.crops" :key="c">{{ crop.details?.specified_animal || '' }}</div> 
                             </div>
                         </td>
                         <td class="border-b border-black">
                             <div class="flex flex-col p-0 h-[175px]" >
-                                <div class="h-6 border-b border-black grow lastCell"  v-for="(size, c) in item.sizes" :key="c"></div> 
+                                <div class="h-6 border-b border-black grow lastCell text-center  text-[1.5vmin]"  v-for="(size, c) in item.sizes" :key="c">{{ size.details?.farm_size || '' }}</div> 
                             </div>
                         </td> 
                         <td class="border-b border-black">
                             <div class="flex flex-col p-0 h-[175px]" >
-                                <div class="h-6 border-b border-black grow lastCell"  v-for="(head, c) in item.noOfHeads" :key="c"></div> 
+                                <div class="h-6 border-b border-black grow lastCell text-center  text-[1.5vmin]"  v-for="(head, c) in item.noOfHeads" :key="c">{{ head.details?.number_of_head_animal || '' }}</div> 
                             </div>
                         </td>
                         <td class="border-b border-black">
                             <div class="flex flex-col p-0 h-[175px]"  >
-                                <div class="h-6 border-b border-black grow lastCell" v-for="(farm, c) in item.farmTypes" :key="c"></div> 
+                                <div class="h-6 border-b border-black grow lastCell text-center text-[1.5vmin]" v-for="(farm, c) in item.farmTypes" :key="c">{{ farm.details?.farm_type || '' }}</div> 
                             </div>
                         </td> 
                         <td class="border-b border-black">
                             <div class="flex flex-col p-0 h-[175px] ">
-                                <div class="h-6 border-b border-black grow lastCell" v-for="(organic, c) in item.organics" :key="c"></div> 
+                                <div class="h-6 border-b border-black grow lastCell text-center text-[1.5vmin]" v-for="(organic, c) in item.organics" :key="c">{{ organic.details?.organic_practitioner || '' }}</div> 
                             </div>
                         </td> 
                     </tr>
@@ -181,31 +181,6 @@ const props = defineProps({
         default:{}
     }
 });
-const farmLand = ref([{
-    land:{},
-    crops:[1,2,3,4,5],
-    sizes:[1,2,3,4,5],
-    noOfHeads:[1,2,3,4,5],
-    farmTypes:[1,2,3,4,5],
-    organics:[1,2,3,4,5] 
-},
-{
-    land:{},
-    crops:[1,2,3,4,5],
-    sizes:[1,2,3,4,5],
-    noOfHeads:[1,2,3,4,5],
-    farmTypes:[1,2,3,4,5],
-    organics:[1,2,3,4,5] 
-},
-{
-    land:{},
-    crops:[1,2,3,4,5],
-    sizes:[1,2,3,4,5],
-    noOfHeads:[1,2,3,4,5],
-    farmTypes:[1,2,3,4,5],
-    organics:[1,2,3,4,5] 
-}])
-
 const documents = ref([
     "Certificate of Land Transfer","Emancipation Patent","Individual Certificate of Land Ownership Award (CLOA)","Collective CLOA","Co-ownership CLOA","Agricultural sales patent",
     "Homestead patent","Free Patent","Certificate of Title or Regular Title","Certificate of Ancestral Domain Title","Certificate of Ancestral Land Title","Tax Declaration"
