@@ -19,7 +19,7 @@
                 </div>
                 <div class="border-l-2 border-black flex justify-center">
                     <img v-if="farmers.details.pic2x2" 
-                    class="w-[20vmin] max-h-[20vmin] object-cover" 
+                    class="w-[20vmin] max-h-[20vmin] object-contain" 
                     :src="'/images/farmer/' + farmers.details.pic2x2" />
                 </div>
             </div>
@@ -415,28 +415,30 @@ const arrangeBday  = ()=>{
     const newDate = `${month}${day}${year}`;
     newBirthDay.value =  newDate; 
 }
-const arrngeFiveSet = (farmList)=>{  
-    console.log(farmList); 
-    const setGroup  = Math.floor(farmList.length % 5);
-    let i = setGroup;
+const arrngeFiveSet = (farmList = [])=>{  
+    /** Divisible by 5 then fill with {object empty} to complete the remainder */
+    let i = Math.floor(farmList.length % 5);
     if(farmList.length != 5){
         while(i < 5 ){
-            farmList.push({});
+            farmList.push({}); 
             i++;
         }
     }
     return farmList;
 }
-const arrangeParcel = ()=>{
+const arrangeParcel = ()=>{ 
+    /** Divisible by 3 then fill with {object empty} to complete the remainder */
     const setGroup  = Math.floor(props.parcels.length % 3);
     let i = setGroup;
     if(props.parcels.length != 3){
         while(i < 3 ){
             props.parcels.push({});
+            console.log(props.parcels.length); 
+            console.log("timer this one")
             i++;
         }
     } 
-    console.log(arrangeParcels.value); 
+    /**  group by 3 and arrange data */
     const groupLength = 3;
     arrangeParcels.value = props.parcels.reduce((acc,item,index)=>{
         const groupParcel = Math.floor(index / groupLength);

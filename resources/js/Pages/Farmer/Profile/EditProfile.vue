@@ -128,7 +128,7 @@ provide("add_farmer", add_farmer);
                         <input id="pic2x2" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"
                                 />
                         <div @click="openFile('pic2x2')" class="cursor-pointer relative flex items-center shadow-lg bg-slate-200 p-3 h-[20vmin]">
-                            <img v-if="add_farmer.details.pic2x2" class="w-[20vmin] max-h-[20vmin] object-cover" :src="pic2x2" />
+                            <img v-if="add_farmer.details.pic2x2" class="w-[20vmin] max-h-[20vmin] object-contain" :src="pic2x2" />
                             <div v-else>2x2 picture taken within 6 months</div>
                         </div>
                     </div>
