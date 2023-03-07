@@ -155,7 +155,7 @@ const function_search = () => {
                                 v-model="search"
                                 id="table-search-farmers"
                                 class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 m-1"
-                                placeholder="Search for transactions"
+                                placeholder="Search for farmer or farm"
                             />
                         </div>
                         <button @click="function_search()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold ml-1 px-4 rounded">
