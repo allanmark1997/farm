@@ -71,7 +71,7 @@ const getRegionAddress = (event,cat)=>{
     }
 } 
 const saveForm = ()=>{ 
-    add_farmer.put(route("farmers.update", add_farmer), {
+    add_farmer.post(route("farmers.update", add_farmer), {
             preserveScroll: true,
             onSuccess: () => {
                 alert("Updated famers");

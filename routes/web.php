@@ -64,7 +64,7 @@ Route::middleware([
     Route::prefix('farmers')->name('farmers.')->group(function () {
         Route::get('/', [FarmerController::class, 'index'])->name('index');
         Route::post('/store', [FarmerController::class, 'store'])->name('store');
-        Route::put('/update/{id}', [FarmerController::class, 'update'])->name('update');
+        Route::post('/update/{id}', [FarmerController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [FarmerController::class, 'destroy'])->name('delete');
         Route::get('/farms/{farmer_id}', [FarmController::class, 'farms'])->name('farms');
         Route::put('/toggle_status/{id}', [FarmerController::class, 'toggle_status'])->name('toggle_status');
