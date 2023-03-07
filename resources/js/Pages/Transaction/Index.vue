@@ -72,7 +72,7 @@ const searchTransaction = () => {
     );
 };
 
-watch(() => search.value, debounce(searchTransaction, 1000));
+// watch(() => search.value, debounce(searchTransaction, 1000));
 
 const view_filter = () => {
     Inertia.get(
@@ -94,6 +94,18 @@ const formatter = new Intl.NumberFormat('en-PH', {
 style: 'currency',
 currency: 'PHP'
 });
+
+const function_search = () => {
+    Inertia.get(
+        route("transactions.index", {
+            search: search.value,
+            filter_view: filter_view.value,
+        }),
+        {
+            preserveScroll: true,
+        }
+    );
+}
 </script>
 
 <template>
@@ -105,7 +117,7 @@ currency: 'PHP'
                     class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-2 pb-12 mt-2"
                 >
                     <div
-                        class="flex items-center justify-between py-4 bg-white"
+                        class="flex items-center justify-between py-4 bg-white float-right"
                     >
                         <!-- <div>
                             <select
@@ -118,7 +130,8 @@ currency: 'PHP'
                                 <option value="harvest">Harvest</option>
                             </select>
                         </div> -->
-                        <label for="table-search" class="sr-only">Search</label>
+                        <div class="flex float-right">
+                            <label for="table-search" class="sr-only">Search</label>
                         <div class="relative">
                             <div
                                 class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
@@ -145,6 +158,11 @@ currency: 'PHP'
                                 placeholder="Search for transactions"
                             />
                         </div>
+                        <button @click="function_search()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold ml-1 px-4 rounded">
+                                Search
+                            </button>
+                        </div>
+                        
                     </div>
                     <table class="w-full text-sm text-left text-gray-500 rounded-lg" >
                         <thead class="text-xs text-gray-700 uppercase bg-green-300 rounded-lg" >
