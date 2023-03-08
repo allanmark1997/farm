@@ -82,6 +82,13 @@ const modals = reactive({
             id: 0,
         },
     },
+    edit: {
+        show: false,
+        details: {
+            title: "Edit Farm Details",
+            id: 4,
+        },
+    },
     add_plant: {
         show: false,
         details: {
@@ -141,6 +148,10 @@ const searchFarmer = () => {
 
 const showModal = () => {
     modals.add_edit.show = true;
+};
+
+const showModalEdit = () => {
+    modals.edit.show = true;
 };
 
 const showModalPlant = (farm) => {
@@ -309,23 +320,23 @@ const formatter = new Intl.NumberFormat('en-PH', {
                         <div class="col-span-2">
                             <div class="flex mb-2 gap-1">
                                 <label for="default-search"
-                                        class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+                                    class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                                 <div class="relative w-full">
-                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                            </svg>
-                                        </div>
-                                        <input v-model="form.search_farmer" type="search" id="default-search"
-                                            class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500"
-                                            placeholder="Search farmer" required>
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <input v-model="form.search_farmer" type="search" id="default-search"
+                                        class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500"
+                                        placeholder="Search farmer" required>
                                     <button @click="searchFarmer()" type="submit"
                                         class="text-white absolute right-2.5 bottom-2.5 bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
                                 </div>
                                 <!-- <PrimaryButton class="w-36" @click="showModal()" :disabled="form.search_farmer == 'all'">
-                                    <span>Add Farm</span></PrimaryButton> -->
+                                            <span>Add Farm</span></PrimaryButton> -->
                             </div>
                             <div class="flex gap-1">
                                 <SelectInput class="block w-full" v-model="form.selected_farmer" @change="selectFarmer()">
@@ -337,23 +348,25 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                     </template>
                                 </SelectInput>
                                 <PrimaryButton class="w-36" @click="showModal()" :disabled="form.selected_farmer == ''">
-                                    <span>Add Farm</span></PrimaryButton>
+                                    <span>Add Farm</span>
+                                </PrimaryButton>
                             </div>
-                            
-                            <div class="max-h-[720px] overflow-y-auto mt-2">
-                                <template v-for="farm in farms" :key="farm">
-                                    <a>
+
+                        <div class="max-h-[720px] overflow-y-auto mt-2">
+                            <template v-for="farm in farms" :key="farm">
+                                <a>
                                         <FarmCard>
                                             <template #actions>
-                                                <div class="cursor-pointer" @click="
-                                                    modals.deleteFarm.show = true;
-                                                formPlants.id = farm.id;
-                                                                                                                                                        ">
+                                                <div class="cursor-pointer"
+                                                    @click="
+                                                        modals.deleteFarm.show = true;
+                                                    formPlants.id = farm.id;
+                                                                                                                                                                                                                                                                        ">
                                                     <Icon icon="delete" />
                                                 </div>
                                                 <!-- <div class="cursor-pointer">
-                                                        <Icon icon="edit" />
-                                                    </div> -->
+                                                                <Icon icon="edit" />
+                                                            </div> -->
                                                 <button @click="callChildMethod(farm)">
                                                     <Icon icon="eye" />
                                                 </button>
@@ -409,6 +422,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                                 <PrimaryButton @click="showHarvest(farm)" :disabled="
                                                     farm.status == 'idle'
                                                 ">Harvest</PrimaryButton>
+                                                <PrimaryButton @click="showModalEdit()">Edit</PrimaryButton>
                                             </template>
                                         </FarmCard>
                                     </a>
@@ -482,7 +496,8 @@ const formatter = new Intl.NumberFormat('en-PH', {
                     </div>
                     <div class="col-span-2">
                         <InputLabel value="Name of owner:" />
-                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_owner" :disabled="form.details.farm_ownership == ''"/>
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_owner"
+                            :disabled="form.details.farm_ownership == ''" />
                         <InputError class="mt-2" :message="form.errors['details.farm_owner']" />
                     </div>
                     <div class="col-span-2">
@@ -502,7 +517,8 @@ const formatter = new Intl.NumberFormat('en-PH', {
                     </div>
                     <div class="col-span-3">
                         <InputLabel value="For Livestock & Poultry (specify type of animal)" />
-                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.specified_animal" :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Rice' || form.details.farm_type_business == 'Corn' || form.details.farm_type_business == 'HVC' || form.details.farm_type_business == 'Agri-fishery'" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.specified_animal"
+                            :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Rice' || form.details.farm_type_business == 'Corn' || form.details.farm_type_business == 'HVC' || form.details.farm_type_business == 'Agri-fishery'" />
                         <!-- <InputError class="mt-2" :message="form.errors['details.specified_animal']" /> -->
                     </div>
                     <div class="col-span-1">
@@ -513,14 +529,16 @@ const formatter = new Intl.NumberFormat('en-PH', {
                     <div class="col-span-2">
                         <InputLabel value="NO. OF HEAD (For Livestock and Poultry)" />
                         <TextInput type="text" class="mt-1 block w-full" required
-                            v-model="form.details.number_of_head_animal"  :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Rice' || form.details.farm_type_business == 'Corn' || form.details.farm_type_business == 'HVC' || form.details.farm_type_business == 'Agri-fishery'"/>
+                            v-model="form.details.number_of_head_animal"
+                            :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Rice' || form.details.farm_type_business == 'Corn' || form.details.farm_type_business == 'HVC' || form.details.farm_type_business == 'Agri-fishery'" />
                         <InputError class="mt-2" :message="form.errors.number_of_head_animal" />
                     </div>
                     <div class="col-span-2">
                         <InputLabel value="Farm type (NOTE: not applicable to agri-fishery):" />
                         <select v-model="form.details.farm_type"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
-                            name="" id="" :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Agri-fishery'">
+                            name="" id=""
+                            :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Agri-fishery'">
                             <option value="" selected disabled>Select Type</option>
                             <option value="Irrigated">Irrigated</option>
                             <option value="Rainfed Upland">Rainfed Upland</option>
@@ -548,6 +566,137 @@ const formatter = new Intl.NumberFormat('en-PH', {
                 </div>
             </template>
         </DialogModal>
+
+        <DialogModal :show="modals.edit.show" maxWidth="7xl">
+            <template #title>{{ modals.edit.details.title }}</template>
+            <template #content>
+                <div class="grid grid-cols-6 gap-2">
+                    <div class="col-span-6">
+                        <InputLabel value="Farm Name" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
+                        <InputError class="mt-2" :message="form.errors['map.name']" />
+                    </div>
+                    <div class="col-span-6">
+                        <InputLabel value="Location (Barangay & Municipality):" />
+                        <select v-model="form.barangay"
+                            class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'>
+                            <option value="">Select Barangay</option>
+                            <template v-for="barangay in barangays">
+                                <option :value="barangay.name">{{ barangay.name }}</option>
+                            </template>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors.barangay" />
+                    </div>
+                    <div class="col-span-2">
+                        <InputLabel value="Ownership Document No: " />
+                        <select v-model="form.details.ownership_document_no"
+                            class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                            name="" id="">
+                            <option value="" selected disabled>Select type</option>
+                            <option value="Certificate of Land Transfer">Certificate of Land Transfer</option>
+                            <option value="Emancipation Patent">Emancipation Patent</option>
+                            <option value="Individual Certificate of Land Ownership Award (CLOA)">Individual Certificate of
+                                Land Ownership Award (CLOA)</option>
+                            <option value="Collective CLOA">Collective CLOA</option>Name of owner:
+                            <option value="Co-ownership CLOA">Co-ownership CLOA</option>
+                            <option value="Agricultural sales patent">Agricultural sales patent</option>
+                            <option value="Homestead patent">Homestead patent</option>
+                            <option value="Free Patent">Free Patent</option>
+                            <option value="Certificate of Title or Regular Title">Certificate of Title or Regular Title
+                            </option>
+                            <option value="Certificate of Ancestral Domain Title">Certificate of Ancestral Domain Title
+                            </option>
+                            <option value="Certificate of Ancestral Land Title">Certificate of Ancestral Land Title</option>
+                            <option value="Tax Declaration">Tax Declaration</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors['details.ownership_document_no']" />
+                    </div>
+                    <div class="col-span-2">
+                        <InputLabel value="Type:" />
+                        <select v-model="form.details.farm_ownership"
+                            class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                            name="" id="">
+                            <option value="" selected disabled>Select type</option>
+                            <option value="Registered Owner">Registered Owner</option>
+                            <option value="Tenant">Tenant</option>
+                            <option value="Lessee">Lessee</option>
+                            <option value="Others">Others</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors['details.farm_ownership']" />
+                    </div>
+                    <div class="col-span-2">
+                        <InputLabel value="Name of owner:" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_owner"
+                            :disabled="form.details.farm_ownership == ''" />
+                        <InputError class="mt-2" :message="form.errors['details.farm_owner']" />
+                    </div>
+                    <div class="col-span-2">
+                        <InputLabel value="Type:" />
+                        <select v-model="form.details.farm_type_business"
+                            class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                            name="" id="">
+                            <option value="" disabled selected>Select type</option>
+                            <option value="Rice">Rice</option>
+                            <option value="Corn">Corn</option>
+                            <option value="HVC">HVC</option>
+                            <option value="Livestock">Livestock</option>
+                            <option value="Poultry">Poultry</option>
+                            <option value="Agri-fishery">Agri-fishery</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors['details.farm_type_business']" />
+                    </div>
+                    <div class="col-span-3">
+                        <InputLabel value="For Livestock & Poultry (specify type of animal)" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.specified_animal"
+                            :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Rice' || form.details.farm_type_business == 'Corn' || form.details.farm_type_business == 'HVC' || form.details.farm_type_business == 'Agri-fishery'" />
+                        <!-- <InputError class="mt-2" :message="form.errors['details.specified_animal']" /> -->
+                    </div>
+                    <div class="col-span-1">
+                        <InputLabel value="Size (ha)" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.farm_size" />
+                        <InputError class="mt-2" :message="form.errors['details.farm_size']" />
+                    </div>
+                    <div class="col-span-2">
+                        <InputLabel value="NO. OF HEAD (For Livestock and Poultry)" />
+                        <TextInput type="text" class="mt-1 block w-full" required
+                            v-model="form.details.number_of_head_animal"
+                            :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Rice' || form.details.farm_type_business == 'Corn' || form.details.farm_type_business == 'HVC' || form.details.farm_type_business == 'Agri-fishery'" />
+                        <InputError class="mt-2" :message="form.errors.number_of_head_animal" />
+                    </div>
+                    <div class="col-span-2">
+                        <InputLabel value="Farm type (NOTE: not applicable to agri-fishery):" />
+                        <select v-model="form.details.farm_type"
+                            class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                            name="" id=""
+                            :disabled="form.details.farm_type_business == '' || form.details.farm_type_business == 'Agri-fishery'">
+                            <option value="" selected disabled>Select Type</option>
+                            <option value="Irrigated">Irrigated</option>
+                            <option value="Rainfed Upland">Rainfed Upland</option>
+                            <option value="Rainfed Lowland">Rainfed Lowland</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors.farm_type" />
+                    </div>
+                    <div class="col-span-2">
+                        <InputLabel value="ORGANIC PRACTITIONER(Yes/No):" />
+                        <select v-model="form.details.organic_practitioner"
+                            class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                            name="" id="">
+                            <option value="" selected disabled>Select Type</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors['details.organic_practitioner']" />
+                    </div>
+                </div>
+            </template>
+            <template #footer>
+                <div class="flex gap-1">
+                    <SecondaryButton @click="modals.edit.show = false">Cancel</SecondaryButton>
+                    <PrimaryButton @click="saveFarm">Submit</PrimaryButton>
+                </div>
+            </template>
+        </DialogModal>
+        
         <DialogModal :show="modals.harvest_plant.show">
             <template #title>{{ modals.harvest_plant.details.title }}</template>
             <template #content>
@@ -596,14 +745,15 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                 <InputLabel value="Quantity" />
                                 <TextInput type="number" class="block w-full" required
                                     v-model="formPlants.details.inventories.seedling_quantity" />
-                                <InputError class="mt-2" :message="formPlants.errors['details.inventories.seedling_quantity']" />
+                                <InputError class="mt-2"
+                                    :message="formPlants.errors['details.inventories.seedling_quantity']" />
 
                             </div>
                             <div>
                                 <InputLabel value="Expected Income " />
                                 <TextInput type="number" class="block w-full" required
                                     v-model="formPlants.details.expected_income" />
-                                    <InputError class="mt-2" :message="formPlants.errors['details.expected_income']" />
+                                <InputError class="mt-2" :message="formPlants.errors['details.expected_income']" />
 
                             </div>
                             <div>
@@ -631,9 +781,9 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                         v-model="fertilizerVar.quantity" />
                                 </div>
                                 <!-- <div class="col-span-2">
-                                            <InputLabel value="Unit" />
-                                            <TextInput type="text" class="block w-full" required v-model="fertilizerVar.unit" />
-                                        </div> -->
+                                                    <InputLabel value="Unit" />
+                                                    <TextInput type="text" class="block w-full" required v-model="fertilizerVar.unit" />
+                                                </div> -->
                                 <div class="mt-6">
                                     <PrimaryButton @click="
                                         formPlants.details.inventories.fertilizer.push(
@@ -679,10 +829,11 @@ const formatter = new Intl.NumberFormat('en-PH', {
                 </div>
             </template>
             <template #footer>
-            <div class="flex gap-1">
-                <SecondaryButton @click="modals.deleteFarm.show = false">Cancel</SecondaryButton>
-                <PrimaryButton @click="onDeleteHandler">Continue</PrimaryButton>
-            </div>
-        </template>
-    </DialogModal>
-</AppLayout></template>
+                <div class="flex gap-1">
+                    <SecondaryButton @click="modals.deleteFarm.show = false">Cancel</SecondaryButton>
+                    <PrimaryButton @click="onDeleteHandler">Continue</PrimaryButton>
+                </div>
+            </template>
+        </DialogModal>
+    </AppLayout>
+</template>
