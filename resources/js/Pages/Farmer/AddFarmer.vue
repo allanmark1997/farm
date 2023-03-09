@@ -253,11 +253,11 @@ provide("add_farmer", add_farmer);
                                 <option v-for="(baranggay,key) in baranggays" :key="key" :value="JSON.stringify(baranggay)">{{baranggay.name}}</option> 
                             </select>
                         </div>
-                        <div class="w-1/2 mr-2">
+                        <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>Street</InputLabel>
                             <TextInput v-model="add_farmer.details.streetBirth" type="text"/>
                         </div>
-                        <div class="w-1/2 mr-2">
+                        <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>House/Lot</InputLabel>
                             <TextInput v-model="add_farmer.details.lotBirth" type="text"/>
                         </div>
@@ -295,11 +295,11 @@ provide("add_farmer", add_farmer);
                                 <option v-for="(baranggay,key) in baranggaysAdd" :key="key" :value="JSON.stringify(baranggay)">{{baranggay.name}}</option> 
                             </select>
                         </div>
-                        <div class="w-1/2 mr-2">
+                        <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>Street</InputLabel>
                             <TextInput type="text" v-model="add_farmer.details.streetAddress"/>
                         </div>
-                        <div class="w-1/2 mr-2">
+                        <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>House/Lot</InputLabel>
                             <TextInput type="text" v-model="add_farmer.details.lotAddress"/>
                         </div>
@@ -317,13 +317,13 @@ provide("add_farmer", add_farmer);
                                 <option value="Separated">Separated</option>
                             </select>
                         </div>
-                        <div class="w-1/2 mr-2">
+                        <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>Religion</InputLabel>
                             <TextInput v-model="add_farmer.details.religion" type="text"/>
                         </div>
-                        <div class="w-1/2 mr-2">
+                        <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>Name of spouse if married</InputLabel>
-                            <TextInput v-model="add_farmer.details.nameSpouse" type="text"/>
+                            <TextInput v-model="add_farmer.details.nameSpouse" type="text" :disabled="add_farmer.details.status == 'Single'" />
                         </div>
                     </div>
                     <hr />
@@ -346,11 +346,11 @@ provide("add_farmer", add_farmer);
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel>If no, name of household head</InputLabel>
-                            <TextInput v-model="add_farmer.details.houseHoldName" type="text"/>
+                            <TextInput v-model="add_farmer.details.houseHoldName" type="text" :disabled="add_farmer.details.houseHold == 'Yes'" />
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel>Relationship</InputLabel>
-                            <TextInput v-model="add_farmer.details.houseHoldRelation" type="text"/>
+                            <TextInput v-model="add_farmer.details.houseHoldRelation" type="text" :disabled="add_farmer.details.houseHold == 'Yes'" />
                         </div>
                     </div>
                     <hr />
@@ -412,7 +412,7 @@ provide("add_farmer", add_farmer);
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel >If yes, specify</InputLabel>
-                            <TextInput v-model="add_farmer.details.IndigenousSpecify" type="text"/>
+                            <TextInput v-model="add_farmer.details.IndigenousSpecify" type="text" :disabled="add_farmer.details.IndigenousGoup == 'No'" />
                         </div>
                     </div>
                     <hr />

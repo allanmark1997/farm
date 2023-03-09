@@ -374,7 +374,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                         </option>
                                     </template>
                                 </SelectInput>
-                                <PrimaryButton class="w-36" @click="showModal()" :disabled="form.selected_farmer == ''">
+                                <PrimaryButton class="w-36 bg-green-600" @click="showModal()" :disabled="form.selected_farmer == ''">
                                     <span>Add Farm</span>
                                 </PrimaryButton>
                             </div>
@@ -435,7 +435,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                             </template>
                                             <template #footer>
                                                 <!-- <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm)">View</PrimaryButton> -->
-                                                <PrimaryButton :disabled="!enableEditMap" @click="handleMap(farm)">
+                                                <PrimaryButton :disabled="!enableEditMap" @click="handleMap(farm)" class="bg-blue-900">
                                                     {{ `${farm?.map?.coordinates
                                                         .length
                                                         ? "Remap"
@@ -445,11 +445,11 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                                 <PrimaryButton :disabled="
                                                     !farm?.map?.coordinates
                                                         .length || farm.status == 'farming'
-                                                " @click="showModalPlant(farm)">Plant</PrimaryButton>
+                                                " @click="showModalPlant(farm)" class="bg-green-500">Plant</PrimaryButton>
                                                 <PrimaryButton @click="showHarvest(farm)" :disabled="
                                                     farm.status == 'idle'
-                                                ">Harvest</PrimaryButton>
-                                                <PrimaryButton @click="showModalEdit(farm)">Edit</PrimaryButton>
+                                                " class="bg-yellow-400">Harvest</PrimaryButton>
+                                                <PrimaryButton @click="showModalEdit(farm)" class="bg-orange-400">Edit</PrimaryButton>
                                             </template>
                                         </FarmCard>
                                     </a>
