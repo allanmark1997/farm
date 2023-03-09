@@ -134,6 +134,36 @@ class FarmController extends Controller
         return Redirect::back();
     }
 
+    public function updateFarmDetails(Request $request, Farm $selected_farm)
+    {
+        $request->validate([
+            'barangay' => ['required'],
+            'map.name' => ['required'],
+            'details.farm_owner' => ['required'],
+            'details.farm_ownership' => ['required'],
+            'details.farm_type_business' => ['required'],
+            'details.farm_size' => ['required'],
+            'details.ownership_document_no' => ['required'],
+            'details.organic_practitioner' => ['required'],
+        ]);
+        // dd();
+        $selected_farm->update([
+            'map->name' => $request->map['name'],
+            'barangay' => $request->barangay,
+            'details->ownership_document_no' => $request->details['ownership_document_no'],
+            'details->farm_ownership' => $request->details['farm_ownership'],
+            'details->farm_owner' => $request->details['farm_owner'],
+            'details->farm_type_business' => $request->details['farm_type_business'],
+            'details->specified_animal' => $request->details['specified_animal'],
+            'details->farm_size' => $request->details['farm_size'],
+            'details->number_of_head_animal' => $request->details['number_of_head_animal'],
+            'details->farm_type' => $request->details['farm_type'],
+            'details->organic_practitioner' => $request->details['organic_practitioner'],
+        ]);
+
+        return Redirect::back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *

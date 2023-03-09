@@ -26,6 +26,7 @@ const props = defineProps([
 const children = ref(null);
 const enableEditMap = ref(false);
 const barangays = ref([]);
+const selected_farm = ref('');
 
 
 
@@ -150,8 +151,20 @@ const showModal = () => {
     modals.add_edit.show = true;
 };
 
-const showModalEdit = () => {
+const showModalEdit = (farm) => {
+    selected_farm.value = farm;
     modals.edit.show = true;
+    form.map.name = farm.map.name;
+    form.barangay = farm.barangay;
+    form.details.ownership_document_no = farm.details.ownership_document_no;
+    form.details.farm_ownership = farm.details.farm_ownership;
+    form.details.farm_owner = farm.details.farm_owner;
+    form.details.farm_type_business = farm.details.farm_type_business;
+    form.details.specified_animal = farm.details.specified_animal;
+    form.details.farm_size = farm.details.farm_size;
+    form.details.number_of_head_animal = farm.details.number_of_head_animal;
+    form.details.farm_type = farm.details.farm_type;
+    form.details.organic_practitioner = farm.details.organic_practitioner;
 };
 
 const showModalPlant = (farm) => {
@@ -185,6 +198,20 @@ const saveFarm = () => {
         },
         onFinish: () => {
             //code
+        },
+    });
+};
+
+const updateFarm = () => {
+    form.put(route("farms.update_farm_details", {selected_farm:selected_farm.value}), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset();
+            modals.edit.show = false;
+        },
+        onError: () => {
+        },
+        onFinish: () => {
         },
     });
 };
@@ -422,7 +449,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                                 <PrimaryButton @click="showHarvest(farm)" :disabled="
                                                     farm.status == 'idle'
                                                 ">Harvest</PrimaryButton>
-                                                <PrimaryButton @click="showModalEdit()">Edit</PrimaryButton>
+                                                <PrimaryButton @click="showModalEdit(farm)">Edit</PrimaryButton>
                                             </template>
                                         </FarmCard>
                                     </a>
@@ -692,7 +719,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
             <template #footer>
                 <div class="flex gap-1">
                     <SecondaryButton @click="modals.edit.show = false">Cancel</SecondaryButton>
-                    <PrimaryButton @click="saveFarm">Submit</PrimaryButton>
+                    <PrimaryButton @click="updateFarm">Submit</PrimaryButton>
                 </div>
             </template>
         </DialogModal>
