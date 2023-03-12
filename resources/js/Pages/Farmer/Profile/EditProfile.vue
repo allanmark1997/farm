@@ -75,15 +75,18 @@ const saveForm = ()=>{
             preserveScroll: true,
             onSuccess: () => {
                 alert("Updated famers");
+                window.location.reload();
             },
             onError: () => {
                 //code
                  
             },
-            onFinish: () => {
-                //code
+            onFinish: () => { 
+                
             },
         }); 
+
+        
 }
 
 const openFile = (elementID) => {
@@ -113,6 +116,7 @@ const openFile = (elementID) => {
 };
 
 provide("add_farmer", add_farmer);
+defineExpose({saveForm});
 </script>
 
 <template> 
@@ -121,7 +125,7 @@ provide("add_farmer", add_farmer);
             <div class="">
                 <div class="relative flex justify-between items-center">
                     <div>
-                        <PrimaryButton class="my-2 bg-green-600" @click="saveForm()">Update</PrimaryButton>
+                        <!-- <PrimaryButton class="my-2 bg-green-600" @click="saveForm()">Update</PrimaryButton> -->
                     </div>
                     
                     <div class="mt-2 lg:max-w-[20vmin] ">
