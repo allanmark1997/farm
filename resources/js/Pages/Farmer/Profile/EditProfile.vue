@@ -271,7 +271,7 @@ defineExpose({saveForm});
                             name="" id="" >
                             <option value="Single">Single</option>
                             <option value="Widowed">Widowed</option>
-                            <option value="Maried">Maried</option>
+                            <option value="Maried">Married</option>
                             <option value="Separated">Separated</option>
                         </select>
                     </div>
