@@ -8,115 +8,115 @@ import Pagination from "@/Components/Pagination.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
-import Parcel from "./Parcel.vue"; 
+import Parcel from "./Parcel.vue";
 import { reactive, ref, provide } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
-import {regions,getCityMunByProvince,getBarangayByMun,getProvincesByRegion} from 'phil-reg-prov-mun-brgy';
+import { regions, getCityMunByProvince, getBarangayByMun, getProvincesByRegion } from 'phil-reg-prov-mun-brgy';
 
 const ADD_CATEGORY = {
-    provinces:"Provinces",
-    cities:"Cities",
-    baranggays:"Baranggays"
+    provinces: "Provinces",
+    cities: "Cities",
+    baranggays: "Baranggays"
 };
 
 const provinces = ref([]);
-const baranggays = ref([]); 
+const baranggays = ref([]);
 const cities = ref([]);
 const provincesAdd = ref([]);
-const baranggaysAdd = ref([]); 
+const baranggaysAdd = ref([]);
 const citiesAdd = ref([]);
 const pic2x2 = ref(null)
 
 const add_farmer = useForm({
-    uploadSignature:null,
-    uploadThumbamark:null,
-    uploadSignatureCaptain:null,
-    uploadSignatureAgriculture:null,
-    uploadSignatureCADC:null,
-    pic2x2:null,
-    details: { 
+    uploadSignature: null,
+    uploadThumbamark: null,
+    uploadSignatureCaptain: null,
+    uploadSignatureAgriculture: null,
+    uploadSignatureCADC: null,
+    pic2x2: null,
+    details: {
         fname: "",
-        sname:"",
-        mname:"",
-        ename:"",
-        gender:"",
-        mobile:"",
-        dateBirth:"",
-        regionBirth:"",
-        provinceBirth:"",
-        cityBirth:"",
-        baranggayBirth:"",
-        streetBirth:"",
-        lotBirth:"",
-        regionAddress:"",
-        provinceAddress:"",
-        cityAddress:"",
-        baranggayAddress:"",
-        streetAddress:"",
-        lotAddress:"",
-        status:"",
-        religion:"",
-        nameSpouse:"",
-        motherName:"",
-        houseHold:"",
-        houseHoldName:"",
-        houseHoldRelation:"",
-        householdLiving:"",
-        numberMale:"",
-        numberFemale:"",
-        formalEducational:"",
-        pwd:"",
-        fourPs:"",
-        IndigenousGoup:"",
-        IndigenousSpecify:"",
-        emergencyPerson:"",
-        emergencyContact:"",
-        mianLivelihood:"",
-        farmActivity:"",
-        farmSpecify:"",
-        farmWork:"",
-        farmWorkSpecify:"",
-        fishWork:"",
-        fishWorkSpecify:"",
-        grossFarming:"",
-        grossNonFarming:"",
-        grossParcel:"",
-        grossARB:"",
-        dateApplicant:"",
-        nameOfApplicant:""
+        sname: "",
+        mname: "",
+        ename: "",
+        gender: "",
+        mobile: "",
+        dateBirth: "",
+        regionBirth: "",
+        provinceBirth: "",
+        cityBirth: "",
+        baranggayBirth: "",
+        streetBirth: "",
+        lotBirth: "",
+        regionAddress: "",
+        provinceAddress: "",
+        cityAddress: "",
+        baranggayAddress: "",
+        streetAddress: "",
+        lotAddress: "",
+        status: "",
+        religion: "",
+        nameSpouse: "",
+        motherName: "",
+        houseHold: "",
+        houseHoldName: "",
+        houseHoldRelation: "",
+        householdLiving: "",
+        numberMale: "",
+        numberFemale: "",
+        formalEducational: "",
+        pwd: "",
+        fourPs: "",
+        IndigenousGoup: "",
+        IndigenousSpecify: "",
+        emergencyPerson: "",
+        emergencyContact: "",
+        mianLivelihood: "",
+        farmActivity: "",
+        farmSpecify: "",
+        farmWork: "",
+        farmWorkSpecify: "",
+        fishWork: "",
+        fishWorkSpecify: "",
+        grossFarming: "",
+        grossNonFarming: "",
+        grossParcel: "",
+        grossARB: "",
+        dateApplicant: "",
+        nameOfApplicant: ""
     },
 });
- 
-const getRegionBirth = (event,cat)=>{ 
-    if(cat === ADD_CATEGORY.provinces){ 
+
+const getRegionBirth = (event, cat) => {
+    if (cat === ADD_CATEGORY.provinces) {
         add_farmer.details.regionBirth = JSON.parse(event.target.value);
-        provinces.value = getProvincesByRegion(JSON.parse(event.target.value).reg_code); 
-    }if(cat === ADD_CATEGORY.cities){ 
+        provinces.value = getProvincesByRegion(JSON.parse(event.target.value).reg_code);
+    } if (cat === ADD_CATEGORY.cities) {
         add_farmer.details.provinceBirth = JSON.parse(event.target.value);
-        cities.value = getCityMunByProvince(JSON.parse(event.target.value).prov_code); 
-    }if(cat === ADD_CATEGORY.baranggays){ 
+        cities.value = getCityMunByProvince(JSON.parse(event.target.value).prov_code);
+    } if (cat === ADD_CATEGORY.baranggays) {
         add_farmer.details.cityBirth = JSON.parse(event.target.value);
-        baranggays.value = getBarangayByMun(JSON.parse(event.target.value).mun_code); 
-    }if(cat === 'bara'){ 
+        baranggays.value = getBarangayByMun(JSON.parse(event.target.value).mun_code);
+    } if (cat === 'bara') {
         add_farmer.details.baranggayBirth = JSON.parse(event.target.value);
     }
 }
 
-const getRegionAddress = (event,cat)=>{
-    if(cat === ADD_CATEGORY.provinces){ 
+const getRegionAddress = (event, cat) => {
+    if (cat === ADD_CATEGORY.provinces) {
         add_farmer.details.regionAddress = JSON.parse(event.target.value);
-        provincesAdd.value = getProvincesByRegion(JSON.parse(event.target.value).reg_code); 
-    }if(cat === ADD_CATEGORY.cities){ 
+        provincesAdd.value = getProvincesByRegion(JSON.parse(event.target.value).reg_code);
+    } if (cat === ADD_CATEGORY.cities) {
         add_farmer.details.provinceAddress = JSON.parse(event.target.value);
-        citiesAdd.value = getCityMunByProvince(JSON.parse(event.target.value).prov_code); 
-    }if(cat === ADD_CATEGORY.baranggays){ 
+        citiesAdd.value = getCityMunByProvince(JSON.parse(event.target.value).prov_code);
+    } if (cat === ADD_CATEGORY.baranggays) {
         add_farmer.details.cityAddress = JSON.parse(event.target.value);
-        baranggaysAdd.value = getBarangayByMun(JSON.parse(event.target.value).mun_code); 
-    }if(cat === 'bara'){ 
+        baranggaysAdd.value = getBarangayByMun(JSON.parse(event.target.value).mun_code);
+    } if (cat === 'bara') {
         add_farmer.details.baranggayAddress = JSON.parse(event.target.value);
     }
-} 
-const saveForm = ()=>{ 
+}
+const saveForm = () => {
     add_farmer.post(route("farmers.store"), {
         preserveScroll: true,
         onSuccess: () => {
@@ -126,7 +126,7 @@ const saveForm = ()=>{
         },
         onError: () => {
             //code
-            loading.value = false;
+            // loading.value = false;
             alert("error");
         },
         onFinish: () => {
@@ -140,25 +140,25 @@ const openFile = (elementID) => {
     hidden.click();
     hidden.onchange = (e,) => {
         console.log(e.target.files);
-        if(elementID === 'pic2x2'){ 
-            pic2x2.value = window.URL.createObjectURL(e.target.files[0]); 
-            add_farmer.pic2x2 = e.target.files[0] 
-        }if(elementID == 'uploadSignature'){
-            add_farmer.uploadSignature = e.target.files[0]; 
+        if (elementID === 'pic2x2') {
+            pic2x2.value = window.URL.createObjectURL(e.target.files[0]);
+            add_farmer.pic2x2 = e.target.files[0]
+        } if (elementID == 'uploadSignature') {
+            add_farmer.uploadSignature = e.target.files[0];
         }
-        if(elementID == 'uploadThumbamark'){
-            add_farmer.uploadThumbamark = e.target.files[0]; 
+        if (elementID == 'uploadThumbamark') {
+            add_farmer.uploadThumbamark = e.target.files[0];
         }
-        if(elementID == 'uploadSignatureCaptain'){
-            add_farmer.uploadSignatureCaptain = e.target.files[0]; 
+        if (elementID == 'uploadSignatureCaptain') {
+            add_farmer.uploadSignatureCaptain = e.target.files[0];
         }
-        if(elementID == 'uploadSignatureAgriculture'){
-            add_farmer.uploadSignatureAgriculture = e.target.files[0]; 
+        if (elementID == 'uploadSignatureAgriculture') {
+            add_farmer.uploadSignatureAgriculture = e.target.files[0];
         }
-        if(elementID == 'uploadSignatureCADC'){
-            add_farmer.uploadSignatureCADC = e.target.files[0]; 
+        if (elementID == 'uploadSignatureCADC') {
+            add_farmer.uploadSignatureCADC = e.target.files[0];
         }
-    }; 
+    };
 };
 
 provide("add_farmer", add_farmer);
@@ -171,33 +171,37 @@ provide("add_farmer", add_farmer);
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2">
                     <div class="relative flex justify-end items-center">
                         <div class="mt-2 lg:max-w-[20vmin] ">
-                        <input id="pic2x2" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"
-                             />
-                        <div @click="openFile('pic2x2')" class="cursor-pointer relative flex items-center shadow-lg bg-slate-200 p-3 h-[20vmin]">
-                            <img v-if="add_farmer.pic2x2" class="w-[20vmin] max-h-[20vmin] object-cover" :src="pic2x2" />
-                            <div v-else>2x2 picture taken within 6 months</div>
+                            <input id="pic2x2" type="file" class="hidden" accept="image/png, image/gif, image/jpeg" />
+                            <div @click="openFile('pic2x2')"
+                                class="cursor-pointer relative flex items-center shadow-lg bg-slate-200 p-3 h-[20vmin]">
+                                <img v-if="add_farmer.pic2x2" class="w-[20vmin] max-h-[20vmin] object-cover"
+                                    :src="pic2x2" />
+                                <div v-else>2x2 picture taken within 6 months</div>
+                            </div>
                         </div>
                     </div>
-                    </div> 
                     <div>
                         <p class="text-lg text-center"> Part I: PERSONAL INFORMATION</p>
                     </div>
                     <div class="flex m-2">
                         <div class="w-1/2 mr-2">
                             <InputLabel>Surname</InputLabel>
-                            <TextInput v-model="add_farmer.details.sname" type="text"/>
+                            <TextInput v-model="add_farmer.details.sname" type="text" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.sname']" />
+
                         </div>
                         <div class="w-1/2 mr-2">
                             <InputLabel>First Name</InputLabel>
-                            <TextInput v-model="add_farmer.details.fname" type="text"/>
+                            <TextInput v-model="add_farmer.details.fname" type="text" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.fname']" />
                         </div>
                         <div class="w-1/2 mr-2">
                             <InputLabel>Middle Name</InputLabel>
-                            <TextInput v-model="add_farmer.details.mname" type="text"/>
+                            <TextInput v-model="add_farmer.details.mname" type="text" />
                         </div>
                         <div class="w-1/4">
                             <InputLabel>Extension Name</InputLabel>
-                            <TextInput v-model="add_farmer.details.ename" type="text"/>
+                            <TextInput v-model="add_farmer.details.ename" type="text" />
                         </div>
                     </div>
 
@@ -205,132 +209,175 @@ provide("add_farmer", add_farmer);
                     <div class="flex mt-4 m-2">
                         <div class="w-1/2 mr-2">
                             <label for="Extension Name" class="block mb-2 text-sm font-medium text-gray-900">Gender</label>
-                            <select class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            <select
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 v-model="add_farmer.details.gender">
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.gender']" />
                         </div>
-                        <div class="w-1/2 mr-2">
+                        <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>Mobile Number</InputLabel>
-                            <TextInput v-model="add_farmer.details.mobile" type="number"/>
+                            <TextInput v-model="add_farmer.details.mobile" type="number" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.mobile']" />
                         </div>
-                        <div class="w-1/2 mr-2">
+                        <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>Date of Birth</InputLabel>
-                            <TextInput v-model="add_farmer.details.dateBirth" type="date"/>
+                            <TextInput v-model="add_farmer.details.dateBirth" type="date" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.dateBirth']" />
                         </div>
                     </div>
                     <hr />
                     <p class="text-md">Place of Birth</p>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Region</label>
-                            <select @change="getRegionBirth($event,ADD_CATEGORY.provinces)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900">Region</label>
+                            <select @change="getRegionBirth($event, ADD_CATEGORY.provinces)"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="" disabled selected>Region</option>
-                                <option v-for="(region,key) in regions" :key="key" :value="JSON.stringify(region)">{{region.name}}</option> 
+                                <option v-for="(region, key) in regions" :key="key" :value="JSON.stringify(region)">
+                                    {{ region.name }}</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.regionBirth']" />
+
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Province</label>
-                            <select @change="getRegionBirth($event,ADD_CATEGORY.cities)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900">Province</label>
+                            <select @change="getRegionBirth($event, ADD_CATEGORY.cities)"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="" disabled selected>Province</option>
-                                <option v-for="(province,key) in provinces" :key="key" :value="JSON.stringify(province)">{{province.name}}</option> 
+                                <option v-for="(province, key) in provinces" :key="key" :value="JSON.stringify(province)">
+                                    {{ province.name }}</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.provinceBirth']" />
+
                         </div>
-                        <div class="w-1/2 mr-2"> 
-                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Municipality/City</label>
-                            <select @change="getRegionBirth($event,ADD_CATEGORY.baranggays)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        <div class="w-1/2 mr-2">
+                            <label for="Region"
+                                class="block mb-2 text-sm font-medium text-gray-900">Municipality/City</label>
+                            <select @change="getRegionBirth($event, ADD_CATEGORY.baranggays)"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="" disabled selected>Municipality/City</option>
-                                <option v-for="(city,key) in cities" :key="key" :value="JSON.stringify(city)">{{city.name}}</option> 
+                                <option v-for="(city, key) in cities" :key="key" :value="JSON.stringify(city)">{{ city.name }}
+                                </option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.cityBirth']" />
+
                         </div>
                     </div>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Barangay</label>
-                            <select @change="getRegionBirth($event,'bara')" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900">Barangay</label>
+                            <select @change="getRegionBirth($event, 'bara')"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="" disabled selected>Barangay</option>
-                                <option v-for="(baranggay,key) in baranggays" :key="key" :value="JSON.stringify(baranggay)">{{baranggay.name}}</option> 
+                                <option v-for="(baranggay, key) in baranggays" :key="key" :value="JSON.stringify(baranggay)">
+                                    {{ baranggay.name }}</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.baranggayBirth']" />
                         </div>
                         <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>Street</InputLabel>
-                            <TextInput v-model="add_farmer.details.streetBirth" type="text"/>
+                            <TextInput v-model="add_farmer.details.streetBirth" type="text" />
                         </div>
                         <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>House/Lot</InputLabel>
-                            <TextInput v-model="add_farmer.details.lotBirth" type="text"/>
+                            <TextInput v-model="add_farmer.details.lotBirth" type="text" />
                         </div>
                     </div>
+
                     <hr />
-                    <p class="text-md">Permanent Address</p> 
+                    <p class="text-md">Permanent Address</p>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Region</label>
-                            <select @change="getRegionAddress($event,ADD_CATEGORY.provinces)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900">Region</label>
+                            <select @change="getRegionAddress($event, ADD_CATEGORY.provinces)"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="" disabled selected>Region</option>
-                                <option v-for="(region,key) in regions" :key="key" :value="JSON.stringify(region)">{{region.name}}</option> 
+                                <option v-for="(region, key) in regions" :key="key" :value="JSON.stringify(region)">
+                                    {{ region.name }}</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.regionAddress']" />
+
                         </div>
                         <div class="w-1/2 mr-2">
-                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Province</label>
-                            <select @change="getRegionAddress($event,ADD_CATEGORY.cities)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900">Province</label>
+                            <select @change="getRegionAddress($event, ADD_CATEGORY.cities)"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="" disabled selected>Province</option>
-                                <option v-for="(province,key) in provincesAdd" :key="key" :value="JSON.stringify(province)">{{province.name}}</option> 
+                                <option v-for="(province, key) in provincesAdd" :key="key" :value="JSON.stringify(province)">
+                                    {{ province.name }}</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.provinceAddress']" />
+
                         </div>
-                        <div class="w-1/2 mr-2"> 
-                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Municipality/City</label>
-                            <select @change="getRegionAddress($event,ADD_CATEGORY.baranggays)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        <div class="w-1/2 mr-2">
+                            <label for="Region"
+                                class="block mb-2 text-sm font-medium text-gray-900">Municipality/City</label>
+                            <select @change="getRegionAddress($event, ADD_CATEGORY.baranggays)"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="" disabled selected>Municipality/City</option>
-                                <option v-for="(city,key) in citiesAdd" :key="key" :value="JSON.stringify(city)">{{city.name}}</option> 
+                                <option v-for="(city, key) in citiesAdd" :key="key" :value="JSON.stringify(city)">
+                                    {{ city.name }}</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.cityAddress']" />
+
                         </div>
                     </div>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900" >Barangay</label>
-                            <select @change="getRegionAddress($event,'bara')" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            <label for="Region" class="block mb-2 text-sm font-medium text-gray-900">Barangay</label>
+                            <select @change="getRegionAddress($event, 'bara')"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="" disabled selected>Baranggay</option>
-                                <option v-for="(baranggay,key) in baranggaysAdd" :key="key" :value="JSON.stringify(baranggay)">{{baranggay.name}}</option> 
+                                <option v-for="(baranggay, key) in baranggaysAdd" :key="key"
+                                    :value="JSON.stringify(baranggay)">{{ baranggay.name }}</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.baranggayAddress']" />
+
                         </div>
                         <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>Street</InputLabel>
-                            <TextInput type="text" v-model="add_farmer.details.streetAddress"/>
+                            <TextInput type="text" v-model="add_farmer.details.streetAddress" />
                         </div>
                         <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>House/Lot</InputLabel>
-                            <TextInput type="text" v-model="add_farmer.details.lotAddress"/>
+                            <TextInput type="text" v-model="add_farmer.details.lotAddress" />
                         </div>
                     </div>
+
                     <hr />
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <label for="Status" class="block mb-2 text-sm font-medium text-gray-900"  >Status</label >
+                            <label for="Status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
                             <select v-model="add_farmer.details.status"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name="" id="" >
+                                name="" id="">
                                 <option value="Single">Single</option>
                                 <option value="Widowed">Widowed</option>
                                 <option value="Maried">Married</option>
                                 <option value="Separated">Separated</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.status']" />
+
                         </div>
                         <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>Religion</InputLabel>
-                            <TextInput v-model="add_farmer.details.religion" type="text"/>
+                            <TextInput v-model="add_farmer.details.religion" type="text" />
                         </div>
                         <div class="w-1/2 mr-2 mt-2">
                             <InputLabel>Name of spouse if married</InputLabel>
-                            <TextInput v-model="add_farmer.details.nameSpouse" type="text" :disabled="add_farmer.details.status == 'Single'" />
+                            <TextInput v-model="add_farmer.details.nameSpouse" type="text"
+                                :disabled="add_farmer.details.status == 'Single'" />
                         </div>
                     </div>
                     <hr />
                     <div class="flex m-2 mt-2">
                         <div class="mr-2 w-full">
                             <InputLabel>Mother's Maiden Name</InputLabel>
-                            <TextInput v-model="add_farmer.details.motherName" type="text"/>
+                            <TextInput v-model="add_farmer.details.motherName" type="text" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.motherName']" />
                         </div>
                     </div>
                     <hr />
@@ -339,41 +386,51 @@ provide("add_farmer", add_farmer);
                             <InputLabel>Household head?</InputLabel>
                             <select v-model="add_farmer.details.houseHold"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name="" id="" >
+                                name="" id="">
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.houseHold']" />
+
+
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel>If no, name of household head</InputLabel>
-                            <TextInput v-model="add_farmer.details.houseHoldName" type="text" :disabled="add_farmer.details.houseHold == 'Yes'" />
+                            <TextInput v-model="add_farmer.details.houseHoldName" type="text"
+                                :disabled="add_farmer.details.houseHold == 'Yes'" />
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel>Relationship</InputLabel>
-                            <TextInput v-model="add_farmer.details.houseHoldRelation" type="text" :disabled="add_farmer.details.houseHold == 'Yes'" />
+                            <TextInput v-model="add_farmer.details.houseHoldRelation" type="text"
+                                :disabled="add_farmer.details.houseHold == 'Yes'" />
                         </div>
                     </div>
                     <hr />
                     <div class="flex mt-2 m-2">
                         <div class="mr-2 w-1/2">
                             <InputLabel>Number of living household members</InputLabel>
-                            <TextInput v-model="add_farmer.details.householdLiving" type="number"/>
+                            <TextInput v-model="add_farmer.details.householdLiving" type="number" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.householdLiving']" />
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel>Number of Male</InputLabel>
-                            <TextInput v-model="add_farmer.details.numberMale" type="number"/>
+                            <TextInput v-model="add_farmer.details.numberMale" type="number" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.numberMale']" />
+
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel>Number of Female</InputLabel>
-                            <TextInput v-model="add_farmer.details.numberFemale" type="number"/>
+                            <TextInput v-model="add_farmer.details.numberFemale" type="number" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.numberFemale']" />
+
                         </div>
                     </div>
                     <hr />
                     <div class="flex mt-2 m-2">
                         <div class="w-1/2 mr-2">
-                            <InputLabel>Highest Formal Educational</InputLabel >
+                            <InputLabel>Highest Formal Educational</InputLabel>
                             <select v-model="add_farmer.details.formalEducational"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" >
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="None">None</option>
                                 <option value="Elementary">Elementary</option>
                                 <option value="High School">High School</option>
@@ -381,23 +438,31 @@ provide("add_farmer", add_farmer);
                                 <option value="College">College</option>
                                 <option value="Post Graduate">Post Graduate</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.formalEducational']" />
+
                         </div>
                         <div class="w-1/2 mr-2">
                             <InputLabel>Person with disability (PWD)</InputLabel>
-                            <select class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name="" id="" v-model="add_farmer.details.pwd">
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
-                        <div class="w-1/2 mr-2">
-                            <InputLabel>4P's Beneficiary?</InputLabel>
                             <select
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                name="" id="" v-model="add_farmer.details.pwd">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                        <InputError class="mt-2" :message="add_farmer.errors['details.pwd']" />
+
+                    </div>
+                    <div class="w-1/2 mr-2">
+                        <InputLabel>4P's Beneficiary?</InputLabel>
+                        <select
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 name="" id="" v-model="add_farmer.details.fourPs">
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.fourPs']" />
+
+
                         </div>
                     </div>
                     <div class="flex m-2 mt-2">
@@ -405,25 +470,33 @@ provide("add_farmer", add_farmer);
                             <InputLabel>Member og Indigenous Group?</InputLabel>
                             <select v-model="add_farmer.details.IndigenousGoup"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name="" id="" >
+                                name="" id="">
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.IndigenousGoup']" />
+
+
                         </div>
                         <div class="mr-2 w-1/2">
-                            <InputLabel >If yes, specify</InputLabel>
-                            <TextInput v-model="add_farmer.details.IndigenousSpecify" type="text" :disabled="add_farmer.details.IndigenousGoup == 'No'" />
+                            <InputLabel>If yes, specify</InputLabel>
+                            <TextInput v-model="add_farmer.details.IndigenousSpecify" type="text"
+                                :disabled="add_farmer.details.IndigenousGoup == 'No'" />
                         </div>
                     </div>
                     <hr />
                     <div class="flex mt-2 m-2">
                         <div class="mr-2 w-1/2">
                             <InputLabel>Person to notify in case of emergency</InputLabel>
-                            <TextInput v-model="add_farmer.details.emergencyPerson" type="text"/>
+                            <TextInput v-model="add_farmer.details.emergencyPerson" type="text" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.emergencyPerson']" />
+
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel>Contact number</InputLabel>
-                            <TextInput v-model="add_farmer.details.emergencyContact" type="number"/>
+                            <TextInput v-model="add_farmer.details.emergencyContact" type="number" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.emergencyContact']" />
+
                         </div>
                     </div>
                     <hr />
@@ -435,9 +508,9 @@ provide("add_farmer", add_farmer);
                             <InputLabel>Main livelihood</InputLabel>
                             <select v-model="add_farmer.details.mianLivelihood"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                name=""  id="" >
-                                <option value="Farmer">Farmer</option> 
-                                <option value="Farmworker">Farmworker</option> 
+                                name="" id="">
+                                <option value="Farmer">Farmer</option>
+                                <option value="Farmworker">Farmworker</option>
                                 <option value="Fisherfolk">Fisherfolk</option>
                             </select>
                         </div>
@@ -460,7 +533,7 @@ provide("add_farmer", add_farmer);
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel>Please specify</InputLabel>
-                            <TextInput v-model="add_farmer.details.farmSpecify"  type="text"/>
+                            <TextInput v-model="add_farmer.details.farmSpecify" type="text" />
                         </div>
                     </div>
                     <hr />
@@ -469,7 +542,8 @@ provide("add_farmer", add_farmer);
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
                             <InputLabel>Kind of work</InputLabel>
-                            <select class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            <select
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 name="" id="" v-model="add_farmer.details.farmWork">
                                 <option value="Land Preparation">Land Preparation</option>
                                 <option value="Planting/Transplanting">Planting/Transplanting
@@ -480,10 +554,11 @@ provide("add_farmer", add_farmer);
                                     Others, Please specify
                                 </option>
                             </select>
+                            
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel>Please specify</InputLabel>
-                            <TextInput v-model="add_farmer.details.farmWorkSpecify" type="text"/>
+                            <TextInput v-model="add_farmer.details.farmWorkSpecify" type="text" />
                         </div>
                     </div>
                     <hr />
@@ -498,8 +573,9 @@ provide("add_farmer", add_farmer);
 
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <InputLabel>Type of Fishing Activity</InputLabel> 
-                            <select  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            <InputLabel>Type of Fishing Activity</InputLabel>
+                            <select
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 name="" id="" v-model="add_farmer.details.fishWork">
                                 <option value="Fish Capture">Fish Capture</option>
                                 <option value="Fish Processing">Fish Processing</option>
@@ -513,7 +589,7 @@ provide("add_farmer", add_farmer);
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel>Please specify</InputLabel>
-                            <TextInput type="text" v-model="add_farmer.details.fishWorkSpecify"/>
+                            <TextInput type="text" v-model="add_farmer.details.fishWorkSpecify" />
                         </div>
                     </div>
                     <hr />
@@ -522,11 +598,15 @@ provide("add_farmer", add_farmer);
                     <div class="flex m-2 mt-2">
                         <div class="mr-2 w-1/2">
                             <InputLabel>Farming</InputLabel>
-                            <TextInput type="text" v-model="add_farmer.details.grossFarming"/>
+                            <TextInput type="text" v-model="add_farmer.details.grossFarming" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.grossFarming']" />
+
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel>Non-farming</InputLabel>
-                            <TextInput type="text" v-model="add_farmer.details.grossNonFarming"/>
+                            <TextInput type="text" v-model="add_farmer.details.grossNonFarming" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.grossNonFarming']" />
+
                         </div>
                     </div>
                     <hr />
@@ -534,27 +614,32 @@ provide("add_farmer", add_farmer);
                     <div class="flex m-2 mt-2">
                         <div class="mr-2 w-1/2">
                             <InputLabel>Number of Parcels</InputLabel>
-                            <TextInput v-model="add_farmer.details.grossParcel" type="number"/>
+                            <TextInput v-model="add_farmer.details.grossParcel" type="number" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.grossParcel']" />
+
                         </div>
                         <div class="mr-2 w-1/2">
-                            <InputLabel>Agrarian Reform Beneficiary (ARB)</InputLabel> 
-                            <select  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            <InputLabel>Agrarian Reform Beneficiary (ARB)</InputLabel>
+                            <select
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 name="" id="" v-model="add_farmer.details.grossARB">
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
                             </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.grossARB']" />
+
                         </div>
                     </div>
                     <hr />
 
                     <!-- <div class="m-2 mt-2">
-                        <PrimaryButton
-                            class="bg-green-600 mb-2"
-                            @click="addFarmParcel()"
-                            >Add Farm Parcel</PrimaryButton
-                        >
-                        <Parcel />
-                    </div> -->
+                            <PrimaryButton
+                                class="bg-green-600 mb-2"
+                                @click="addFarmParcel()"
+                                >Add Farm Parcel</PrimaryButton
+                            >
+                            <Parcel />
+                        </div> -->
                     <hr />
                     <p class="mt-4 text-md">
                         I hereby declare that all information indicated above
@@ -567,67 +652,77 @@ provide("add_farmer", add_farmer);
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
                             <InputLabel>Date</InputLabel>
-                            <TextInput  v-model="add_farmer.details.dateApplicant" type="date"/>
+                            <TextInput v-model="add_farmer.details.dateApplicant" type="date" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.dateApplicant']" />
+
                         </div>
                         <div class="w-1/2 mr-2">
                             <InputLabel>Name of Applicant</InputLabel>
-                            <TextInput type="text" v-model="add_farmer.details.nameOfApplicant"/>
+                            <TextInput type="text" v-model="add_farmer.details.nameOfApplicant" />
+                            <InputError class="mt-2" :message="add_farmer.errors['details.nameOfApplicant']" />
                         </div>
                     </div>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <input id="uploadSignature" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"/>
+                            <input id="uploadSignature" type="file" class="hidden"
+                                accept="image/png, image/gif, image/jpeg" />
                             <div v-if="add_farmer.uploadSignature" class="text-green-500">Signature Uploaded</div>
-                            <PrimaryButton class="w-full" @click="openFile('uploadSignature')">Upload Signature of applicant</PrimaryButton>
+                            <PrimaryButton class="w-full" @click="openFile('uploadSignature')">Upload Signature of applicant
+                            </PrimaryButton>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <input id="uploadThumbamark" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"/>
+                            <input id="uploadThumbamark" type="file" class="hidden"
+                                accept="image/png, image/gif, image/jpeg" />
                             <div v-if="add_farmer.uploadThumbamark" class="text-green-500">Thumbmark Uploaded</div>
-                            <PrimaryButton class="w-full" @click="openFile('uploadThumbamark')">Upload Thumbmark of applicant</PrimaryButton
-                            >
+                            <PrimaryButton class="w-full" @click="openFile('uploadThumbamark')">Upload Thumbmark of
+                                applicant</PrimaryButton>
                         </div>
                     </div>
                     <hr />
                     <p class="mt-4 text-md">VERIFIED TRUE AND CORRECT BY:</p>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
-                            <input id="uploadSignatureCaptain" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"/> 
-                            <div v-if="add_farmer.uploadSignatureCaptain" class="text-green-500">Signature Barangay Captain Uploaded</div>
-                            <PrimaryButton class="w-full" @click="openFile('uploadSignatureCaptain')"
-                                >Upload Signature above printed name of Barangay Captain</PrimaryButton>
+                            <input id="uploadSignatureCaptain" type="file" class="hidden"
+                                accept="image/png, image/gif, image/jpeg" />
+                            <div v-if="add_farmer.uploadSignatureCaptain" class="text-green-500">Signature Barangay Captain
+                                Uploaded</div>
+                            <PrimaryButton class="w-full" @click="openFile('uploadSignatureCaptain')">Upload Signature above
+                                printed name of Barangay Captain</PrimaryButton>
                         </div>
                         <div class="w-1/2 mr-2">
-                            <input id="uploadSignatureAgriculture" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"/> 
-                            <div v-if="add_farmer.uploadSignatureAgriculture" class="text-green-500">Signature City/Municipal Agriculture Office Uploaded</div>
-                            <PrimaryButton class="w-full text-sm" @click="openFile('uploadSignatureAgriculture')"
-                                >Upload Signature above printed name of City/Municipal Agriculture Office</PrimaryButton
-                            >
-                        </div>
-                        <div class="w-1/2 mr-2">
-                            <input id="uploadSignatureCADC" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"/> 
-                            <div v-if="add_farmer.uploadSignatureCADC" class="text-green-500">Signature CAFC/MAFC Chairman Uploaded</div>
-                            <PrimaryButton class="w-full" @click="openFile('uploadSignatureCADC')"
-                                >Upload Signature above printed name of CAFC/MAFC Chairman</PrimaryButton>
-                        </div>
+                            <input id="uploadSignatureAgriculture" type="file" class="hidden"
+                                accept="image/png, image/gif, image/jpeg" />
+                            <div v-if="add_farmer.uploadSignatureAgriculture" class="text-green-500">Signature
+                            City/Municipal Agriculture Office Uploaded</div>
+                        <PrimaryButton class="w-full text-sm" @click="openFile('uploadSignatureAgriculture')">Upload
+                            Signature above printed name of City/Municipal Agriculture Office</PrimaryButton>
                     </div>
-                    <hr />
-                    <p class="mt-4 text-lg font-bold">DATA PRIVACY POLICY</p>
-                    <p class="mt-4 text-md">
-                        The collection of personal information is for
-                        documentation, planning, reporting and processing
-                        purposes in availing agricultural related interventions.
-                        Processed data shall only be shared to partner agencies
-                        for planning, reporting and other use in accordance to
-                        the mandate of the agency. This is in compliance with
-                        the Data Sharing Policy of the department. You have the
-                        right to ask for a copy of your personal data that we
-                        hold about you as well as to ask for it to be corrected
-                        if you think it is wrong. To do so, please contact
-                        (Contact Person and Contact Details).
-                    </p>
-                    <PrimaryButton class="my-2 bg-green-600 float-right" @click="saveForm()">ENROLL FARMER</PrimaryButton>
+                    <div class="w-1/2 mr-2">
+                        <input id="uploadSignatureCADC" type="file" class="hidden"
+                            accept="image/png, image/gif, image/jpeg" />
+                        <div v-if="add_farmer.uploadSignatureCADC" class="text-green-500">Signature CAFC/MAFC Chairman
+                            Uploaded</div>
+                        <PrimaryButton class="w-full" @click="openFile('uploadSignatureCADC')">Upload Signature above
+                            printed name of CAFC/MAFC Chairman</PrimaryButton>
+                    </div>
                 </div>
+                <hr />
+                <p class="mt-4 text-lg font-bold">DATA PRIVACY POLICY</p>
+                <p class="mt-4 text-md">
+                    The collection of personal information is for
+                    documentation, planning, reporting and processing
+                    purposes in availing agricultural related interventions.
+                    Processed data shall only be shared to partner agencies
+                    for planning, reporting and other use in accordance to
+                    the mandate of the agency. This is in compliance with
+                    the Data Sharing Policy of the department. You have the
+                    right to ask for a copy of your personal data that we
+                    hold about you as well as to ask for it to be corrected
+                    if you think it is wrong. To do so, please contact
+                    (Contact Person and Contact Details).
+                </p>
+                <PrimaryButton class="my-2 bg-green-600 float-right" @click="saveForm()">ENROLL FARMER</PrimaryButton>
             </div>
         </div>
-    </AppLayout>
-</template>
+    </div>
+</AppLayout></template>
