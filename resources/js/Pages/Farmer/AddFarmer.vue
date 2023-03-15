@@ -9,7 +9,7 @@ import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import Parcel from "./Parcel.vue";
-import { reactive, ref, provide } from "vue";
+import { reactive, ref, provide, watch } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
 import { regions, getCityMunByProvince, getBarangayByMun, getProvincesByRegion } from 'phil-reg-prov-mun-brgy';
 
@@ -26,6 +26,8 @@ const provincesAdd = ref([]);
 const baranggaysAdd = ref([]);
 const citiesAdd = ref([]);
 const pic2x2 = ref(null)
+
+const nameOfApplicant = ref('')
 
 const add_farmer = useForm({
     uploadSignature: null,
@@ -83,9 +85,11 @@ const add_farmer = useForm({
         grossParcel: "",
         grossARB: "",
         dateApplicant: "",
-        nameOfApplicant: ""
+        nameOfApplicant: ''
     },
 });
+
+watch(() => (add_farmer.details.nameOfApplicant = add_farmer.details.fname + " " + add_farmer.details.mname + " " + add_farmer.details.sname + " " + add_farmer.details.ename))
 
 const getRegionBirth = (event, cat) => {
     if (cat === ADD_CATEGORY.provinces) {
@@ -120,14 +124,14 @@ const saveForm = () => {
     add_farmer.post(route("farmers.store"), {
         preserveScroll: true,
         onSuccess: () => {
-            alert("Added famers");
-            form.reset("name");
+            // alert("Added famers");
+            form.reset();
             modals.add_edit.show = false;
         },
         onError: () => {
             //code
             // loading.value = false;
-            alert("error");
+            // alert("error");
         },
         onFinish: () => {
             //code
@@ -658,7 +662,7 @@ provide("add_farmer", add_farmer);
                         </div>
                         <div class="w-1/2 mr-2">
                             <InputLabel>Name of Applicant</InputLabel>
-                            <TextInput type="text" v-model="add_farmer.details.nameOfApplicant" />
+                            <TextInput type="text" v-model="add_farmer.details.nameOfApplicant" disabled />
                             <InputError class="mt-2" :message="add_farmer.errors['details.nameOfApplicant']" />
                         </div>
                     </div>

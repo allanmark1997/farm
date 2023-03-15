@@ -51,7 +51,7 @@ class FarmerController extends Controller
         $request->validate([
             'details.fname' => ['required', 'max:255'],
             'details.sname' => ['required', 'max:255'],
-            'details.ename' => ['required'],
+            // 'details.ename' => ['required'],
             'details.gender' => ['required'],
             'details.mobile' => ['required'],
             'details.dateBirth' => ['required'],
@@ -73,7 +73,6 @@ class FarmerController extends Controller
             'details.pwd' => ['required'],
             'details.fourPs' => ['required'],
             'details.IndigenousGoup' => ['required'],
-            'details.IndigenousSpecify' => ['required'],
             'details.emergencyPerson' => ['required'],
             'details.emergencyContact' => ['required'],
             'details.grossFarming' => ['required'],
