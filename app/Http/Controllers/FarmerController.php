@@ -50,6 +50,12 @@ class FarmerController extends Controller
     { 
         $request->validate([
             'pic2x2' => ['required'],
+            'uploadSignature'=> ['required'],
+            'uploadThumbamark'=> ['required'],
+            'uploadSignatureCaptain'=> ['required'],
+            'uploadSignatureAgriculture'=> ['required'],
+            'uploadSignatureCADC'=> ['required'],
+
             'details.fname' => ['required', 'max:255'],
             'details.sname' => ['required', 'max:255'],
             // 'details.ename' => ['required'],

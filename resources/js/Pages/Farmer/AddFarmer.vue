@@ -674,6 +674,7 @@ provide("add_farmer", add_farmer);
                             <div v-if="add_farmer.uploadSignature" class="text-green-500">Signature Uploaded</div>
                             <PrimaryButton class="w-full" @click="openFile('uploadSignature')">Upload Signature of applicant
                             </PrimaryButton>
+                            <InputError class="mt-2" :message="add_farmer.errors.uploadSignature" />
                         </div>
                         <div class="w-1/2 mr-2">
                             <input id="uploadThumbamark" type="file" class="hidden"
@@ -681,6 +682,8 @@ provide("add_farmer", add_farmer);
                             <div v-if="add_farmer.uploadThumbamark" class="text-green-500">Thumbmark Uploaded</div>
                             <PrimaryButton class="w-full" @click="openFile('uploadThumbamark')">Upload Thumbmark of
                                 applicant</PrimaryButton>
+                            <InputError class="mt-2" :message="add_farmer.errors.uploadThumbamark" />
+
                         </div>
                     </div>
                     <hr />
@@ -693,6 +696,8 @@ provide("add_farmer", add_farmer);
                                 Uploaded</div>
                             <PrimaryButton class="w-full" @click="openFile('uploadSignatureCaptain')">Upload Signature above
                                 printed name of Barangay Captain</PrimaryButton>
+                            <InputError class="mt-2" :message="add_farmer.errors.uploadSignatureCaptain" />
+
                         </div>
                         <div class="w-1/2 mr-2">
                             <input id="uploadSignatureAgriculture" type="file" class="hidden"
@@ -701,6 +706,8 @@ provide("add_farmer", add_farmer);
                             City/Municipal Agriculture Office Uploaded</div>
                         <PrimaryButton class="w-full text-sm" @click="openFile('uploadSignatureAgriculture')">Upload
                             Signature above printed name of City/Municipal Agriculture Office</PrimaryButton>
+                            <InputError class="mt-2" :message="add_farmer.errors.uploadSignatureAgriculture" />
+
                     </div>
                     <div class="w-1/2 mr-2">
                         <input id="uploadSignatureCADC" type="file" class="hidden"
@@ -709,6 +716,8 @@ provide("add_farmer", add_farmer);
                             Uploaded</div>
                         <PrimaryButton class="w-full" @click="openFile('uploadSignatureCADC')">Upload Signature above
                             printed name of CAFC/MAFC Chairman</PrimaryButton>
+                            <InputError class="mt-2" :message="add_farmer.errors.uploadSignatureCADC" />
+
                     </div>
                 </div>
                 <hr />
