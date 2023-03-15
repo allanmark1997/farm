@@ -49,6 +49,7 @@ class FarmerController extends Controller
     public function store(Request $request)
     { 
         $request->validate([
+            'pic2x2' => ['required'],
             'details.fname' => ['required', 'max:255'],
             'details.sname' => ['required', 'max:255'],
             // 'details.ename' => ['required'],

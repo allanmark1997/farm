@@ -125,7 +125,7 @@ const saveForm = () => {
         preserveScroll: true,
         onSuccess: () => {
             // alert("Added famers");
-            form.reset();
+            add_farmer.reset();
             modals.add_edit.show = false;
         },
         onError: () => {
@@ -182,6 +182,7 @@ provide("add_farmer", add_farmer);
                                     :src="pic2x2" />
                                 <div v-else>2x2 picture taken within 6 months</div>
                             </div>
+                            <InputError class="mt-2" :message="add_farmer.errors.pic2x2" />
                         </div>
                     </div>
                     <div>
