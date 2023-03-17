@@ -237,7 +237,10 @@ const function_search = () => {
                         </tbody>
                     </table>
                 </div>
-                <Pagination :links="transactions.links"></Pagination>
+                <div>
+                    <Pagination :links="transactions.links"></Pagination>
+                </div>
+                
             </div>
         </div>
         <DialogModal :show="modals.add_edit.show">
