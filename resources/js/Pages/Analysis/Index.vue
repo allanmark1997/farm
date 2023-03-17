@@ -104,8 +104,8 @@ const function_filter = () => {
                         <thead class="text-xs text-gray-700 uppercase bg-green-300 rounded-lg">
                             <tr>
                                 <th scope="col" class="px-6 py-3">Baranggay name</th>
-                                <th scope="col" class="px-6 py-3">Seeds Distributed</th>
-                                <th scope="col" class="px-6 py-3">Fertilizers Distributed</th>
+                                <th scope="col" class="px-6 py-3">TOTAL SEEDS</th>
+                                <th scope="col" class="px-6 py-3">TOTAL FERTILIZERS</th>
                             </tr>
                         </thead>
                         <tbody>
