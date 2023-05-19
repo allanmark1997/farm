@@ -45,9 +45,9 @@
                                         <div class=" pb-2 grow"><CheckTemplate maxWidth="md" :sizeCheck="md" :showCheck="item.description?.farm_ownership == 'Others'" label="Others"/></div>  
                                 </div>
                                 <div class="pb-2 "><CheckTemplate maxWidth="md" :sizeCheck="md" :showCheck="item.description?.farm_ownership == 'Tenant'" label="Tenant"/></div>  
-                                <div class=" ml-6 -mt-2">(Name of Land Owner: <span class="inline-block w-[full] border-b border-black w-[50%]"></span>)</div>
+                                <div class=" ml-6 -mt-2">(Name of Land Owner: <span class="inline-block w-[full] border-b border-black w-[50%]"><p v-if="item.description?.farm_ownership == 'Tenant'">{{ item.description?.farm_owner }}</p></span>)</div>
                                 <div class="pb-2 "><CheckTemplate maxWidth="md" :sizeCheck="md" :showCheck="item.description?.farm_ownership == 'Lessee'" label="Lessee"/></div>  
-                                <div class="ml-6 -mt-2">(Name of Land Owner: <span class="inline-block w-[full] border-b border-black w-[50%]"></span>)</div>
+                                <div class="ml-6 -mt-2">(Name of Land Owner: <span class="inline-block w-[full] border-b border-black w-[50%]"><p v-if="item.description?.farm_ownership == 'Lessee'">{{ item.description?.farm_owner }}</p></span>)</div>
                             </div>
                         </td> 
                         <td class="border-b border-black">

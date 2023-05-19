@@ -96,6 +96,7 @@ Route::middleware([
         Route::get('/', [InventoryController::class, 'index'])->name('index');
         Route::post('/store', [InventoryController::class, 'store'])->name('store');
         Route::put('/update/{id}', [InventoryController::class, 'update'])->name('update');
+        Route::put('/update_quantity/{id}', [InventoryController::class, 'update_quantity'])->name('update_quantity');
         Route::delete('/delete/{id}', [InventoryController::class, 'destroy'])->name('delete');
     });
 

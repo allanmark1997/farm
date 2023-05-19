@@ -237,7 +237,7 @@ const function_search = () => {
                         </tbody>
                     </table>
                 </div>
-                <div class="mt-[-8vmin]">
+                <div class="mt-[0vmin]">
                     <Pagination :links="transactions.links"></Pagination>
                 </div>
                 

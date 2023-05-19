@@ -5,10 +5,10 @@
             <div class="grid grid-cols-5">
                 <div class="col-span-4 p-2">
                     <div class="text-2xl font-bold font-serif">ANI AT KITA</div>
-                    <div class="text-3xl font-bold font-serif">RSBSA ENDROLLMENT FORM</div>
+                    <div class="text-3xl font-bold font-serif">RSBSA ENROLLMENT FORM</div>
                     <div class="text-xs">REGISTRY FOR BASIC SECTORS IN AGRICULTURE(RSBSA)</div>
                     <div class="mt-6 flex gap-5 items-center pb-4">
-                        <div class="text-xs font-bold">ENDROLLMENT:</div>
+                        <div class="text-xs font-bold">ENROLLMENT:</div>
                         <div class="text-xs" > <CheckTemplate :showCheck="false" label="New"/> </div>
                         <div class="text-xs"><CheckTemplate :showCheck="true" label="Existing"/> </div>
                     </div>
@@ -270,8 +270,8 @@
                             <div class="pb-1 font-bold italic underline text-center text-[10px]">For farmers:</div>
                             <div class=" pl-2 pb-1 font-bold"> Type of Farming Activity </div>
                             <div  class=" pl-2 pb-1 grid grid-flow-row">
-                                <div class=""><CheckTemplate :showCheck="farmers?.details?.mianLivelihood == 'Rice'" label="Rice"/> </div> 
-                                <div class=""><CheckTemplate :showCheck="farmers?.details?.mianLivelihood == 'Corn'" label="Corn"/> </div>
+                                <div class=""><CheckTemplate :showCheck="farmers?.details?.farmActivity == 'Rice'" label="Rice"/> </div> 
+                                <div class=""><CheckTemplate :showCheck="farmers?.details?.farmActivity == 'Corn'" label="Corn"/> </div>
                                 <div class="">
                                     <CheckTemplate :showCheck="farmers?.details?.farmActivity == 'Other crops'" label="Other crops"/>
                                     <div class="flex pl-4 ">please specify: <div class="border-b border-black w-32 pb-1">{{farmers?.details?.farmActivity == 'Other crops' ? farmers?.details?.farmSpecify : '' }}</div></div>

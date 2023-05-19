@@ -19,6 +19,10 @@ class Farmer extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function farm(){
+        return $this->belongsTo(Farm::class);
+    }
+
     public function parcels(){
         return $this->hasMany(Farm::class);
     }

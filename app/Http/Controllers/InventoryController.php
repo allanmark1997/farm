@@ -104,6 +104,23 @@ class InventoryController extends Controller
         return Redirect::back();
     }
 
+    public function update_quantity(Request $request, $id)
+    {
+        // $request->validate([
+        //     'details->quantity' => ['required']
+        // ]);
+
+        $inventory = Inventory::find($id);
+        $current_quan = $inventory->details['quantity']??0;
+        $result = $current_quan + $request->details['quantity'];
+
+        $inventory->update([
+            'details->quantity' => $result
+        ]);
+
+        return Redirect::back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *

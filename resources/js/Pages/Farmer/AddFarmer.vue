@@ -27,6 +27,9 @@ const baranggaysAdd = ref([]);
 const citiesAdd = ref([]);
 const pic2x2 = ref(null)
 
+const alertOn = ref(false)
+
+
 const nameOfApplicant = ref('')
 
 const add_farmer = useForm({
@@ -124,9 +127,10 @@ const saveForm = () => {
     add_farmer.post(route("farmers.store"), {
         preserveScroll: true,
         onSuccess: () => {
+            alertOn.value = true;
+
             // alert("Added famers");
-            add_farmer.reset();
-            modals.add_edit.show = false;
+            
         },
         onError: () => {
             //code
@@ -137,6 +141,13 @@ const saveForm = () => {
             //code
         },
     });
+}
+
+const confirm_button = () => {
+    add_farmer.reset();
+    window.location.href = route('farmers.add_farmer_page');
+            // modals.add_edit.show = false;
+    alertOn.value = false;
 }
 
 const openFile = (elementID) => {
@@ -170,6 +181,29 @@ provide("add_farmer", add_farmer);
 
 <template>
     <AppLayout title="Farms">
+        <div v-if="alertOn" id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed ml-[30%] mt-60 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div  class="relative w-full max-w-2xl max-h-full">
+                        <!-- Modal content -->
+                        <div class="relative bg-white rounded-lg shadow-lg border">
+                            <!-- Modal header -->
+                            <div class="flex items-start justify-between p-4 border-b rounded-t">
+                                <span
+                            class="flex rounded-full bg-green-500 uppercase px-2 py-1 text-xs font-bold mr-3">Success</span>
+                        <span class="font-semibold mr-2 text-left flex-auto">You are now successfully registered</span>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="p-6 space-y-6">
+                                <p class="text-base leading-relaxed text-gray-500">
+                                    You successfully registered a farmer!
+                                </p>
+                            </div>
+                            <!-- Modal footer -->
+                            <div @click="confirm_button()" class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                                <button data-modal-hide="defaultModal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Proceed</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         <div class="pb-4">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 mt-2">
@@ -264,7 +298,8 @@ provide("add_farmer", add_farmer);
                             <select @change="getRegionBirth($event, ADD_CATEGORY.baranggays)"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="" disabled selected>Municipality/City</option>
-                                <option v-for="(city, key) in cities" :key="key" :value="JSON.stringify(city)">{{ city.name }}
+                                <option v-for="(city, key) in cities" :key="key" :value="JSON.stringify(city)">{{ city.name
+                                }}
                                 </option>
                             </select>
                             <InputError class="mt-2" :message="add_farmer.errors['details.cityBirth']" />
@@ -277,7 +312,8 @@ provide("add_farmer", add_farmer);
                             <select @change="getRegionBirth($event, 'bara')"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="" disabled selected>Barangay</option>
-                                <option v-for="(baranggay, key) in baranggays" :key="key" :value="JSON.stringify(baranggay)">
+                                <option v-for="(baranggay, key) in baranggays" :key="key"
+                                    :value="JSON.stringify(baranggay)">
                                     {{ baranggay.name }}</option>
                             </select>
                             <InputError class="mt-2" :message="add_farmer.errors['details.baranggayBirth']" />
@@ -311,7 +347,8 @@ provide("add_farmer", add_farmer);
                             <select @change="getRegionAddress($event, ADD_CATEGORY.cities)"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                 <option value="" disabled selected>Province</option>
-                                <option v-for="(province, key) in provincesAdd" :key="key" :value="JSON.stringify(province)">
+                                <option v-for="(province, key) in provincesAdd" :key="key"
+                                    :value="JSON.stringify(province)">
                                     {{ province.name }}</option>
                             </select>
                             <InputError class="mt-2" :message="add_farmer.errors['details.provinceAddress']" />
@@ -451,15 +488,15 @@ provide("add_farmer", add_farmer);
                             <select
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 name="" id="" v-model="add_farmer.details.pwd">
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                        <InputError class="mt-2" :message="add_farmer.errors['details.pwd']" />
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                            <InputError class="mt-2" :message="add_farmer.errors['details.pwd']" />
 
-                    </div>
-                    <div class="w-1/2 mr-2">
-                        <InputLabel>4P's Beneficiary?</InputLabel>
-                        <select
+                        </div>
+                        <div class="w-1/2 mr-2">
+                            <InputLabel>4P's Beneficiary?</InputLabel>
+                            <select
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 name="" id="" v-model="add_farmer.details.fourPs">
                                 <option value="Yes">Yes</option>
@@ -559,7 +596,7 @@ provide("add_farmer", add_farmer);
                                     Others, Please specify
                                 </option>
                             </select>
-                            
+
                         </div>
                         <div class="mr-2 w-1/2">
                             <InputLabel>Please specify</InputLabel>
@@ -667,7 +704,7 @@ provide("add_farmer", add_farmer);
                             <InputError class="mt-2" :message="add_farmer.errors['details.nameOfApplicant']" />
                         </div>
                     </div>
-                    <div class="flex m-2 mt-2">
+                    <!-- <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
                             <input id="uploadSignature" type="file" class="hidden"
                                 accept="image/png, image/gif, image/jpeg" />
@@ -685,8 +722,8 @@ provide("add_farmer", add_farmer);
                             <InputError class="mt-2" :message="add_farmer.errors.uploadThumbamark" />
 
                         </div>
-                    </div>
-                    <hr />
+                    </div> -->
+                    <!-- <hr />
                     <p class="mt-4 text-md">VERIFIED TRUE AND CORRECT BY:</p>
                     <div class="flex m-2 mt-2">
                         <div class="w-1/2 mr-2">
@@ -703,40 +740,40 @@ provide("add_farmer", add_farmer);
                             <input id="uploadSignatureAgriculture" type="file" class="hidden"
                                 accept="image/png, image/gif, image/jpeg" />
                             <div v-if="add_farmer.uploadSignatureAgriculture" class="text-green-500">Signature
-                            City/Municipal Agriculture Office Uploaded</div>
-                        <PrimaryButton class="w-full text-sm" @click="openFile('uploadSignatureAgriculture')">Upload
-                            Signature above printed name of City/Municipal Agriculture Office</PrimaryButton>
+                                City/Municipal Agriculture Office Uploaded</div>
+                            <PrimaryButton class="w-full text-sm" @click="openFile('uploadSignatureAgriculture')">Upload
+                                Signature above printed name of City/Municipal Agriculture Office</PrimaryButton>
                             <InputError class="mt-2" :message="add_farmer.errors.uploadSignatureAgriculture" />
 
-                    </div>
-                    <div class="w-1/2 mr-2">
-                        <input id="uploadSignatureCADC" type="file" class="hidden"
-                            accept="image/png, image/gif, image/jpeg" />
-                        <div v-if="add_farmer.uploadSignatureCADC" class="text-green-500">Signature CAFC/MAFC Chairman
-                            Uploaded</div>
-                        <PrimaryButton class="w-full" @click="openFile('uploadSignatureCADC')">Upload Signature above
-                            printed name of CAFC/MAFC Chairman</PrimaryButton>
+                        </div>
+                        <div class="w-1/2 mr-2">
+                            <input id="uploadSignatureCADC" type="file" class="hidden"
+                                accept="image/png, image/gif, image/jpeg" />
+                            <div v-if="add_farmer.uploadSignatureCADC" class="text-green-500">Signature CAFC/MAFC Chairman
+                                Uploaded</div>
+                            <PrimaryButton class="w-full" @click="openFile('uploadSignatureCADC')">Upload Signature above
+                                printed name of CAFC/MAFC Chairman</PrimaryButton>
                             <InputError class="mt-2" :message="add_farmer.errors.uploadSignatureCADC" />
 
-                    </div>
+                        </div>
+                    </div> -->
+                    <hr />
+                    <p class="mt-4 text-lg font-bold">DATA PRIVACY POLICY</p>
+                    <p class="mt-4 text-md">
+                        The collection of personal information is for
+                        documentation, planning, reporting and processing
+                        purposes in availing agricultural related interventions.
+                        Processed data shall only be shared to partner agencies
+                        for planning, reporting and other use in accordance to
+                        the mandate of the agency. This is in compliance with
+                        the Data Sharing Policy of the department. You have the
+                        right to ask for a copy of your personal data that we
+                        hold about you as well as to ask for it to be corrected
+                        if you think it is wrong. To do so, please contact
+                        (Contact Person and Contact Details).
+                    </p>
+                    <PrimaryButton class="my-2 bg-green-600 float-right" @click="saveForm()">ENROLL FARMER</PrimaryButton>
                 </div>
-                <hr />
-                <p class="mt-4 text-lg font-bold">DATA PRIVACY POLICY</p>
-                <p class="mt-4 text-md">
-                    The collection of personal information is for
-                    documentation, planning, reporting and processing
-                    purposes in availing agricultural related interventions.
-                    Processed data shall only be shared to partner agencies
-                    for planning, reporting and other use in accordance to
-                    the mandate of the agency. This is in compliance with
-                    the Data Sharing Policy of the department. You have the
-                    right to ask for a copy of your personal data that we
-                    hold about you as well as to ask for it to be corrected
-                    if you think it is wrong. To do so, please contact
-                    (Contact Person and Contact Details).
-                </p>
-                <PrimaryButton class="my-2 bg-green-600 float-right" @click="saveForm()">ENROLL FARMER</PrimaryButton>
             </div>
         </div>
-    </div>
 </AppLayout></template>

@@ -21,6 +21,7 @@ const form = useForm({
     category_id: 1,
     details: {
         color: "#ed0707",
+        quantity:''
     },
     search: props.search
 });
@@ -45,13 +46,14 @@ const showModal = (status, data) => {
                 ? "Delete Inventory"
                 : "Add Inventory";
     modals.add_edit.show = true;
-    if (status == "edit" || status == "delete") {
+    if (status == "edit" || status == "delete" || status == "add_quantity") {
         form.name = data.name;
         form.id = data.id;
         form.details.color = data.details.color;
         form.category_id = data.category_id;
-        console.log(form);
-    } else {
+        form.details.quantity = data?.details?.quantity??0;
+    }
+     else {
         form.reset("name");
     }
 };
@@ -107,6 +109,29 @@ const saveInventory = () => {
             },
         });
     }
+    else if (modals.add_edit.status == "add_quantity") {
+        if(form.details.quantity < 0){
+            alert('Cannot update quantity when below current quantity');
+        }else{
+
+            form.put(route("inventory.update_quantity", form.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                alert("Added quantity");
+                form.reset();
+                modals.add_edit.show = false;
+            },
+            onError: () => {
+                //code
+            },
+            onFinish: () => {
+                //code
+            },
+        });
+        }
+
+        
+    }
 };
 
 const function_search = () => {
@@ -150,6 +175,7 @@ const function_search = () => {
                         <thead class="text-xs text-gray-700 uppercase bg-green-300 rounded-lg">
                             <tr>
                                 <th scope="col" class="px-6 py-3">Name</th>
+                                <th scope="col" class="px-6 py-3">Quantity</th>
                                 <th scope="col" class="px-6 py-3">Color</th>
                                 <th scope="col" class="px-6 py-3 flex justify-between">
                                     <p>Category</p>
@@ -159,13 +185,16 @@ const function_search = () => {
                         </thead>
                         <tbody>
                             <tr class="bg-white border-b" v-for="(inventory, index) in inventories.data" :key="index">
-                                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
+                                <th scope="row" class="flex items-center px-4 py-4 text-gray-900 whitespace-nowrap">
                                     <div class="pl-3">
                                         <div class="text-base font-semibold">
                                             {{ inventory.name }}
                                         </div>
                                     </div>
                                 </th>
+                                <td class="px-6 py-4">
+                                    {{inventory?.details?.quantity??'None'}}
+                                </td>
                                 <td class="px-6 py-4">
                                     <div class="p-2 rounded-md" :style="{
                                         backgroundColor:
@@ -175,6 +204,7 @@ const function_search = () => {
                                 <td class="px-6 py-4 flex justify-between">
                                     <span>{{ inventory.category.name }}</span>
                                     <div class="flex flex-row-reverse gap-3">
+                                        
                                         <div class="cursor-pointer" @click="
                                             showModal('delete', inventory)
                                         ">
@@ -184,6 +214,11 @@ const function_search = () => {
                                             showModal('edit', inventory)
                                         ">
                                             <Icon icon="edit" />
+                                        </div>
+                                        <div class="cursor-pointer" @click="
+                                            showModal('add_quantity', inventory)
+                                        ">
+                                            <Icon icon="arrowright" />
                                         </div>
                                     </div>
                                 </td>
@@ -200,6 +235,13 @@ const function_search = () => {
                 <div class="grid grid-cols-6 gap-6" v-if="modals.add_edit.status == 'delete'">
                     <div class="col-span-6">
                         Click SUBMIT to continue to remove the Inventory.
+                    </div>
+                </div>
+                <div v-else-if="modals.add_edit.status == 'add_quantity'" class="grid grid-cols-6 gap-1">
+                    <div class="col-span-6">
+                        <InputLabel value="Quantity" />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.quantity" />
+                        <InputError class="mt-1" :message="form.errors.quantity" />
                     </div>
                 </div>
                 <div v-else class="grid grid-cols-6 gap-1">
@@ -231,4 +273,5 @@ const function_search = () => {
                 </div>
             </template>
         </DialogModal>
+        
 </AppLayout></template>
