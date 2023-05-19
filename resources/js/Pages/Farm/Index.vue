@@ -69,11 +69,17 @@ const formPlants = useForm({
         inventories: {
             seedling: "",
             seedling_quantity: 1,
+            quantity: 5,
             fertilizer: [],
         },
     },
     color: '#ffffff',
 });
+
+const cal = (data)=>{
+   let a =  props.inventories.seedling.findIndex(x => x.name === formPlants.details.inventories.seedling)
+    return a
+}
 
 const modals = reactive({
     add_edit: {
@@ -766,6 +772,11 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                     </template>
                                 </SelectInput>
                                 <InputError class="mt-2" :message="formPlants.errors['details.inventories.seedling']" />
+
+                            </div>
+                            <div>
+                                <InputLabel value="Quantity left" />
+                                <p>{{ formPlants.details.inventories.quantity }}</p>
 
                             </div>
                             <div>

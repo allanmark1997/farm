@@ -240,7 +240,7 @@ const function_search = () => {
                 <div v-else-if="modals.add_edit.status == 'add_quantity'" class="grid grid-cols-6 gap-1">
                     <div class="col-span-6">
                         <InputLabel value="Quantity" />
-                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.details.quantity" />
+                        <TextInput type="number" class="mt-1 block w-full" required v-model="form.details.quantity" />
                         <InputError class="mt-1" :message="form.errors.quantity" />
                     </div>
                 </div>
