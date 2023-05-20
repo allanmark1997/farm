@@ -67,9 +67,9 @@ const formPlants = useForm({
         expected_income: 0,
         income: 0,
         inventories: {
-            seedling: "",
+            seedling: 0,
             seedling_quantity: 1,
-            quantity: 5,
+            quantity: 6,
             fertilizer: [],
         },
     },
@@ -766,7 +766,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                     formPlants.details.inventories.seedling
                                 ">
                                     <template v-for="seedling in inventories.seedling" :key="seedling">
-                                        <option :value="seedling.name">
+                                        <option :value="seedling.id">
                                             {{ seedling.name }}
                                         </option>
                                     </template>

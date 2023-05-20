@@ -261,7 +261,7 @@ class FarmerController extends Controller
     }
 
     public function profile(Request $request){
-        $farmer = Farmer::with('transactions')->with('parcels')->where('id',$request->id)->first();
+        $farmer = Farmer::with('transactions','parcels')->where('id',$request->id)->first();
         $parcels = [];
         foreach ($farmer->parcels as $parcel) {
             $key = $parcel->barangay.'_'.$parcel->details['ownership_document_no'].'_'.$parcel->details['farm_ownership'].'_'.$parcel->details['farm_owner'];
