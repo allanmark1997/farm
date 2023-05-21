@@ -337,7 +337,7 @@ class FarmController extends Controller
             ];
             foreach ($farms as $farm) {
                 
-                $plants = Transaction::where(['farm_id' => $farm->id, 'type' => 'plant'])->when($from != null && $from != '' && $to != null && $to != '', function ($query) use ($from, $to) {
+                $plants = Transaction::where('is_inputed' , false)->where(['farm_id' => $farm->id, 'type' => 'plant'])->when($from != null && $from != '' && $to != null && $to != '', function ($query) use ($from, $to) {
                     $query->whereBetween('plant_at', [$from, $to]);
                 })->get();
                 
