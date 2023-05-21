@@ -15,6 +15,8 @@ import { useForm } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive, ref, onMounted } from "vue";
 import ToggleSwitch from "@/Components/ToggleSwitch.vue";
+import ColorInput from "@/Components/ColorInput.vue";
+
 
 const props = defineProps([
     "farms",
@@ -919,6 +921,10 @@ const function_toogle_status = (data) => {
                                     :message="formFarmerDeclare.errors['details.inventories.seedling']" />
                             </div>
                             <div v-if="toggle_status ==  true">
+                                    <InputLabel value="Product color" />
+                                    <ColorInput class="block w-full" v-model="formFarmerDeclare.color" />
+                            </div>
+                            <div v-if="toggle_status ==  true">
                                 <InputLabel value="Quantity" />
                                 <TextInput type="number" class="block w-full" required
                                     v-model="formFarmerDeclare.details.inventories.seedling_quantity" />
@@ -951,6 +957,7 @@ const function_toogle_status = (data) => {
                                         </template>
                                     </SelectInput>
                                 </div>
+                                
                                 <div>
                                     <InputLabel value="Quantity left" />
                                     <p>{{ fertilizer_quantity }}</p>
