@@ -258,11 +258,7 @@ const function_search = () => {
                                                 <Icon icon="edit" />
                                             </div> -->
                                         <div>
-                                            <a :href="
-                                                route('farmers.profile', {
-                                                    id: farmer.id,
-                                                })
-                                            ">Profile</a>
+                                            {{ farmer.active ? "Deactivate" : "Activate" }}
                                         </div>
                                         <ToggleSwitch class="ml-3" @change="toggle_status(farmer)"
                                             v-model:checked="activate[index]" />

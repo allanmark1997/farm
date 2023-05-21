@@ -14,6 +14,7 @@ import { getBarangayByMun } from 'phil-reg-prov-mun-brgy';
 import { useForm } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive, ref, onMounted } from "vue";
+import ToggleSwitch from "@/Components/ToggleSwitch.vue";
 
 const props = defineProps([
     "farms",
@@ -28,6 +29,7 @@ const enableEditMap = ref(false);
 const barangays = ref([]);
 const selected_farm = ref('');
 const fertilizer_quantity = ref(0);
+const toggle_status = ref(false);
 
 
 
@@ -77,6 +79,22 @@ const formPlants = useForm({
     color: '#ffffff',
 });
 
+const formFarmerDeclare = useForm({
+    id: null,
+    plant_at: '',
+    harvest_at: '',
+    details: {
+        expected_income: 0,
+        income: 0,
+        inventories: {
+            seedling: '',
+            seedling_quantity: 1,
+            fertilizer: [],
+        },
+    },
+    color: '#ffffff',
+});
+
 const modals = reactive({
     add_edit: {
         show: false,
@@ -95,7 +113,7 @@ const modals = reactive({
     add_plant: {
         show: false,
         details: {
-            title: "Add Plant",
+            title: "Add plant from inventories",
             id: 1,
         },
     },
@@ -172,9 +190,11 @@ const showModalEdit = (farm) => {
 };
 
 const showModalPlant = (farm) => {
-    console.log(farm);
     formPlants.reset();
     formPlants.id = farm.id;
+
+    formFarmerDeclare.reset();
+    formFarmerDeclare.id = farm.id;
 
     /* formPlants.details =
         farm.details ||
@@ -259,6 +279,16 @@ const plantHandle = () => {
 
 };
 
+const plantHandleFarmerDeclare = () => {
+        formFarmerDeclare.put(route("farms.farmer_plant", formFarmerDeclare.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                window.location.reload();
+            },
+        });
+
+};
+
 const harvestHandler = () => {
     formPlants.color = '#ffffff';
     // formPlants.details.dateHarvest = new Date();
@@ -302,6 +332,13 @@ const removeFilterizer = (index) => {
     formPlants.details.inventories.fertilizer = removeFertilizer;
 };
 
+const removeFilterizerDeclare = (index) => {
+    let removeFertilizer = formFarmerDeclare.details.inventories.fertilizer.filter(
+        (item, indexItem) => indexItem != index
+    );
+    formFarmerDeclare.details.inventories.fertilizer = removeFertilizer;
+};
+
 const onchangeColor = (e) => {
     console.log(e.target.value);
     let event_value = [];
@@ -322,9 +359,6 @@ const onchangeFertilizer = (e) => {
     console.log(event_value);
     const result = props.inventories.fertilizer.filter(({ name }) => event_value.includes(name));
     fertilizer_quantity.value = result[0].details.quantity;
-    // formPlants.details.inventories.seedling = result[0].name;
-    // formPlants.details.inventories.quantity = result[0].details.quantity;
-    // formPlants.color = result[0].details.color;
 }
 
 
@@ -360,7 +394,10 @@ const check_fertilizer = () => {
     event_value.push(fertilizerVar.value.name);
     const result = formPlants.details.inventories.fertilizer.filter(({ name }) => event_value.includes(name));
 
-    if(fertilizerVar.value.quantity > fertilizer_quantity.value){
+    if(fertilizerVar.value.name == ''){
+        alert('Invalid! System notice that empty name occured')
+    }
+    else if(fertilizerVar.value.quantity > fertilizer_quantity.value){
         alert('Invalid! You inputed beyond current quantity')
     }
     else if(result.length > 0){
@@ -375,6 +412,32 @@ const check_fertilizer = () => {
                                             )
                                         )
     }
+}
+
+const check_fertilizer_farmer = () => {
+    let event_value = [];
+    event_value.push(fertilizerVar.value.name);
+    const result = formFarmerDeclare.details.inventories.fertilizer.filter(({ name }) => event_value.includes(name));
+
+    if(fertilizerVar.value.name == ''){
+        alert('Invalid! System notice that empty name occured')
+    }
+    else if(result.length > 0){
+        alert('Invalid! You inputed this fertilizer already')
+    }
+    else{
+        formFarmerDeclare.details.inventories.fertilizer.push(
+                                            JSON.parse(
+                                                JSON.stringify(
+                                                    fertilizerVar.value
+                                                )
+                                            )
+                                        )
+    }
+}
+
+const function_toogle_status = (data) => {
+    toggle_status.value =! toggle_status.value
 }
 </script>
 
@@ -796,14 +859,20 @@ const check_fertilizer = () => {
             </template>
         </DialogModal>
         <DialogModal :show="modals.add_plant.show">
-            <template #title>{{ modals.add_plant.details.title }}</template>
+            <template #title>
+                <div class="flex justify-between">
+                    <p v-if="toggle_status ==  true">Farmer product declaration</p>
+                    <p v-if="toggle_status ==  false">{{ modals.add_plant.details.title }}</p>
+                    <ToggleSwitch @change="function_toogle_status()"></ToggleSwitch>
+                </div>
+            </template>
             <template #content>
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6">
                         <hr class="my-4" />
                         <div class="grid grid-cols-3 gap-2">
-                            <div>
-                                <InputLabel value="Seedling" />
+                            <div v-if="toggle_status ==  false">
+                                <InputLabel value="Product" />
                                 <SelectInput class="block w-full" @change="onchangeColor($event)" v-model="
                                     formPlants.details.inventories.seedling
                                 ">
@@ -816,12 +885,12 @@ const check_fertilizer = () => {
                                 <InputError class="mt-2" :message="formPlants.errors['details.inventories.seedling']" />
 
                             </div>
-                            <div>
+                            <div v-if="toggle_status ==  false">
                                 <InputLabel value="Quantity left" />
                                 <p>{{ formPlants.details.inventories.quantity }}</p>
 
                             </div>
-                            <div>
+                            <div v-if="toggle_status ==  false">
                                 <InputLabel value="Quantity" />
                                 <TextInput type="number" class="block w-full" required
                                     v-model="formPlants.details.inventories.seedling_quantity" />
@@ -829,21 +898,48 @@ const check_fertilizer = () => {
                                     :message="formPlants.errors['details.inventories.seedling_quantity']" />
 
                             </div>
-                            <div>
+                            <div v-if="toggle_status ==  false">
                                 <InputLabel value="Expected Income " />
                                 <TextInput type="number" class="block w-full" required
                                     v-model="formPlants.details.expected_income" />
                                 <InputError class="mt-2" :message="formPlants.errors['details.expected_income']" />
 
                             </div>
-                            <div>
+                            <div v-if="toggle_status ==  false">
                                 <InputLabel value="Planting date" />
                                 <TextInput type="date" class="block w-full" required v-model="formPlants.plant_at" />
                                 <InputError class="mt-2" :message="formPlants.errors.plant_at" />
 
                             </div>
+                            <div v-if="toggle_status ==  true" class="col-span-2">
+                                <InputLabel value="Product" />
+                                <TextInput type="text" class="block w-full" required
+                                    v-model="formFarmerDeclare.details.inventories.seedling" />
+                                <InputError class="mt-2"
+                                    :message="formFarmerDeclare.errors['details.inventories.seedling']" />
+                            </div>
+                            <div v-if="toggle_status ==  true">
+                                <InputLabel value="Quantity" />
+                                <TextInput type="number" class="block w-full" required
+                                    v-model="formFarmerDeclare.details.inventories.seedling_quantity" />
+                                <InputError class="mt-2" :message="formFarmerDeclare.errors['details.inventories.seedling_quantity']" />
+
+                            </div>
+                            <div v-if="toggle_status ==  true" class="col-span-2">
+                                <InputLabel value="Expected income" />
+                                <TextInput type="number" class="block w-full" required
+                                    v-model="formFarmerDeclare.details.expected_income" />
+                                <InputError class="mt-2" :message="formFarmerDeclare.errors['details.expected_income']" />
+
+                            </div>
+                            <div v-if="toggle_status ==  true">
+                                <InputLabel value="Planting date" />
+                                <TextInput type="date" class="block w-full" required v-model="formFarmerDeclare.plant_at" />
+                                <InputError class="mt-2" :message="formFarmerDeclare.errors.plant_at" />
+
+                            </div>
                         </div>
-                        <div class="mt-4 pt-3 border-t-2">
+                        <div v-if="toggle_status ==  false" class="mt-4 pt-3 border-t-2">
                             <div class="grid grid-cols-7 gap-2">
                                 <div class="col-span-3">
                                     <InputLabel value="Fertilizer" />
@@ -886,13 +982,42 @@ const check_fertilizer = () => {
                                 </div>
                             </div>
                         </div>
+                        <div v-if="toggle_status ==  true" class="mt-4 pt-3 border-t-2">
+                            <div class="grid grid-cols-7 gap-2">
+                                <div class="col-span-3">
+                                    <InputLabel value="Fertilizer" />
+                                    <TextInput type="text" class="block w-full" required
+                                    v-model="fertilizerVar.name" />
+                                </div>
+                                <div class="col-span-3">
+                                    <InputLabel value="Quantity" />
+                                    <TextInput type="number" class="block w-full" required
+                                        v-model="fertilizerVar.quantity" />
+                                </div>
+                                <div class="mt-6">
+                                    <PrimaryButton @click="check_fertilizer_farmer">Add</PrimaryButton>
+                                </div>
+                            </div>
+                            <div class="mt-2 border rounded-md p-2">
+                                Lists:
+                                <div v-for="(fertilizer, index) in formFarmerDeclare
+                                    .details.inventories.fertilizer" class="grid grid-cols-3" :key="index">
+                                    <div>{{ fertilizer.name }}</div>
+                                    <!-- <div>{{ fertilizer.quantity + fertilizer.unit }}</div> -->
+                                    <div>{{ fertilizer.quantity }}</div>
+                                    <div class="text-red-500 cursor-pointer" @click="removeFilterizerDeclare(index)">
+                                        Remove
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </template>
             <template #footer>
                 <div class="flex gap-1">
                     <SecondaryButton @click="modals.add_plant.show = false">Cancel</SecondaryButton>
-                    <PrimaryButton @click="plantHandle">Save</PrimaryButton>
+                    <PrimaryButton @click="plantHandleFarmerDeclare">Save</PrimaryButton>
                 </div>
             </template>
         </DialogModal>

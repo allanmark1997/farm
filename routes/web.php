@@ -89,6 +89,7 @@ Route::middleware([
         Route::put('/update_details/{selected_farm}', [FarmController::class, 'updateFarmDetails'])->name('update_farm_details');
         Route::delete('/delete/{id}', [FarmController::class, 'destroy'])->name('delete');
         Route::put('/plant/{id}', [FarmController::class, 'plant'])->name('plant');
+        Route::put('/farmer_plant/{id}', [FarmController::class, 'farmer_plant'])->name('farmer_plant');
         Route::put('/harvest/{id}', [FarmController::class, 'harvest'])->name('harvest');
     });
 

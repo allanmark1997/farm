@@ -198,7 +198,7 @@ class FarmController extends Controller
         
         $farm->update([
             'status' => 'farming',
-            'details->inventories' => $request->details['inventories'], //['expected_income' => 100, 'income' => 0, 'inventories'=> ['seedling' => 'Corn', 'fertilizers' => ['fert1', 'fert2']]]
+            'details->inventories' => $request->details['inventories'],
             'map->color' => $request->color,
             'details->expected_income' => $request->details['expected_income'],
         ]);
@@ -207,6 +207,7 @@ class FarmController extends Controller
             'farmer_id' => $farm->farmer->id,
             'plant_at' => $request->plant_at,
             'farm_id' => $farm->id,
+            'is_inputed' => false,
             'user_id' => Auth::user()->id,
             'type' => 'plant',
             'details' => $request->details
@@ -228,6 +229,37 @@ class FarmController extends Controller
                 'details->quantity' => $result
             ]);
         }
+
+
+        return Redirect::back();
+    }
+
+    public function farmer_plant(Request $request, $id)
+    {
+        $request->validate([
+            'details.inventories.seedling' => ['required'],
+            'details.inventories.seedling_quantity' => ['required'],
+            'details.expected_income' => ['required'],
+            'plant_at' => ['required'],
+        ]);
+        $farm = Farm::find($id);
+        
+        $farm->update([
+            'status' => 'farming',
+            'details->inventories' => $request->details['inventories'],
+            'map->color' => $request->color,
+            'details->expected_income' => $request->details['expected_income'],
+        ]);
+
+        Transaction::create([
+            'farmer_id' => $farm->farmer->id,
+            'plant_at' => $request->plant_at,
+            'farm_id' => $farm->id,
+            'is_inputed' => true,
+            'user_id' => Auth::user()->id,
+            'type' => 'plant',
+            'details' => $request->details
+        ]);
 
 
         return Redirect::back();
@@ -267,6 +299,7 @@ class FarmController extends Controller
             'plant_at' => $plant->plant_at,
             'harvest_at' => $request->harvest_at,
             'farm_id' => $farm->id,
+            'is_inputed' => false,
             'user_id' => Auth::user()->id,
             'type' => 'harvest',
             'details' => $details //update the income
