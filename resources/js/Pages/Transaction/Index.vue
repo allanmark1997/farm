@@ -159,7 +159,7 @@ const function_search = () => {
                                 </th>
                                 <th scope="col" class="px-6 py-3 align-text-top">Income</th>
                                 <th scope="col" class="px-6 py-3 align-text-top">Expectation difference</th>
-                                <th scope="col" class="px-6 py-3 align-text-top">Seedlings</th>
+                                <th scope="col" class="px-6 py-3 align-text-top">Product</th>
                                 <th scope="col" class="px-6 py-3 align-text-top">
                                     Fertilizers
                                 </th>
