@@ -122,7 +122,7 @@ const modals = reactive({
     harvest_plant: {
         show: false,
         details: {
-            title: "Harvest Plant",
+            title: "Harvest product",
             id: 2,
         },
     },
