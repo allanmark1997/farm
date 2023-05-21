@@ -145,7 +145,8 @@ const saveForm = () => {
 
 const confirm_button = () => {
     add_farmer.reset();
-    window.location.href = route('farmers.add_farmer_page');
+    window.location.reload();
+    
             // modals.add_edit.show = false;
     alertOn.value = false;
 }

@@ -53,7 +53,7 @@ const saveTransaction = () => {
             form.reset();
             modals.add_edit.show = false;
         },
-        onError: () => {},
+        onError: () => { },
         onFinish: () => {
             //code
         },
@@ -88,11 +88,11 @@ const view_filter = () => {
 
 const formatNumber = (num) => {
     return parseFloat(num).toFixed(2)
-  }
+}
 
 const formatter = new Intl.NumberFormat('en-PH', {
-style: 'currency',
-currency: 'PHP'
+    style: 'currency',
+    currency: 'PHP'
 });
 
 const function_search = () => {
@@ -112,60 +112,45 @@ const function_search = () => {
     <AppLayout title="Transactions">
         <div class="pb-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                
+
                 <div
-                    class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-2 pb-12 mt-2"
-                >
-                    <div
-                        class="flex items-center justify-between py-4 bg-white float-right"
-                    >
+                    class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-2 pb-12 mt-2">
+                    <div class="flex items-center justify-between py-4 bg-white float-right">
                         <!-- <div>
-                            <select
-                                class="mt-1 border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm w-full"
-                                v-model="filter_view"
-                                @change="view_filter()"
-                            >
-                                <option value="all">All</option>
-                                <option value="plant">Planting</option>
-                                <option value="harvest">Harvest</option>
-                            </select>
-                        </div> -->
+                                    <select
+                                        class="mt-1 border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm w-full"
+                                        v-model="filter_view"
+                                        @change="view_filter()"
+                                    >
+                                        <option value="all">All</option>
+                                        <option value="plant">Planting</option>
+                                        <option value="harvest">Harvest</option>
+                                    </select>
+                                </div> -->
                         <div class="flex float-right">
                             <label for="table-search" class="sr-only">Search</label>
-                        <div class="relative">
-                            <div
-                                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-                            >
-                                <svg
-                                    class="w-5 h-5 text-gray-500"
-                                    aria-hidden="true"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                        clip-rule="evenodd"
-                                    ></path>
-                                </svg>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor"
+                                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <input type="text" v-model="search" id="table-search-farmers"
+                                    class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 m-1"
+                                    placeholder="Search for farmer or farm" />
                             </div>
-                            <input
-                                type="text"
-                                v-model="search"
-                                id="table-search-farmers"
-                                class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 m-1"
-                                placeholder="Search for farmer or farm"
-                            />
-                        </div>
-                        <button @click="function_search()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold ml-1 px-4 rounded">
+                            <button @click="function_search()"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold ml-1 px-4 rounded">
                                 Search
                             </button>
                         </div>
-                        
+
                     </div>
-                    <table class="w-full text-sm text-left text-gray-500 rounded-lg" >
-                        <thead class="text-xs text-gray-700 uppercase bg-green-300 rounded-lg" >
+                    <table class="w-full text-sm text-left text-gray-500 rounded-lg">
+                        <thead class="text-xs text-gray-700 uppercase bg-green-300 rounded-lg">
                             <tr>
                                 <th scope="col" class="px-6 py-3 align-text-top">Farmer</th>
                                 <th scope="col" class="px-6 py-3 align-text-top">Farm</th>
@@ -184,14 +169,14 @@ const function_search = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="bg-white border-b" v-for="(transaction, index ) in transactions.data" :key="index" >
+                            <tr class="bg-white border-b" v-for="(transaction, index ) in transactions.data" :key="index">
                                 <th class="px-6 py-4 text-gray-900 align-text-top">
                                     {{
                                         transaction.farmer?.name ||
                                         "Inactive Farmer"
                                     }}
                                 </th>
-                                <td scope="row" class="flex items-center px-6 py-4" >
+                                <td scope="row" class="flex items-center px-6 py-4">
                                     {{
                                         transaction.farm?.map.name ||
                                         "Inactive Farm"
@@ -204,25 +189,41 @@ const function_search = () => {
                                     {{ formatter.format(formatNumber(transaction.details.income)) }}
                                 </td>
                                 <td class="px-6 py-4 align-text-top">
-                                    {{ formatter.format(formatNumber(transaction.details.income - transaction.details.expected_income)) }}
+                                    {{ formatter.format(formatNumber(transaction.details.income -
+                                        transaction.details.expected_income)) }}
                                 </td>
                                 <td class="px-6 py-4 align-text-top">
-                                    {{
-                                        transaction.details.inventories
-                                            .seedling
-                                            ? transaction.details.inventories
-                                                  .seedling
-                                            : "None"
-                                    }}
+                                    
+                                    <div v-if=" transaction.details.inventories.seedling">
+                                        <p>
+                                            N: {{ transaction.details.inventories.seedling }}
+                                        </p>
+                                        <p>
+                                            #: {{ transaction.details.inventories
+                                            .seedling_quantity }}
+                                        </p>
+                                    </div>
+                                    <div v-else>
+                                        <p>None</p>
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 align-text-top">
-                                    {{
-                                        transaction.details.inventories
-                                            .seedling
-                                            ? transaction.details.inventories
-                                                  .seedling_quantity
-                                            : "None"
-                                    }}
+                                    <div v-if="transaction.details.inventories
+                                        .fertilizer.length != 0">
+                                        <template v-for="( fertilizer, fer ) in  transaction.details.inventories
+                                            .fertilizer" :key="fer">
+                                            <p>N: {{ fertilizer.name }}</p>
+                                            <p class="text-xs">#: {{ fertilizer.quantity }}</p>
+                                            <p></p>
+                                        </template>
+                                    </div>
+                                    <div v-else>
+                                        <p>
+                                            None
+                                        </p>
+                                    </div>
+
+
                                 </td>
                                 <td class="px-6 py-4 align-text-top whitespace-nowrap">
                                     {{ moment(transaction.plant_at).format("MMM. Do, YYYY") }}
@@ -231,16 +232,19 @@ const function_search = () => {
                                     {{ transaction.harvest_at != null ? moment(transaction.harvest_at).format("MMM. Do, YYYY") : '-' }}
                                 </td>
                                 <td class="px-6 py-4 align-text-top whitespace-nowrap">
-                                    {{ transaction.harvest_at != null ? moment(transaction.harvest_at).diff(moment(transaction.plant_at), 'days')+' days' : '-' }}
+                                    {{ transaction.harvest_at != null ?
+                                        moment(transaction.harvest_at).diff(moment(transaction.plant_at), 'days') + ' days' :
+                                        '-'
+                                    }}
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="mt-[0vmin]">
+                <div class="bottom-4 relative">
                     <Pagination :links="transactions.links"></Pagination>
                 </div>
-                
+
             </div>
         </div>
         <DialogModal :show="modals.add_edit.show">
@@ -249,11 +253,7 @@ const function_search = () => {
                 <div class="grid grid-cols-6 gap-1">
                     <div class="col-span-6">
                         <InputLabel value="Farmer" />
-                        <SelectInput
-                            class="mt-1 block w-full"
-                            required
-                            v-model.number="form.farmer_id"
-                        >
+                        <SelectInput class="mt-1 block w-full" required v-model.number="form.farmer_id">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -261,11 +261,7 @@ const function_search = () => {
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Farm" />
-                        <SelectInput
-                            class="mt-1 block w-full"
-                            required
-                            v-model.number="form.farmer_id"
-                        >
+                        <SelectInput class="mt-1 block w-full" required v-model.number="form.farmer_id">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -273,11 +269,7 @@ const function_search = () => {
                     </div>
                     <div class="col-span-4">
                         <InputLabel value="Crop" />
-                        <SelectInput
-                            class="mt-1 block w-full"
-                            required
-                            v-model.number="form.farmer_id"
-                        >
+                        <SelectInput class="mt-1 block w-full" required v-model.number="form.farmer_id">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -285,24 +277,12 @@ const function_search = () => {
                     </div>
                     <div class="col-span-2">
                         <InputLabel value="Estimated Income" />
-                        <TextInput
-                            type="number"
-                            class="mt-1 block w-full"
-                            required
-                            v-model="form.name"
-                        />
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.amount"
-                        />
+                        <TextInput type="number" class="mt-1 block w-full" required v-model="form.name" />
+                        <InputError class="mt-2" :message="form.errors.amount" />
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Fertilizer 1" />
-                        <SelectInput
-                            class="mt-1 block w-full"
-                            required
-                            v-model.number="form.type"
-                        >
+                        <SelectInput class="mt-1 block w-full" required v-model.number="form.type">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -310,11 +290,7 @@ const function_search = () => {
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Fertilizer 2" />
-                        <SelectInput
-                            class="mt-1 block w-full"
-                            required
-                            v-model.number="form.type"
-                        >
+                        <SelectInput class="mt-1 block w-full" required v-model.number="form.type">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -322,29 +298,15 @@ const function_search = () => {
                     </div>
                     <div class="col-span-6">
                         <InputLabel value="Color" />
-                        <TextInput
-                            type="text"
-                            class="mt-1 block w-full"
-                            required
-                            v-model="form.name"
-                        />
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.amount"
-                        />
+                        <TextInput type="text" class="mt-1 block w-full" required v-model="form.name" />
+                        <InputError class="mt-2" :message="form.errors.amount" />
                     </div>
                 </div>
             </template>
             <template #footer>
                 <div class="flex gap-1">
-                    <SecondaryButton @click="modals.add_edit.show = false"
-                        >Cancel</SecondaryButton
-                    >
-                    <PrimaryButton
-                        @click="saveTransaction"
-                        :disabled="form.processing"
-                        >Submit</PrimaryButton
-                    >
+                    <SecondaryButton @click="modals.add_edit.show = false">Cancel</SecondaryButton>
+                    <PrimaryButton @click="saveTransaction" :disabled="form.processing">Submit</PrimaryButton>
                 </div>
             </template>
         </DialogModal>

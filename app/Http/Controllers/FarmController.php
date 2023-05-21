@@ -188,7 +188,6 @@ class FarmController extends Controller
 
     public function plant(Request $request, $id)
     {
-
         $request->validate([
             'details.inventories.seedling' => ['required'],
             'details.inventories.seedling_quantity' => ['required'],
@@ -212,6 +211,24 @@ class FarmController extends Controller
             'type' => 'plant',
             'details' => $request->details
         ]);
+
+        $inventory = Inventory::where('name',$request['details']['inventories']['seedling'])->first();
+        $result = $request['details']['inventories']['quantity'] - $request['details']['inventories']['seedling_quantity'];
+
+        $inventory->update([
+            'details->quantity' => $result
+        ]);
+
+        foreach ($request->details['inventories']['fertilizer'] as $key => $value) {
+            $inventory = Inventory::where('name',$value['name'])->first();
+            $current_quan = $inventory->details['quantity']??0;
+            $result = $current_quan - $value['quantity'];
+
+            $inventory->update([
+                'details->quantity' => $result
+            ]);
+        }
+
 
         return Redirect::back();
     }

@@ -47,13 +47,14 @@ class InventoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'max:255']
+            'name' => ['required', 'max:255', 'unique:inventories']
         ]);
 
         Inventory::create([
             'name' => $request->name,
             'category_id' => $request->category_id,
-            'details' => $request->details
+            'details' => $request->details,
+            'details->quantity' => 0
         ]);
 
         return Redirect::back();

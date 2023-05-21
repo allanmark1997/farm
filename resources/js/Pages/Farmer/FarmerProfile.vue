@@ -73,7 +73,7 @@ const updateProfile = ()=>{
                                 <div class="grid grid-row-6 gap-2">
                                     <img :src="'/images/farmer/' + (farmerProfile.pic2x2 || farmerProfile.details.pic2x2)  " alt="" class="object-contain h-48 w-48 border-slate-100 border shadow-lg"/>
                                     <PrimaryButton class="w-full bg-blue-500" @click="changeTab('Profile')">Profile</PrimaryButton>
-                                    <PrimaryButton class="w-full bg-green-400" @click="changeTab('TransactionPlant')">Plant</PrimaryButton>
+                                    <PrimaryButton class="w-full bg-green-400" @click="changeTab('TransactionPlant')">Production</PrimaryButton>
                                     <PrimaryButton class="w-full bg-yellow-400" @click="changeTab('Harvest')">Harvest</PrimaryButton>
                                     <PrimaryButton class="w-full bg-orange-400" @click="changeTab('EditProfile')">Edit Profile</PrimaryButton>
                                     <div v-if="`EditProfile` == currentTab" class="p-2 border rounded">

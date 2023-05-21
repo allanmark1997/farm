@@ -31,7 +31,7 @@ const view_filter = computed(() =>
                 v-else
                 class="mr-1 mb-1 px-3 py-1 text-md text-gray-700 rounded-sm border hover:text-gray-900 cursor-pointer"
                 :class="{
-                    'text-white text-gray-800': link.active,
+                    'text-gray-800': link.active,
                     'ml-auto': links.length === key + 1,
                 }"
                 :href="link.url + search_url + view_filter"

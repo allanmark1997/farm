@@ -90,7 +90,7 @@ const clearMarker = ()=>{
             mymap.removeLayer(item);
         });
 }
-const drawMap = (map,details,owner,status) =>{ 
+const drawMap = (map,details,owner,status, seedling) =>{ 
     var greenIcon = leaflet.icon({
     iconUrl: Plant,
     shadowUrl: Shadow, 
@@ -100,9 +100,10 @@ const drawMap = (map,details,owner,status) =>{
     if(details){
         let {fertilizer, seedling} = details;
         let tagName = '<div>'+
+            '<div class="font-bold">Product: '+ seedling +'</div>'+
             '<div class="font-bold">Owner: '+ owner +'</div>' + 
             '<div class="font-bold">Name: '+ map.name +'</div>'+ 
-            '<div class="font-bold">Status: '+ `${status === "idle" ? "Ready for planting" : "Crops are growing"}` +'</div>'+ 
+            '<div class="font-bold">Status: '+ `${status === "idle" ? "Ready for farming" : "Farming"}` +'</div>'+ 
         '</div>'
         let fertilizerHtml = fertilizer?.map(item => 
         '<div class="grid grid-cols-8 gap-2 border p-2">'+

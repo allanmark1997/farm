@@ -27,6 +27,7 @@ const children = ref(null);
 const enableEditMap = ref(false);
 const barangays = ref([]);
 const selected_farm = ref('');
+const fertilizer_quantity = ref(0);
 
 
 
@@ -69,17 +70,12 @@ const formPlants = useForm({
         inventories: {
             seedling: 0,
             seedling_quantity: 1,
-            quantity: 6,
+            quantity: 0,
             fertilizer: [],
         },
     },
     color: '#ffffff',
 });
-
-const cal = (data)=>{
-   let a =  props.inventories.seedling.findIndex(x => x.name === formPlants.details.inventories.seedling)
-    return a
-}
 
 const modals = reactive({
     add_edit: {
@@ -126,6 +122,8 @@ const fertilizerVar = ref({
 });
 
 onMounted(() => {
+    console.log(props.inventories.seedling)
+
     if (props.farms.length) {
         props.farms.map((item) => {
             if (item.map.coordinates.length) {
@@ -192,6 +190,7 @@ const showModalPlant = (farm) => {
 };
 
 const saveFarm = () => {
+
     form.post(route("farms.store"), {
         preserveScroll: true,
         onSuccess: () => {
@@ -209,7 +208,7 @@ const saveFarm = () => {
 };
 
 const updateFarm = () => {
-    form.put(route("farms.update_farm_details", {selected_farm:selected_farm.value}), {
+    form.put(route("farms.update_farm_details", { selected_farm: selected_farm.value }), {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
@@ -247,14 +246,17 @@ const mapCoordinate = (points) => {
 };
 
 const plantHandle = () => {
-    // formPlants.details.datePlant = new Date();
-    formPlants.put(route("farms.plant", formPlants.id), {
-        preserveScroll: true,
-        onSuccess: () => {
-            // alert("update plant");
-            window.location.reload();
-        },
-    });
+    if (formPlants.details.inventories.seedling_quantity > formPlants.details.inventories.quantity) {
+        alert('Invalid! You inputed beyond current quantity')
+    } else {
+        formPlants.put(route("farms.plant", formPlants.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                window.location.reload();
+            },
+        });
+    }
+
 };
 
 const harvestHandler = () => {
@@ -302,13 +304,29 @@ const removeFilterizer = (index) => {
 
 const onchangeColor = (e) => {
     console.log(e.target.value);
-    let getPlant = props.inventories.seedling.filter(
-        (item) => item.name === e.target.value
-    );
-    formPlants.details.inventories.seedling = getPlant[0].name;
-    formPlants.color = getPlant[0].details.color;
-    console.log(formPlants);
+    let event_value = [];
+    event_value.push(e.target.value);
+    console.log(event_value);
+    const result = props.inventories.seedling.filter(({ name }) => event_value.includes(name));
+
+    formPlants.details.inventories.seedling = result[0].name;
+    formPlants.details.inventories.quantity = result[0].details.quantity;
+    formPlants.color = result[0].details.color;
+
 };
+
+const onchangeFertilizer = (e) => {
+    console.log(e.target.value);
+    let event_value = [];
+    event_value.push(e.target.value);
+    console.log(event_value);
+    const result = props.inventories.fertilizer.filter(({ name }) => event_value.includes(name));
+    fertilizer_quantity.value = result[0].details.quantity;
+    // formPlants.details.inventories.seedling = result[0].name;
+    // formPlants.details.inventories.quantity = result[0].details.quantity;
+    // formPlants.color = result[0].details.color;
+}
+
 
 const onDeleteHandler = () => {
     formPlants.delete(route("farms.delete", formPlants.id), {
@@ -337,7 +355,27 @@ const formatter = new Intl.NumberFormat('en-PH', {
     currency: 'PHP'
 });
 
+const check_fertilizer = () => {
+    let event_value = [];
+    event_value.push(fertilizerVar.value.name);
+    const result = formPlants.details.inventories.fertilizer.filter(({ name }) => event_value.includes(name));
 
+    if(fertilizerVar.value.quantity > fertilizer_quantity.value){
+        alert('Invalid! You inputed beyond current quantity')
+    }
+    else if(result.length > 0){
+        alert('Invalid! You inputed this fertilizer already')
+    }
+    else{
+        formPlants.details.inventories.fertilizer.push(
+                                            JSON.parse(
+                                                JSON.stringify(
+                                                    fertilizerVar.value
+                                                )
+                                            )
+                                        )
+    }
+}
 </script>
 
 <template>
@@ -369,7 +407,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                         class="text-white absolute right-2.5 bottom-2.5 bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
                                 </div>
                                 <!-- <PrimaryButton class="w-36" @click="showModal()" :disabled="form.search_farmer == 'all'">
-                                            <span>Add Farm</span></PrimaryButton> -->
+                                                        <span>Add Farm</span></PrimaryButton> -->
                             </div>
                             <div class="flex gap-1">
                                 <SelectInput class="block w-full" v-model="form.selected_farmer" @change="selectFarmer()">
@@ -380,26 +418,27 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                         </option>
                                     </template>
                                 </SelectInput>
-                                <PrimaryButton class="w-36 bg-green-600" @click="showModal()" :disabled="form.selected_farmer == ''">
+                                <PrimaryButton class="w-36 bg-green-600" @click="showModal()"
+                                    :disabled="form.selected_farmer == ''">
                                     <span>Add Farm</span>
                                 </PrimaryButton>
                             </div>
 
-                        <div class="max-h-[720px] overflow-y-auto mt-2">
-                            <template v-for="farm in farms" :key="farm">
-                                <a>
+                            <div class="max-h-[720px] overflow-y-auto mt-2">
+                                <template v-for="farm in farms" :key="farm">
+                                    <a>
                                         <FarmCard>
                                             <template #actions>
                                                 <div class="cursor-pointer"
                                                     @click="
                                                         modals.deleteFarm.show = true;
                                                     formPlants.id = farm.id;
-                                                                                                                                                                                                                                                                        ">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                ">
                                                     <Icon icon="delete" />
                                                 </div>
                                                 <!-- <div class="cursor-pointer">
-                                                                <Icon icon="edit" />
-                                                            </div> -->
+                                                                            <Icon icon="edit" />
+                                                                        </div> -->
                                                 <button @click="callChildMethod(farm)">
                                                     <Icon icon="eye" />
                                                 </button>
@@ -441,7 +480,8 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                             </template>
                                             <template #footer>
                                                 <!-- <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm)">View</PrimaryButton> -->
-                                                <PrimaryButton :disabled="!enableEditMap" @click="handleMap(farm)" class="bg-blue-900">
+                                                <PrimaryButton :disabled="!enableEditMap" @click="handleMap(farm)"
+                                                    class="bg-blue-900">
                                                     {{ `${farm?.map?.coordinates
                                                         .length
                                                         ? "Remap"
@@ -451,11 +491,13 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                                 <PrimaryButton :disabled="
                                                     !farm?.map?.coordinates
                                                         .length || farm.status == 'farming'
-                                                " @click="showModalPlant(farm)" class="bg-green-500">Plant</PrimaryButton>
+                                                " @click="showModalPlant(farm)" class="bg-green-500">Plant
+                                                </PrimaryButton>
                                                 <PrimaryButton @click="showHarvest(farm)" :disabled="
                                                     farm.status == 'idle'
                                                 " class="bg-yellow-400">Harvest</PrimaryButton>
-                                                <PrimaryButton @click="showModalEdit(farm)" class="bg-orange-400">Edit</PrimaryButton>
+                                                <PrimaryButton @click="showModalEdit(farm)" class="bg-orange-400">Edit
+                                                </PrimaryButton>
                                             </template>
                                         </FarmCard>
                                     </a>
@@ -477,9 +519,9 @@ const formatter = new Intl.NumberFormat('en-PH', {
                     <div class="col-span-6">
                         <InputLabel value="Farm Name" />
                         <TextInput type="text" class="mt-1 block w-full" required v-model="form.map.name" />
-                        <InputError class="mt-2" :message="form.errors['map.name']" />
-                    </div>
-                    <div class="col-span-6">
+                    <InputError class="mt-2" :message="form.errors['map.name']" />
+                </div>
+                <div class="col-span-6">
                         <InputLabel value="Location (Barangay & Municipality):" />
                         <select v-model="form.barangay"
                             class='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'>
@@ -729,7 +771,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                 </div>
             </template>
         </DialogModal>
-        
+
         <DialogModal :show="modals.harvest_plant.show">
             <template #title>{{ modals.harvest_plant.details.title }}</template>
             <template #content>
@@ -766,7 +808,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                     formPlants.details.inventories.seedling
                                 ">
                                     <template v-for="seedling in inventories.seedling" :key="seedling">
-                                        <option :value="seedling.id">
+                                        <option :value="seedling.name">
                                             {{ seedling.name }}
                                         </option>
                                     </template>
@@ -805,7 +847,7 @@ const formatter = new Intl.NumberFormat('en-PH', {
                             <div class="grid grid-cols-7 gap-2">
                                 <div class="col-span-3">
                                     <InputLabel value="Fertilizer" />
-                                    <SelectInput class="block w-full" v-model="fertilizerVar.name">
+                                    <SelectInput class="block w-full" @change="onchangeFertilizer($event)" v-model="fertilizerVar.name">
                                         <template v-for="fertilizer in inventories.fertilizer" :key="fertilizer">
                                             <option :value="fertilizer.name">
                                                 {{ fertilizer.name }}
@@ -813,25 +855,22 @@ const formatter = new Intl.NumberFormat('en-PH', {
                                         </template>
                                     </SelectInput>
                                 </div>
+                                <div>
+                                    <InputLabel value="Quantity left" />
+                                    <p>{{ fertilizer_quantity }}</p>
+
+                                </div>
                                 <div class="col-span-2">
                                     <InputLabel value="Quantity" />
                                     <TextInput type="number" class="block w-full" required
                                         v-model="fertilizerVar.quantity" />
                                 </div>
                                 <!-- <div class="col-span-2">
-                                                    <InputLabel value="Unit" />
-                                                    <TextInput type="text" class="block w-full" required v-model="fertilizerVar.unit" />
-                                                </div> -->
+                                                                <InputLabel value="Unit" />
+                                                                <TextInput type="text" class="block w-full" required v-model="fertilizerVar.unit" />
+                                                            </div> -->
                                 <div class="mt-6">
-                                    <PrimaryButton @click="
-                                        formPlants.details.inventories.fertilizer.push(
-                                            JSON.parse(
-                                                JSON.stringify(
-                                                    fertilizerVar
-                                                )
-                                            )
-                                        )
-                                    ">Add</PrimaryButton>
+                                    <PrimaryButton @click="check_fertilizer">Add</PrimaryButton>
                                 </div>
                             </div>
                             <div class="mt-2 border rounded-md p-2">
