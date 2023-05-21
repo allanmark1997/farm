@@ -154,6 +154,7 @@ const function_search = () => {
                             <tr>
                                 <th scope="col" class="px-6 py-3 align-text-top">Farmer</th>
                                 <th scope="col" class="px-6 py-3 align-text-top">Farm</th>
+                                <th scope="col" class="px-6 py-3 align-text-top">BARANGAY</th>
                                 <th scope="col" class="px-6 py-3 align-text-top">
                                     Expected Income
                                 </th>
@@ -178,7 +179,12 @@ const function_search = () => {
                                 </th>
                                 <td scope="row" class="flex items-center px-6 py-4">
                                     {{
-                                        transaction.farm?.map.name ||
+                                        transaction.farm?.map.name
+                                    }}
+                                </td>
+                                <td class="px-6 py-4 align-text-top">
+                                    {{
+                                        transaction.farm?.barangay ||
                                         "Inactive Farm"
                                     }}
                                 </td>
