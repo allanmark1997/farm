@@ -17,7 +17,7 @@ class CategorySeeder extends Seeder
     {
         Category::insert([
             [
-                'name' => 'Seedling'
+                'name' => 'Product'
             ],
             [
                 'name' => 'Fertilizer'

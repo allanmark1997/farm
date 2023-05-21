@@ -556,7 +556,7 @@ const function_toogle_status = (data) => {
                                                 <PrimaryButton :disabled="
                                                     !farm?.map?.coordinates
                                                         .length || farm.status == 'farming'
-                                                " @click="showModalPlant(farm)" class="bg-green-500">Plant
+                                                " @click="showModalPlant(farm)" class="bg-green-500">Production
                                                 </PrimaryButton>
                                                 <PrimaryButton @click="showHarvest(farm)" :disabled="
                                                     farm.status == 'idle'
@@ -908,7 +908,7 @@ const function_toogle_status = (data) => {
 
                             </div>
                             <div v-if="toggle_status ==  false">
-                                <InputLabel value="Planting date" />
+                                <InputLabel value="Production date" />
                                 <TextInput type="date" class="block w-full" required v-model="formPlants.plant_at" />
                                 <InputError class="mt-2" :message="formPlants.errors.plant_at" />
 
@@ -939,7 +939,7 @@ const function_toogle_status = (data) => {
 
                             </div>
                             <div v-if="toggle_status ==  true">
-                                <InputLabel value="Planting date" />
+                                <InputLabel value="Production date" />
                                 <TextInput type="date" class="block w-full" required v-model="formFarmerDeclare.plant_at" />
                                 <InputError class="mt-2" :message="formFarmerDeclare.errors.plant_at" />
 
@@ -1024,8 +1024,8 @@ const function_toogle_status = (data) => {
             <template #footer>
                 <div class="flex gap-1">
                     <SecondaryButton @click="modals.add_plant.show = false">Cancel</SecondaryButton>
-                    <PrimaryButton v-if="toggle_status ==  true"  @click="plantHandle">Save</PrimaryButton>
-                    <PrimaryButton v-if="toggle_status ==  false" @click="plantHandleFarmerDeclare">Save</PrimaryButton>
+                    <PrimaryButton v-if="toggle_status ==  false"  @click="plantHandle">Save</PrimaryButton>
+                    <PrimaryButton v-if="toggle_status ==  true" @click="plantHandleFarmerDeclare">Save</PrimaryButton>
                 </div>
             </template>
         </DialogModal>
