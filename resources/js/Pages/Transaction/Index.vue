@@ -246,6 +246,9 @@ const function_search = () => {
                             </tr>
                         </tbody>
                     </table>
+                    <div class="mx-auto text-center" v-if="transactions.data.length == 0">
+                        No search found
+                    </div>
                 </div>
                 <div class="bottom-4 relative">
                     <Pagination :links="transactions.links"></Pagination>
