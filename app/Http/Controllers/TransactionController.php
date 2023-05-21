@@ -17,15 +17,15 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $transactions = Transaction::where('is_inputed', false)->where('type', 'plant')->orderBy('id','DESC')->with('farmer')->with('farm')->with('user')->when($request->search != null && $request->search!= '', function ($query) use ($request) {
+        $transactions = Transaction::where('type', 'plant')->orderBy('id','DESC')->with('farmer')->with('farm')->with('user')->when($request->search != null && $request->search!= '', function ($query) use ($request) {
             $query->whereHas('farmer', function (Builder $query) use ($request) {
                 $query->where('name', 'like', "%$request->search%");
             })->orWhereHas('farm', function (Builder $query) use ($request){
                 $query->where('map->name', 'like', "%$request->search%");
             })->orWhereHas('farm', function (Builder $query) use ($request){
-                $query->where('barangay', 'like', "%$request->search%");
+                $query->where('barangay', $request->search);
             });
-        })->paginate(10); 
+        })->where('is_inputed', 0)->paginate(10); 
         return Inertia::render('Transaction/Index',[
             'transactions' => $transactions,
             'search' => $request->search ?? '',
