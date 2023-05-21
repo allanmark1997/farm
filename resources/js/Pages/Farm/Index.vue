@@ -544,25 +544,29 @@ const function_toogle_status = (data) => {
                                                 </div>
                                             </template>
                                             <template #footer>
+                                                <div class="gap-2 p-4">
+                                                    <PrimaryButton :disabled="!enableEditMap" @click="handleMap(farm)"
+                                                        class="bg-blue-900 mr-2">
+                                                        {{ `${farm?.map?.coordinates
+                                                            .length
+                                                            ? "Remap"
+                                                            : "Map"
+                                                            }`
+                                                        }}</PrimaryButton>
+                                                    <PrimaryButton :disabled="
+                                                        !farm?.map?.coordinates
+                                                            .length || farm.status == 'farming'
+                                                    " @click="showModalPlant(farm)" class="bg-green-500">Production
+                                                    </PrimaryButton>
+                                                    <br>
+                                                    <PrimaryButton @click="showHarvest(farm)" :disabled="
+                                                        farm.status == 'idle'
+                                                    " class="bg-yellow-400 mr-2 mt-2">Harvest</PrimaryButton>
+                                                    <PrimaryButton @click="showModalEdit(farm)" class="bg-orange-400">Edit
+                                                    </PrimaryButton>
+                                                    </div>
                                                 <!-- <PrimaryButton :disabled="!farm?.map?.coordinates.length" @click="callChildMethod(farm)">View</PrimaryButton> -->
-                                                <PrimaryButton :disabled="!enableEditMap" @click="handleMap(farm)"
-                                                    class="bg-blue-900">
-                                                    {{ `${farm?.map?.coordinates
-                                                        .length
-                                                        ? "Remap"
-                                                        : "Map"
-                                                        }`
-                                                    }}</PrimaryButton>
-                                                <PrimaryButton :disabled="
-                                                    !farm?.map?.coordinates
-                                                        .length || farm.status == 'farming'
-                                                " @click="showModalPlant(farm)" class="bg-green-500">Production
-                                                </PrimaryButton>
-                                                <PrimaryButton @click="showHarvest(farm)" :disabled="
-                                                    farm.status == 'idle'
-                                                " class="bg-yellow-400">Harvest</PrimaryButton>
-                                                <PrimaryButton @click="showModalEdit(farm)" class="bg-orange-400">Edit
-                                                </PrimaryButton>
+                                                
                                             </template>
                                         </FarmCard>
                                     </a>
