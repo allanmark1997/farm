@@ -1024,7 +1024,8 @@ const function_toogle_status = (data) => {
             <template #footer>
                 <div class="flex gap-1">
                     <SecondaryButton @click="modals.add_plant.show = false">Cancel</SecondaryButton>
-                    <PrimaryButton @click="plantHandleFarmerDeclare">Save</PrimaryButton>
+                    <PrimaryButton v-if="toggle_status ==  true"  @click="plantHandle">Save</PrimaryButton>
+                    <PrimaryButton v-if="toggle_status ==  false" @click="plantHandleFarmerDeclare">Save</PrimaryButton>
                 </div>
             </template>
         </DialogModal>
