@@ -78,6 +78,7 @@ class TransactionController extends Controller
     }
 
     public function days_production($production_date, $harvest_date){
+
         $production_date = Carbon::parse($production_date);
         $harvest_date = Carbon::parse($harvest_date);
         $days_production = $production_date->diffInDays($harvest_date);
@@ -94,10 +95,16 @@ class TransactionController extends Controller
 
     public function fertilizers($data) 
     {
-        foreach ($data as $key => $value) {
-            $array_sample[] = 'Name: '.$value['name'].', Count: '.$value['quantity'];
+        if (count($data)!= 0) {
+            foreach ($data as $key => $value) {
+                $array_sample[] = 'Name: '.$value['name'].', Count: '.$value['quantity'];
+            }
+            return $array_sample;
         }
-        return $array_sample;
+        else{
+            return "--";
+        }
+
     }
 
     /**
