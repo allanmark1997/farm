@@ -51,7 +51,7 @@ const saveTransaction = () => {
     form.post(route("transactions.store"), {
         preserveScroll: true,
         onSuccess: () => {
-            alert("Added transactions");
+            // alert("Added transactions");
             form.reset();
             modals.add_edit.show = false;
         },

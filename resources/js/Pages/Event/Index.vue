@@ -73,7 +73,7 @@ const saveEvent = () => {
         form.post(route("event.update", form), {
             preserveScroll: true,
             onSuccess: () => {
-                alert("Event Updated");
+                // alert("Event Updated");
                 form.reset();
                 modals.add_edit.show = false;
                 post_images.value = [];
@@ -92,7 +92,7 @@ const saveEvent = () => {
         form.delete(route("event.delete", form), {
             preserveScroll: true,
             onSuccess: () => {
-                alert("Event Deleted");
+                // alert("Event Deleted");
                 form.reset("name");
                 modals.add_edit.show = false;
             },
@@ -108,12 +108,12 @@ const saveEvent = () => {
     }
     if (modals.add_edit.status == "add") {
         if (form.started_at == null || form.ended_at == null) {
-            alert("Please enter date");
+            // alert("Please enter date");
         } else {
             form.post(route("event.store"), {
                 preserveScroll: true,
                 onSuccess: () => {
-                    alert("Event Added");
+                    // alert("Event Added");
                     form.reset();
                     modals.add_edit.show = false;
                     post_images.value = [];

@@ -106,7 +106,7 @@ const saveFarmer = () => {
         form.put(route("farmers.update", form), {
             preserveScroll: true,
             onSuccess: () => {
-                alert("Updated famers");
+                // alert("Updated famers");
                 form.reset("name");
                 form.reset("id");
                 form.reset("income");
@@ -125,7 +125,7 @@ const saveFarmer = () => {
         form.delete(route("farmers.delete", form), {
             preserveScroll: true,
             onSuccess: () => {
-                alert("Deleted famer");
+                // alert("Deleted famer");
                 form.reset("name");
                 modals.add_edit.show = false;
             },
@@ -141,7 +141,7 @@ const saveFarmer = () => {
         form.post(route("farmers.store"), {
             preserveScroll: true,
             onSuccess: () => {
-                alert("Added famers");
+                // alert("Added famers");
                 form.reset("name");
                 modals.add_edit.show = false;
             },

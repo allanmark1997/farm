@@ -63,7 +63,7 @@ const saveInventory = () => {
         form.put(route("inventory.update", form), {
             preserveScroll: true,
             onSuccess: () => {
-                alert("Updated inventory");
+                // alert("Updated inventory");
                 form.reset("name");
                 form.reset("id");
                 form.reset("income");
@@ -81,7 +81,7 @@ const saveInventory = () => {
         form.delete(route("inventory.delete", form), {
             preserveScroll: true,
             onSuccess: () => {
-                alert("Deleted inventory");
+                // alert("Deleted inventory");
                 form.reset("name");
                 modals.add_edit.show = false;
             },
@@ -97,7 +97,7 @@ const saveInventory = () => {
         form.post(route("inventory.store"), {
             preserveScroll: true,
             onSuccess: () => {
-                alert("Added Inventory");
+                // alert("Added Inventory");
                 form.reset();
                 modals.add_edit.show = false;
             },
@@ -117,7 +117,7 @@ const saveInventory = () => {
             form.put(route("inventory.update_quantity", form.id), {
             preserveScroll: true,
             onSuccess: () => {
-                alert("Added quantity");
+                // alert("Added quantity");
                 form.reset();
                 modals.add_edit.show = false;
             },

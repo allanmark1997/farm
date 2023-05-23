@@ -43,7 +43,7 @@ const  deleteProfile = ()=>{
     form.delete(route("farmers.delete", form), {
         preserveScroll: true,
         onSuccess: () => {
-            alert("Deleted famer"); 
+            // alert("Deleted famer"); 
         },
         onError: () => {
             //code
