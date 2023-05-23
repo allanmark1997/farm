@@ -25,7 +25,7 @@ class TransactionController extends Controller
             })->orWhereHas('farm', function (Builder $query) use ($request){
                 $query->where('barangay', $request->search);
             });
-        })->where('is_inputed', 0)->paginate(10); 
+        })->paginate(10); 
         return Inertia::render('Transaction/Index',[
             'transactions' => $transactions,
             'search' => $request->search ?? '',

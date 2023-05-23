@@ -417,6 +417,8 @@ const check_fertilizer = () => {
 }
 
 const check_fertilizer_farmer = () => {
+    // alert(formFarmerDeclare.details.inventories.fertilizer)
+    console.log(formFarmerDeclare.details.inventories.fertilizer);
     let event_value = [];
     event_value.push(fertilizerVar.value.name);
     const result = formFarmerDeclare.details.inventories.fertilizer.filter(({ name }) => event_value.includes(name));
