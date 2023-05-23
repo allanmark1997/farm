@@ -15,7 +15,7 @@ import { debounce } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
 import moment from "moment";
 
-const props = defineProps(["transactions", "search", "view_filter"]);
+const props = defineProps(["transactions", "search", "filter_view", "date_from", "date_to"]);
 // const filter_view = ref("harvest");
 
 const form = useForm(
@@ -30,7 +30,9 @@ const form = useForm(
 );
 
 const search = ref(props.search);
-const filter_view = ref(props.view_filter);
+const filter_view = ref(props.filter_view);
+const date_from_filter = ref(props.date_from);
+const date_to_filter = ref(props.date_to);
 const modals = reactive({
     add_edit: {
         show: false,
@@ -60,31 +62,31 @@ const saveTransaction = () => {
     });
 };
 
-const searchTransaction = () => {
-    Inertia.get(
-        route("transactions.index", {
-            search: search.value,
-            filter_view: filter_view.value,
-        }),
-        {
-            preserveScroll: true,
-        }
-    );
-};
+// const searchTransaction = () => {
+//     Inertia.get(
+//         route("transactions.index", {
+//             search: search.value,
+//             filter_view: filter_view.value,
+//         }),
+//         {
+//             preserveScroll: true,
+//         }
+//     );
+// };
 
 // watch(() => search.value, debounce(searchTransaction, 1000));
 
-const view_filter = () => {
-    Inertia.get(
-        route("transactions.index", {
-            search: search.value,
-            filter_view: filter_view.value,
-        }),
-        {
-            preserveScroll: true,
-        }
-    );
-};
+// const view_filter = () => {
+//     Inertia.get(
+//         route("transactions.index", {
+//             search: search.value,
+//             filter_view: filter_view.value,
+//         }),
+//         {
+//             preserveScroll: true,
+//         }
+//     );
+// };
 
 const formatNumber = (num) => {
     return parseFloat(num).toFixed(2)
@@ -99,7 +101,9 @@ const function_search = () => {
     Inertia.get(
         route("transactions.index", {
             search: search.value,
-            filter_view: filter_view.value,
+            category: filter_view.value,
+            date_from:date_from_filter.value, 
+            date_to:date_to_filter.value
         }),
         {
             preserveScroll: true,
@@ -115,7 +119,7 @@ const function_search = () => {
 
                 <div
                     class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white overflow-hidden shadow-xl sm:rounded-lg p-2 pb-12 mt-2">
-                    <div class="flex items-center justify-between py-4 bg-white float-right">
+                    <div class="flex items-center justify-between py-4 bg-white">
                         <!-- <div>
                                     <select
                                         class="mt-1 border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm w-full"
@@ -127,7 +131,30 @@ const function_search = () => {
                                         <option value="harvest">Harvest</option>
                                     </select>
                                 </div> -->
-                        <div class="flex float-right">
+                        <div>
+                            <a :href="route('transactions.download_transactions', {search:search,  category: filter_view, date_from:date_from_filter, date_to:date_to_filter})"
+                            class="mb-6 bg-green-600 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition cursor-pointer">Download
+                            Report</a>
+                        </div>
+                        <div class="flex float-right gap-2">
+                            <div class="mb-2 mt-[-1vmin]">
+                                <InputLabel for="date_from_filter" value="Date From" />
+                                <input v-model="date_from_filter" type="date" class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            </div>
+                            <div class="mb-2 mt-[-1vmin]">
+                                <InputLabel for="date_to_filter" value="Date To" />
+                                <input v-model="date_to_filter" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            </div>
+                            <div>
+                                    <select
+                                        class="mt-1 border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 rounded-md shadow-sm w-full"
+                                        v-model="filter_view"
+                                    >
+                                        <option value="0">Farmer</option>
+                                        <option value="1">Farm</option>
+                                        <option value="2">Barangay</option>
+                                    </select>
+                                </div>
                             <label for="table-search" class="sr-only">Search</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -164,7 +191,7 @@ const function_search = () => {
                                 <th scope="col" class="px-6 py-3 align-text-top">
                                     Fertilizers
                                 </th>
-                                <th scope="col" class="px-6 py-3 align-text-top">Plant Date</th>
+                                <th scope="col" class="px-6 py-3 align-text-top">Production Date</th>
                                 <th scope="col" class="px-6 py-3 align-text-top">Harvest Date</th>
                                 <th scope="col" class="px-6 py-3 align-text-top">Farming Duration</th>
                             </tr>

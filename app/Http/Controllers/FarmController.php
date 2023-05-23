@@ -320,7 +320,9 @@ class FarmController extends Controller
     public function download_report(Request $request) {
         $transactions = $this->reports_data($request->date_from, $request->date_to);
         $results = [];
-        $results[] = ['DATE RANGES', $request->date_from??'--', $request->date_to??'--'];
+        $results[] = ['DATE RANGES', 'From', 'To'];
+        $results[] = ['', $request->date_from??'--', $request->date_to??'--'];
+
         $results[] = ['BARANGAY', 'TOTAL PRODUCT', 'TOTAL FERTILIZERS'];
         foreach ($transactions as $barangay => $transaction) {
             $results[] = [$barangay, $transaction['seeds'], $transaction['fertilizers']];

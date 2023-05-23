@@ -106,6 +106,8 @@ Route::middleware([
         Route::post('/store', [TransactionController::class, 'store'])->name('store');
         Route::put('/update/{id}', [TransactionController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [TransactionController::class, 'destroy'])->name('delete');
+        Route::get('/download_transactions', [TransactionController::class, 'download_transactions'])->name('download_transactions');
+
     });
 
     Route::prefix('users')->name('users.')->group(function () {
